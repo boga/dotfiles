@@ -10,3 +10,4 @@
 !.git-prompt.sh
 !.gitignore
 !.gitignore_global
+!.tmux.conf
