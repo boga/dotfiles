@@ -11,6 +11,10 @@
 !/.ssh/servers.d
 # !/.ssh/servers.d/.gitignore
 
+!/.github
+ /.github/*
+!/.github/README.md
+
 !.bashrc
 !.git-completion.bash
 !.git-prompt.sh
