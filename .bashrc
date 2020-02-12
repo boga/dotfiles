@@ -117,3 +117,70 @@ export PATH="/usr/local/opt/grep/libexec/gnubin:$PATH"
 export NVM_DIR="$HOME/.nvm"
 [ -s "/usr/local/opt/nvm/nvm.sh" ] && . "/usr/local/opt/nvm/nvm.sh"  # This loads nvm
 [ -s "/usr/local/opt/nvm/etc/bash_completion.d/nvm" ] && . "/usr/local/opt/nvm/etc/bash_completion.d/nvm"  # This loads nvm bash_completion
+
+if [[ -n $SSH_CONNECTION ]]; then
+   export EDITOR='nano'
+else
+   export EDITOR='code'
+fi
+
+# confirmation
+alias mv='mv -i'
+alias cp='cp -i'
+alias ln='ln -i'
+
+alias T='tmux attach || tmux new'
+
+# Coloring with grc
+if [ -f /usr/bin/grc ] || [ -f /usr/local/bin/grc ]; then
+	alias blkid="grc --colour=auto blkid" 
+	alias cat="grc --colour=auto cat" 
+	alias cvs="grc --colour=auto cvs" 
+	alias df="grc --colour=auto df" 
+	alias digg="grc --colour=auto digg" 
+	alias dnf="grc --colour=auto dnf" 
+	alias docker-machine="grc --colour=auto docker-machine" 
+	alias docker="grc --colour=auto docker" 
+	alias du="grc --colour=auto du" 
+	alias env="grc --colour=auto env" 
+	alias fdisk="grc --colour=auto fdisk" 
+	alias findmnt="grc --colour=auto findmnt" 
+	alias free="grc --colour=auto free" 
+	alias g++="grc --colour=auto g++" 
+	alias gcc="grc --colour=auto gcc" 
+	alias getfacl="grc --colour=auto getfacl" 
+	alias getsebool="grc --colour=auto getsebool" 
+	alias id="grc --colour=auto id" 
+	alias ifconfig="grc --colour=auto ifconfig" 
+	alias iostat="grc --colour=auto iostat" 
+	alias ip="grc --colour=auto ip" 
+	alias last="grc --colour=auto last" 
+	alias ls="grc --colour=auto ls" 
+	alias lsattr="grc --colour=auto lsattr" 
+	alias lsblk="grc --colour=auto lsblk" 
+	alias lsmod="grc --colour=auto lsmod" 
+	alias lsof="grc --colour=auto lsof" 
+	alias lspci="grc --colour=auto lspci" 
+	alias make="grc --colour=auto make" 
+	alias mount="grc --colour=auto mount" 
+	alias mtr="grc --colour=auto mtr" 
+	alias netstat="grc --colour=auto netstat" 
+	alias nmap="grc --colour=auto nmap" 
+	alias ping="grc --colour=auto ping" 
+	alias ps="grc --colour=auto ps" 
+	alias sar="grc --colour=auto sar" 
+	alias semanage="grc --colour=auto semanage" 
+	alias showmount="grc --colour=auto showmount" 
+	alias ss="grc --colour=auto ss" 
+	alias stat="grc --colour=auto stat" 
+	alias sysctl="grc --colour=auto sysctl" 
+	alias systemctl="grc --colour=auto systemctl" 
+	alias tail="grc --colour=auto tail" 
+	alias tcpdump="grc --colour=auto tcpdump"
+	alias traceroute="grc --colour=auto traceroute" 
+	alias tune2fs="grc --colour=auto tune2fs"
+	alias ulimit="grc --colour=auto ulimit" 
+	alias uptime="grc --colour=auto uptime" 
+	alias wdiff="grc --colour=auto wdiff" 
+fi
+
