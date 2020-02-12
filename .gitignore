@@ -5,6 +5,11 @@
  /.config/mc/*
 !/.config/mc/ini
 
+!/.ssh
+ /.ssh/*
+!/.ssh/config
+!/.ssh/servers.d
+
 !.bashrc
 !.git-completion.bash
 !.git-prompt.sh
