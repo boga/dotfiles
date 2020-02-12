@@ -9,6 +9,7 @@
  /.ssh/*
 !/.ssh/config
 !/.ssh/servers.d
+# !/.ssh/servers.d/.gitignore
 
 !.bashrc
 !.git-completion.bash
