@@ -1,0 +1,14 @@
+_ide_helper.php
+!.idea/codeStyleSettings.xml
+.DS_Store
+.env
+.idea
+.phpstorm_helpers
+.vscode
+*.code-workspace
+*.iml
+Homestead.json
+Homestead.yaml
+node_modules
+tmp
+vendor

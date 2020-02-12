@@ -1,4 +1,12 @@
 *
+!/.config
+ /.config/*
+!/.config/mc
+ /.config/mc/*
+!/.config/mc/ini
+
 !.bashrc
-!.config/mc/ini
+!.git-completion.bash
+!.git-prompt.sh
 !.gitignore
+!.gitignore_global
