@@ -1,3 +1,10 @@
+source ~/.git-completion.bash
+source ~/.git-prompt.sh
+GIT_PS1_SHOWDIRTYSTATE=true
+GIT_PS1_SHOWSTASHSTATE=true
+GIT_PS1_DESCRIBE_STYLE=describe
+GIT_PS1_SHOWCOLORHINTS=true
+
 #PROMPT_COMMAND='history -a;echo -en "\033[m\033[38;5;2m"$(( $(sed -nu "s/MemFree:[\t ]\+\([0-9]\+\) kB/\1/p" /proc/meminfo)/1024))"\033[38;5;22m/"$(($(sed -nu "s/MemTotal:[\t ]\+\([0-9]\+\) kB/\1/Ip" /proc/meminfo)/1024 ))MB"\t\033[m\033[38;5;55m$(< /proc/loadavg)\033[m"'
 #PS1='\[\e[m\n\e[1;30m\][$$:$PPID \j:\!\[\e[1;30m\]]\[\e[0;36m\] \T \d \[\e[1;30m\][\[\e[1;34m\]\u@\H\[\e[1;30m\]:\[\e[0;37m\]${SSH_TTY} \[\e[0;32m\]+${SHLVL}\[\e[1;30m\]] \[\e[1;37m\]\w\[\e[0;37m\] \n($SHLVL:\!)\$ '
 
@@ -61,74 +68,31 @@ LIGHTCYAN='\033[1;36m'
 WHITE='\033[1;37m'
 
 function rightprompt() {
-	local us=`whoami`
-	local gt=`parse_git_branch`
 	local pwd=`pwd`
+	local gt=`__git_ps1`
 	local rp="${pwd}${gt}"
 	rp=`echo -e "${rp}"`
 	printf "%*s" $COLUMNS "${rp}"
 }
 
-EXITSTATUS=""
-function exitstatus() {
-	local return_val=$?
-    if [[ $return_val == 0 ]]; then
-        EXITSTATUS=''
-    else
-        EXITSTATUS=`echo -e "${RED}${return_val}${NOCOLOR}"`
+EXIT_STATUS=0
+function exitstatus() {	
+	if [[ $EXIT_STATUS != 0 ]]; then
+        echo -e "${RED}${EXIT_STATUS}${NOCOLOR} "
     fi
 }
 
-# get current branch in git repo
-function parse_git_branch() {
-	BRANCH=`git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/\1/'`
-	if [ ! "${BRANCH}" == "" ]
-	then
-		STAT=`parse_git_dirty`
-		echo " ${BRANCH}${STAT}"
-	else
-		echo ""
+function prompt_command() {
+	EXIT_STATUS=$?
+	local host=""
+	if [[ $HOSTNAME != "miju.local" ]]; then
+		host=`echo -e "${ORANGE}${USER}@${HOSTNAME}${NOCOLOR} "`
 	fi
+
+	PS1="\[$(tput sc; rightprompt; tput rc)\]\t \$(exitstatus)${host}> "
 }
 
-# get current status of git repo
-function parse_git_dirty {
-	status=`git status 2>&1 | tee`
-	dirty=`echo -n "${status}" 2> /dev/null | grep "modified:" &> /dev/null; echo "$?"`
-	untracked=`echo -n "${status}" 2> /dev/null | grep "Untracked files" &> /dev/null; echo "$?"`
-	ahead=`echo -n "${status}" 2> /dev/null | grep "Your branch is ahead of" &> /dev/null; echo "$?"`
-	newfile=`echo -n "${status}" 2> /dev/null | grep "new file:" &> /dev/null; echo "$?"`
-	renamed=`echo -n "${status}" 2> /dev/null | grep "renamed:" &> /dev/null; echo "$?"`
-	deleted=`echo -n "${status}" 2> /dev/null | grep "deleted:" &> /dev/null; echo "$?"`
-	bits=''
-	if [ "${renamed}" == "0" ]; then
-		bits=">${bits}"
-	fi
-	if [ "${ahead}" == "0" ]; then
-		bits="*${bits}"
-	fi
-	if [ "${newfile}" == "0" ]; then
-		bits="+${bits}"
-	fi
-	if [ "${untracked}" == "0" ]; then
-		bits="?${bits}"
-	fi
-	if [ "${deleted}" == "0" ]; then
-		bits="x${bits}"
-	fi
-	if [ "${dirty}" == "0" ]; then
-		bits="!${bits}"
-	fi
-	if [ ! "${bits}" == "" ]; then
-		echo "${bits}"
-	else
-		echo ""
-	fi
-}
-
-PROMPT_COMMAND="exitstatus"
-PS1='\[$(tput sc; rightprompt; tput rc)\]${EXITSTATUS} \t > '
-# > Prompt
+PROMPT_COMMAND=prompt_command
 
 # Remove annoying "The default interactive shell is now zsh." message
 export BASH_SILENCE_DEPRECATION_WARNING=1
