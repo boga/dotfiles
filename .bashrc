@@ -13,27 +13,30 @@ mkdir -p "$HOME/.ssh"
 SSH_ENV="$HOME/.ssh/environment"
 
 function run_ssh_env {
-  . "${SSH_ENV}" > /dev/null
+	. "${SSH_ENV}" > /dev/null
 }
 
 function start_ssh_agent {
-  echo "Initializing new SSH agent..."
-  ssh-agent | sed 's/^echo/#echo/' > "${SSH_ENV}"
-  echo "succeeded"
-  chmod 600 "${SSH_ENV}"
+	echo "Initializing new SSH agent..."
+	ssh-agent | sed 's/^echo/#echo/' > "${SSH_ENV}"
+	echo "succeeded"
+	chmod 600 "${SSH_ENV}"
 
-  run_ssh_env;
-
-  ssh-add ~/.ssh/id_*;
+	run_ssh_env;
+	if ls ${HOME}/.ssh/id_* > /dev/null 2>&1 ; then
+		ssh-add ~/.ssh/id_*;
+	else 
+		echo "No keys"
+	fi
 }
 
 if [ -f "${SSH_ENV}" ]; then
-  run_ssh_env;
-  ps -ef | grep ${SSH_AGENT_PID} | grep ssh-agent$ > /dev/null || {
-    start_ssh_agent;
-  }
+	run_ssh_env;
+	ps -ef | grep ${SSH_AGENT_PID} | grep ssh-agent$ > /dev/null || {
+		start_ssh_agent;
+	}
 else
-  start_ssh_agent;
+	start_ssh_agent;
 fi
 # < Start SSH Agent
 
