@@ -1,9 +1,16 @@
 *
+!/.bin
+ /.bin/*
+!/.bin/fzf_darwin
+!/.bin/fzf_linux
+
 !/.config
  /.config/*
 !/.config/mc
  /.config/mc/*
 !/.config/mc/ini
+!/.config/fzf
+!/.config/fzf/*.bash
 
 !/.ssh
  /.ssh/*
