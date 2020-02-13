@@ -3,23 +3,24 @@ UNAME=$( command -v uname)
 function detected_os {
 	case $( "${UNAME}" | tr '[:upper:]' '[:lower:]') in
 	linux*)
-		printf 'linux\n'
+		printf 'linux'
 		;;
 	darwin*)
-		printf 'darwin\n'
+		printf 'darwin'
 		;;
 	msys*|cygwin*|mingw*)
 		# or possible 'bash on windows'
-		printf 'windows\n'
+		printf 'windows'
 		;;
 	nt|win*)
-		printf 'windows\n'
+		printf 'windows'
 		;;
 	*)
-		printf 'unknown\n'
+		printf 'unknown'
 		;;
 	esac
 }
+DETECTED_OS=`detected_os`
 
 source ~/.git-completion.bash
 source ~/.git-prompt.sh
@@ -211,10 +212,10 @@ if [ -f /usr/bin/grc ] || [ -f /usr/local/bin/grc ]; then
 	alias wdiff="grc --colour=auto wdiff" 
 fi
 
-if [[ detected_os == "linux" ]]; then
-   alias fzf="fzf_linux"
+if [ $DETECTED_OS == "linux" ]; then
+	alias fzf="fzf_linux"
 else
-   alias fzf="fzf_darwin"
+	alias fzf="fzf_darwin"
 fi
 
 # Coloring man pages
