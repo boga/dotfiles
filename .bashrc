@@ -218,6 +218,7 @@ if [ $DETECTED_OS == "linux" ]; then
 	alias fzf="fzf_linux"
 else
 	alias fzf="fzf_darwin"
+	export TEMP=${TMPDIR}
 fi
 
 # Coloring man pages
