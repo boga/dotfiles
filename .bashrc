@@ -233,3 +233,6 @@ export LESS_TERMCAP_ue=$'\E[0m'        # reset underline
 
 [ -s ${HOME}/.config/fzf/completion.bash ] && . ${HOME}/.config/fzf/completion.bash
 [ -s ${HOME}/.config/fzf/key-bindings.bash ] && . ${HOME}/.config/fzf/key-bindings.bash
+
+# Remove duplicates from shell history
+export HISTCONTROL=ignorespace:ignoredups
