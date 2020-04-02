@@ -1,7 +1,9 @@
+__MACOSX
 _ide_helper.php
 !.idea/codeStyleSettings.xml
 .DS_Store
 .env
+.history
 .idea
 .phpstorm_helpers
 .vscode
