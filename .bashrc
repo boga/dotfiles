@@ -140,6 +140,8 @@ export PATH="/usr/local/opt/php@7.3/bin:$PATH"
 export PATH="/usr/local/opt/php@7.3/sbin:$PATH"
 export PATH="~/.bin:$PATH"
 export PATH="/usr/local/opt/grep/libexec/gnubin:$PATH"
+export PATH="~/.local/bin:$PATH"
+export PATH="~/go/bin:$PATH"
 
 export NVM_DIR="$HOME/.nvm"
 [ -s "/usr/local/opt/nvm/nvm.sh" ] && . "/usr/local/opt/nvm/nvm.sh"  # This loads nvm
@@ -216,6 +218,7 @@ if [ $DETECTED_OS == "linux" ]; then
 	alias fzf="fzf_linux"
 else
 	alias fzf="fzf_darwin"
+	export TEMP=${TMPDIR}
 fi
 
 # Coloring man pages
@@ -230,3 +233,6 @@ export LESS_TERMCAP_ue=$'\E[0m'        # reset underline
 
 [ -s ${HOME}/.config/fzf/completion.bash ] && . ${HOME}/.config/fzf/completion.bash
 [ -s ${HOME}/.config/fzf/key-bindings.bash ] && . ${HOME}/.config/fzf/key-bindings.bash
+
+# Remove duplicates from shell history
+export HISTCONTROL=ignorespace:ignoredups
