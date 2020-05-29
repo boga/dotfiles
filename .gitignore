@@ -28,3 +28,5 @@
 !.gitignore
 !.gitignore_global
 !.tmux.conf
+
+!/.nano-backups
