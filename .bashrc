@@ -116,7 +116,7 @@ function prompt_command() {
 		host=`echo -e "${ORANGE}${USER}@${HOSTNAME}${NOCOLOR} "`
 	fi
 
-	PS1="\[$(tput sc; rightprompt; tput rc)\]\t \$(exitstatus)${host}> "
+	PS1="\[$(tput sc; rightprompt; tput rc)\]\t ${host}> "
 }
 
 PROMPT_COMMAND=prompt_command
