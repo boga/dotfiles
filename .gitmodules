@@ -1,3 +1,6 @@
 [submodule ".nano.d"]
 	path = .nano.d
 	url = https://github.com/scopatz/nanorc.git
+[submodule ".config/kitty/dexpota-kitty-themes"]
+	path = .config/kitty/dexpota-kitty-themes
+	url = git@github.com:dexpota/kitty-themes.git
