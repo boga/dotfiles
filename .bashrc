@@ -35,7 +35,7 @@ export PATH="~/.bin/android-platform-tools:$PATH"
 export PATH="/usr/local/opt/grep/libexec/gnubin:$PATH"
 export PATH="~/.local/bin:$PATH"
 export PATH="~/go/bin:$PATH"
-export PATH="/usr/local/opt/node@10/bin:$PATH" >> /Users/miju/.bash_profile
+export PATH="/usr/local/opt/node@10/bin:$PATH"
 
 if [[ -n $SSH_CONNECTION ]]; then
    export EDITOR='nano'
