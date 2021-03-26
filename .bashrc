@@ -124,6 +124,10 @@ export AWS_VAULT_KEYCHAIN_NAME=login
 # default is 1h, which is awkward
 export AWS_SESSION_TOKEN_TTL=12h
 
-if [ -z "$BASH_EXECUTION_STRING" ]; then exec fish; fi
+if [ -z "$BASH_EXECUTION_STRING" ]; then 
+	if [ ! -z `command -v fish` ]; then 
+		exec fish; 
+	fi
+fi
 
 [ -e ${HOME}/.aliases ] && . ${HOME}/.aliases
