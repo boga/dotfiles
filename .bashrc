@@ -36,6 +36,7 @@ export PATH="/usr/local/opt/grep/libexec/gnubin:$PATH"
 export PATH="~/.local/bin:$PATH"
 export PATH="~/go/bin:$PATH"
 export PATH="/usr/local/opt/node@10/bin:$PATH"
+export PATH="$PATH:/usr/local/sbin"
 
 if [[ -n $SSH_CONNECTION ]]; then
    export EDITOR='nano'
