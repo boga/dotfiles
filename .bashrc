@@ -128,6 +128,23 @@ export AWS_VAULT_KEYCHAIN_NAME=login
 # default is 1h, which is awkward
 export AWS_SESSION_TOKEN_TTL=12h
 
+#region 1Password SSH agent
+ONEPASS_AGENT_SOCK="${HOME}/Library/Group Containers/2BUA8C4S2C.com.1password/t/agent.sock"
+ONEPASS_DIR="${HOME}/.1password"
+if [[ -e "${ONEPASS_AGENT_SOCK}" ]]; then
+	if [[ ! -d "${ONEPASS_DIR}" ]]; then
+		mkdir -p "${ONEPASS_DIR}"
+	fi
+
+	if [[ ! -e "${ONEPASS_DIR}/agent.sock" ]]; then
+		ln -s "${ONEPASS_AGENT_SOCK}" "${ONEPASS_DIR}/agent.sock"
+	fi
+fi
+if [[ -e "${ONEPASS_DIR}/agent.sock" ]]; then
+	export SSH_AUTH_SOCK="${ONEPASS_DIR}/agent.sock"
+fi
+#endregion
+
 if [ -z "$BASH_EXECUTION_STRING" ]; then 
 	if [ ! -z `command -v fish` ]; then 
 		exec fish; 
