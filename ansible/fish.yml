@@ -1,0 +1,12 @@
+---
+- name: Installs Fish shell ( https://fishshell.com/ ) and its package manager fisher ( https://github.com/jorgebucaran/fisher )
+  hosts: localhost
+  gather_facts: true
+
+  vars_prompt:
+    - name: username
+      prompt: User to install Fish for
+      private: false
+
+  roles:
+    - fish

@@ -1,0 +1,56 @@
+---
+- name: Installs fish
+  community.general.homebrew:
+    package: fish
+    state: present
+
+- name: Change the shell to fish
+  ansible.builtin.user:
+    name: "{{ username }}"
+    shell: /opt/homebrew/bin/fish
+
+# region Fisher installation
+- name: "Finds fisher file to check if it's installed already: {{ fisher_file_path }}"
+  ansible.builtin.stat:
+    path: "{{ fisher_file_path }}"
+  register: fisherFileStat
+
+- name: Installs Fisher
+  when: false == fisherFileStat.stat.exists
+  block:
+    - name: Creates temporary directory for the Fisher install script
+      ansible.builtin.tempfile:
+        state: directory
+        suffix: build
+      register: tmpDir
+
+    - name: "Downloads the Fisher install script to the temporary directory: {{ tmpDir.path }}"
+      ansible.builtin.get_url:
+        url: https://git.io/fisher
+        dest: "{{ tmpDir.path }}/fisher.sh"
+        mode: '0755'
+      register: fisherTmpInstallScript
+
+    - name: "Installs fisher using {{ fisherTmpInstallScript.dest | quote }}"
+      ansible.builtin.shell: # noqa no-changed-when
+        cmd: "source '{{ fisherTmpInstallScript.dest | quote }}'; fisher install jorgebucaran/fisher"
+        executable: "{{ fish_executable }}"
+# endregion
+
+# region Install Tide theme
+- name: "Finds tide file to check if it's installed already: {{ tide_file_path }}"
+  ansible.builtin.stat:
+    path: "{{ tide_file_path }}"
+  register: tideFileStat
+
+- name: "Installs Tide ( https://github.com/IlanCosman/tide ) theme for Fish"
+  ansible.builtin.command:
+    cmd: "fisher install IlanCosman/tide@v5"
+  when: false == tideFileStat.stat.exists
+
+- name: "Config Tide via environment varibles"
+  ansible.builtin.shell: # noqa no-changed-when
+    cmd: "set --universal {{ item.name | quote }} {{ item.value | quote }}"
+    executable: "{{ fish_executable }}"
+  loop: "{{ tide_environment_variables }}"
+# endregion
