@@ -1,0 +1,4 @@
+---
+- hosts: own-laptop
+  tasks:
+    - import_tasks: packages.yml
