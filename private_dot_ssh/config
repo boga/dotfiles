@@ -1,9 +1,0 @@
-Compression yes
-ForwardX11 yes
-ForwardAgent yes
-AddKeysToAgent yes
-
-Host * 
-    IdentityAgent ~/.1password/agent.sock
-
-Include servers.d/*.conf 
