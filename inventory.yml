@@ -1,0 +1,6 @@
+all:
+  hosts:
+    own-laptop:
+      ansible_connection: local
+    corp-laptop:
+      ansible_connection: local

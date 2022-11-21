@@ -1,0 +1,10 @@
+---
+- hosts: own-laptop
+  tasks:
+    - import_tasks: packages.yml
+
+    - name: Install Fish and its parts
+      ansible.builtin.import_role:
+        name: fish
+      vars:
+        username: "{{ ansible_user_id }}"
