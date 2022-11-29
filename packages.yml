@@ -1,8 +1,0 @@
-- name: Install utilities
-  community.general.homebrew:
-    name:
-      - btop
-      - exa
-      - fd
-      - htop
-    state: present
