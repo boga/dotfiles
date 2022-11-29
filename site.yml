@@ -6,6 +6,7 @@
     - name: Install utilities
       community.general.homebrew:
         name:
+          - ack
           - bat
           - btop
           - exa
