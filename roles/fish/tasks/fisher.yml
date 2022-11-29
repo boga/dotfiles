@@ -1,0 +1,26 @@
+---
+- name: "Finds fisher file to check if it's installed already: {{ fisher_file_path }}"
+  ansible.builtin.stat:
+    path: "{{ fisher_file_path }}"
+  register: fisherFileStat
+
+- name: Installs Fisher
+  when: false == fisherFileStat.stat.exists
+  block:
+    - name: Creates temporary directory for the Fisher install script
+      ansible.builtin.tempfile:
+        state: directory
+        suffix: build
+      register: tmpDir
+
+    - name: "Downloads the Fisher install script to the temporary directory: {{ tmpDir.path }}"
+      ansible.builtin.get_url:
+        url: https://git.io/fisher
+        dest: "{{ tmpDir.path }}/fisher.sh"
+        mode: '0755'
+      register: fisherTmpInstallScript
+
+    - name: "Installs fisher using {{ fisherTmpInstallScript.dest | quote }}"
+      ansible.builtin.shell: # noqa no-changed-when
+        cmd: "source '{{ fisherTmpInstallScript.dest | quote }}'; fisher install jorgebucaran/fisher"
+        executable: "{{ fish_executable }}"

@@ -1,0 +1,33 @@
+---
+- name: Install NerdFont's cask
+  community.general.homebrew_tap:
+    name: homebrew/cask-fonts
+    state: present
+
+- name: Install NerdFont's
+  community.general.homebrew:
+    name: font-meslo-lg-nerd-font
+    state: present
+  # Homebrew module considers "Warning: cask is installed already" output as a failed one.
+  # Since there is no way to handle this properly I'm gonna "fix" it with "failed_when: false"
+  failed_when: false
+
+- name: Install Starship
+  community.general.homebrew:
+    name: starship
+    state: present
+
+- name: Setup Starship for Fish "{{ starship_init_fish_file_path }}"
+  ansible.builtin.copy:
+    content: |
+      if status --is-login
+          starship init fish | source
+      end
+    dest: "{{ starship_init_fish_file_path }}"
+    force: false
+
+- name: Installs starship config file "{{ starship_config_file_path }}"
+  ansible.builtin.template:
+    src: starship.toml.j2
+    dest: "{{ starship_config_file_path }}"
+    mode: '0622'

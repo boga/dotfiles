@@ -1,0 +1,17 @@
+---
+- name: Installs fish
+  community.general.homebrew:
+    package: fish
+    state: present
+
+- name: Adds fish to available shells
+  become: true
+  ansible.builtin.lineinfile:
+    path: /etc/shells
+    regexp: '^\/usr\/local\/bin\/fish$'
+    line: "{{ fish_executable }}"
+
+- name: Changes the shell to fish
+  ansible.builtin.user:
+    name: "{{ username }}"
+    shell: "{{ fish_executable }}"
