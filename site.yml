@@ -1,0 +1,18 @@
+---
+- hosts: all
+  name: "Install the whole environment for the OSX"
+  tasks:
+    - name: Install utilities
+      community.general.homebrew:
+        name:
+          - btop
+          - exa
+          - fd
+          - htop
+        state: present
+
+    - name: Install Fish and its parts
+      ansible.builtin.import_role:
+        name: fish
+      vars:
+        username: "{{ ansible_user_id }}"
