@@ -1,5 +1,6 @@
 ---
 fish_executable: "/usr/local/bin/fish"
 fisher_file_path: "{{ user_dir }}/.config/fish/functions/fisher.fish"
-starship_file_path: "{{ user_dir }}/.config/fish/conf.d/starship.fish"
+starship_init_fish_file_path: "{{ user_dir }}/.config/fish/conf.d/starship.fish"
+starship_config_file_path: "{{ user_dir }}/.config/starship.toml"
 user_dir: "/Users/{{ username }}"
