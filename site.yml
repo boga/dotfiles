@@ -3,6 +3,11 @@
   connection: local
   name: "Install the whole environment for the OSX"
   tasks:
+    - name: Update Homebrew
+      community.general.homebrew:
+        update_homebrew: true
+        upgrade_all: true
+
     - name: Install utilities
       community.general.homebrew:
         name:
