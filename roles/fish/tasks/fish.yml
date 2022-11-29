@@ -4,14 +4,20 @@
     package: fish
     state: present
 
-- name: Adds fish to available shells
+- name: Finds binary file path
+  command: which fish
+  changed_when: false
+  register: fish_executable_path
+
+- name: "Adds fish to available shells: {{ fish_executable_path.stdout_lines[0] }}"
   become: true
   ansible.builtin.lineinfile:
     path: /etc/shells
-    regexp: '^\/usr\/local\/bin\/fish$'
-    line: "{{ fish_executable }}"
+    search_string: "{{ fish_executable_path.stdout_lines[0] }}"
+    line: "{{ fish_executable_path.stdout_lines[0] }}"
 
-- name: Changes the shell to fish
+- name: "Changes the shell to fish: {{ fish_executable_path.stdout_lines[0] }}"
+  become: true
   ansible.builtin.user:
     name: "{{ username }}"
-    shell: "{{ fish_executable }}"
+    shell: "{{ fish_executable_path.stdout_lines[0] }}"
