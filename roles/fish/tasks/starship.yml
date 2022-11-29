@@ -17,11 +17,17 @@
     name: starship
     state: present
 
-- name: Setup Starship for Fish
+- name: Setup Starship for Fish "{{ starship_init_fish_file_path }}"
   ansible.builtin.copy:
     content: |
       if status --is-login
           starship init fish | source
       end
-    dest: "{{ starship_file_path }}"
+    dest: "{{ starship_init_fish_file_path }}"
     force: false
+
+- name: Installs starship config file "{{ starship_config_file_path }}"
+  ansible.builtin.template:
+    src: starship.toml.j2
+    dest: "{{ starship_config_file_path }}"
+    mode: '0622'
