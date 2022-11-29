@@ -1,4 +1,0 @@
-all:
-  hosts:
-    laptop:
-      ansible_connection: local
