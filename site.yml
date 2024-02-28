@@ -19,6 +19,7 @@
           - fd
           - htop
           - zellij
+          - zsh-history-substring-search
         state: present
 
     - name: "Copy Wez terminal config"
@@ -26,3 +27,13 @@
         src: "./templates/wezterm.lua.j2"
         dest: "~/.config/wezterm/wezterm.lua"
         mode: "0600"
+      tags:
+        - configs
+
+    - name: "Copy Zsh config"
+      ansible.builtin.template:
+        src: "./templates/zshrc.sh"
+        dest: "~/.zshrc"
+        mode: "0600"
+      tags:
+        - configs
