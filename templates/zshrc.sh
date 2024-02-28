@@ -15,7 +15,7 @@ unsetopt nomatch
 
 # Nicer prompt.
 export PS1="$ "
-export RPS1=$' '"%F{green}%F%3~ %*%F{white}"
+export RPS1=$' '"%F{green} %3~ %*%F{white}"
 
 # Enable plugins.
 plugins=(git brew history kubectl history-substring-search)
