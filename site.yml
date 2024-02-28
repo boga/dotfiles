@@ -17,23 +17,32 @@
           - btop
           - eza
           - fd
+          - gron
           - htop
+          - ncdu
+          - tig
+          - yamllint
+          - yq
           - zellij
           - zsh-history-substring-search
         state: present
+
+    - name: Install casks
+      community.general.homebrew_cask:
+        state: present
+        name:
+          - alt-tab
+          - wezterm
+          - font-fira-code
 
     - name: "Copy Wez terminal config"
       ansible.builtin.template:
         src: "./templates/wezterm.lua.j2"
         dest: "~/.config/wezterm/wezterm.lua"
         mode: "0600"
-      tags:
-        - configs
 
     - name: "Copy Zsh config"
       ansible.builtin.template:
         src: "./templates/zshrc.sh"
         dest: "~/.zshrc"
         mode: "0600"
-      tags:
-        - configs
