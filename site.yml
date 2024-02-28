@@ -1,14 +1,15 @@
 ---
-- hosts: localhost
+- name: "Install the whole environment for the OSX"
+  hosts: localhost
   connection: local
-  name: "Install the whole environment for the OSX"
+  gather_facts: false
   tasks:
     - name: Update Homebrew
       community.general.homebrew:
         update_homebrew: true
         upgrade_all: true
 
-    - name: Install utilities
+    - name: Install packages
       community.general.homebrew:
         name:
           - ack
@@ -20,8 +21,8 @@
           - zellij
         state: present
 
-    - name: Install cask
-      community.general.homebrew_cask:
-        name:
-          - wezterm
-        state: present
+    - name: "Copy Wez terminal config"
+      ansible.builtin.template:
+        src: "./templates/wezterm.lua.j2"
+        dest: "~/.config/wezterm/wezterm.lua"
+        mode: "0600"
