@@ -14,13 +14,14 @@
           - ack
           - bat
           - btop
-          - exa
+          - eza
           - fd
           - htop
+          - zellij
         state: present
 
-    - name: Install Fish and its parts
-      ansible.builtin.import_role:
-        name: fish
-      vars:
-        username: "{{ ansible_user_id }}"
+    - name: Install cask
+      community.general.homebrew_cask:
+        name:
+          - wezterm
+        state: present
