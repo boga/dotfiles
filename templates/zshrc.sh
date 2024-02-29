@@ -51,7 +51,13 @@ alias cat='bat --style=plain --theme="Monokai Extended Bright"'
 alias ls='eza'
 
 # Completions.
-autoload -Uz compinit && compinit
+if type brew &>/dev/null
+then
+  FPATH="$(brew --prefix)/share/zsh/site-functions:${FPATH}"
+
+  autoload -Uz compinit
+  compinit
+fi
 # Case insensitive.
 zstyle ':completion:*' matcher-list 'm:{[:lower:][:upper:]}={[:upper:][:lower:]}' 'm:{[:lower:][:upper:]}={[:upper:][:lower:]} l:|=* r:|=*' 'm:{[:lower:][:upper:]}={[:upper:][:lower:]} l:|=* r:|=*' 'm:{[:lower:][:upper:]}={[:upper:][:lower:]} l:|=* r:|=*'
 
