@@ -13,17 +13,30 @@
       community.general.homebrew:
         name:
           - ack
+          - act
+          - ansible
+          - ansible-lint
           - bat
           - btop
           - eza
           - fd
           - gron
+          - helm
           - htop
+          - jq
+          - k9s
+          - kind
+          - ktlint
+          - kubectx
+          - midnight-commander
           - ncdu
+          - pwgen
           - tig
+          - watch
           - yamllint
           - yq
           - zellij
+          - zsh
           - zsh-history-substring-search
         state: present
 
