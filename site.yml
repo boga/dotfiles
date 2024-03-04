@@ -1,6 +1,6 @@
 ---
 - name: "Install the whole environment for the OSX"
-  hosts: localhost
+  hosts: all
   connection: local
   gather_facts: false
   tasks:
@@ -48,14 +48,23 @@
           - wezterm
           - font-fira-code
 
-    - name: "Copy Wez terminal config"
-      ansible.builtin.template:
-        src: "./templates/wezterm.lua.j2"
-        dest: "~/.config/wezterm/wezterm.lua"
-        mode: "0600"
-
-    - name: "Copy Zsh config"
-      ansible.builtin.template:
-        src: "./templates/zshrc.sh"
-        dest: "~/.zshrc"
-        mode: "0600"
+    - name: "Copy configs"
+      tags: configs
+      ansible.builtin.include_role:
+        name: cp
+      vars:
+        cp_entity_source: "{{ item.src }}"
+        cp_entity_destination: "{{ item.dest }}"
+        cp_entity_name: "{{ item.name }}"
+        cp_entity_permissions: "0600"
+      loop:
+        - {
+          name: "Wez terminal config",
+          src: "./templates/wezterm.lua.j2",
+          dest: "~/.config/wezterm/wezterm.lua"
+        }
+        - {
+          name: "Zsh config",
+          src: "./templates/zshrc.sh",
+          dest: "~/.zshrc"
+        }
