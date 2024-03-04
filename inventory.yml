@@ -1,7 +1,0 @@
-all:
-  hosts:
-    work_laptop:
-      ansible_host: localhost
-      ansible_connection: local
-      ansible_user: ivan.s
-      ansible_group: staff
