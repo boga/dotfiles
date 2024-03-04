@@ -1,6 +1,7 @@
 *env*
 !sample.env
 id_ed*
+inventory.yml
 .terraform*
 !.terraform*lock*
 tmp
