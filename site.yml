@@ -8,6 +8,7 @@
       community.general.homebrew:
         update_homebrew: true
         upgrade_all: true
+      when: dont_run_homebrew_tasks is not defined or false == dont_run_homebrew_tasks
 
     - name: Install packages
       community.general.homebrew:
@@ -39,6 +40,7 @@
           - zsh
           - zsh-history-substring-search
         state: present
+      when: dont_run_homebrew_tasks is not defined or false == dont_run_homebrew_tasks
 
     - name: Install casks
       community.general.homebrew_cask:
@@ -47,6 +49,7 @@
           - alt-tab
           - wezterm
           - font-fira-code
+      when: dont_run_homebrew_tasks is not defined or false == dont_run_homebrew_tasks
 
     - name: "Copy configs"
       tags: configs
