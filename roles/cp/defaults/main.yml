@@ -1,0 +1,4 @@
+---
+cp_entity_permissions: "0600"
+cp_entity_owner: "{{ ansible_user }}"
+cp_entity_group: "{{ ansible_group }}"

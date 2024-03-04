@@ -1,0 +1,15 @@
+---
+- name: "Create parent directory: {{ cp_entity_destination }}"
+  ansible.builtin.file:
+    path: "{{ cp_entity_destination | dirname }}"
+    owner: "{{ cp_entity_owner }}"
+    group: "{{ cp_entity_group }}"
+    mode: '1777'
+
+- name: "Copy {{ cp_entity_name }} {{ cp_entity_destination }}"
+  ansible.builtin.template:
+    src: "{{ cp_entity_source }}"
+    dest: "{{ cp_entity_destination }}"
+    mode: "{{ cp_entity_permissions }}"
+    owner: "{{ cp_entity_owner }}"
+    group: "{{ cp_entity_group }}"
