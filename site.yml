@@ -4,6 +4,11 @@
   connection: local
   gather_facts: false
   tasks:
+    - name: Tap casks repos
+      community.general.homebrew_tap:
+        name:
+          - homebrew/cask-fonts
+
     - name: Update Homebrew
       community.general.homebrew:
         update_homebrew: true
@@ -47,8 +52,9 @@
         state: present
         name:
           - alt-tab
-          - wezterm
           - font-fira-code
+          - font-hack-nerd-font
+          - wezterm
       when: dont_run_homebrew_tasks is not defined or false == dont_run_homebrew_tasks
 
     - name: "Copy configs"
