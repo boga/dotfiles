@@ -4,10 +4,12 @@
   connection: local
   gather_facts: false
   tasks:
-    - name: Tap casks repos
+    - name: Install Homebrew taps
       community.general.homebrew_tap:
+        state: present
         name:
           - homebrew/cask-fonts
+          - sdkman/tap
 
     - name: Update Homebrew
       community.general.homebrew:
@@ -37,6 +39,7 @@
           - midnight-commander
           - ncdu
           - pwgen
+          - sdkman-cli
           - tig
           - watch
           - yamllint
