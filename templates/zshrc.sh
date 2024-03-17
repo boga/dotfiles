@@ -44,7 +44,10 @@ alias gp='git pull --rebase'
 alias gcam='git commit -am'
 alias gl='git log --graph --pretty=format:"%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset" --abbrev-commit'
 alias cat='bat --style=plain --theme="Monokai Extended Bright"'
-alias ls='eza'
+if type eza &>/dev/null
+then
+  alias ls='eza'
+fi
 
 # Completions.
 if type brew &>/dev/null
@@ -66,6 +69,10 @@ precmd_vcs_info() { vcs_info }
 precmd_functions+=( precmd_vcs_info )
 setopt prompt_subst
 zstyle ':vcs_info:git:*' formats '%b'
+
+# SDKMAN!
+export SDKMAN_DIR=$(brew --prefix sdkman-cli)/libexec
+[[ -s "${SDKMAN_DIR}/bin/sdkman-init.sh" ]] && source "${SDKMAN_DIR}/bin/sdkman-init.sh"
 
 export PS1="$ "
 export RPS1=$' %F{cyan}${vcs_info_msg_0_:0:12}'"%F{green} %3~ %*%F{white}"
