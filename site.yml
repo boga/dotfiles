@@ -71,12 +71,18 @@
         cp_entity_permissions: "0600"
       loop:
         - {
-          name: "Wez terminal config",
-          src: "./templates/wezterm.lua.j2",
-          dest: "~/.config/wezterm/wezterm.lua"
-        }
+            name: "Wez terminal config",
+            src: "./templates/wezterm.lua.j2",
+            dest: "~/.config/wezterm/wezterm.lua",
+          }
+        - { name: "Zsh config", src: "./templates/zshrc.sh", dest: "~/.zshrc" }
         - {
-          name: "Zsh config",
-          src: "./templates/zshrc.sh",
-          dest: "~/.zshrc"
-        }
+            name: "Zed config",
+            src: "./templates/zed/settings.json",
+            dest: "~/.config/zed/settings.json",
+          }
+        - {
+            name: "Zed keymap",
+            src: "./templates/zed/keymap.json",
+            dest: "~/.config/zed/keymap.json",
+          }
