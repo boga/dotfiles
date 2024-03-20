@@ -1,0 +1,11 @@
+// {{ ansible_managed }}
+
+{
+  "theme": "One Dark",
+  "telemetry": {
+    "metrics": false,
+    "diagnostics": false
+  },
+  "enable_language_server": true,
+  "buffer_font_size": 15
+}
