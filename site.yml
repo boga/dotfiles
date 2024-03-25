@@ -61,6 +61,12 @@
           - wezterm
       when: dont_run_homebrew_tasks is not defined or false == dont_run_homebrew_tasks
 
+    - name: Install nvm
+      ansible.builtin.shell: >
+        curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash
+      args:
+        creates: "~/.nvm/nvm.sh"
+
     - name: "Copy configs"
       tags: configs
       ansible.builtin.include_role:
