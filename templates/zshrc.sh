@@ -70,6 +70,12 @@ precmd_functions+=( precmd_vcs_info )
 setopt prompt_subst
 zstyle ':vcs_info:git:*' formats '%b'
 
+# zoxide
+if type zoxide &>/dev/null
+then
+  eval "$(zoxide init zsh)"
+fi
+
 # SDKMAN!
 export SDKMAN_DIR=$(brew --prefix sdkman-cli)/libexec
 [[ -s "${SDKMAN_DIR}/bin/sdkman-init.sh" ]] && source "${SDKMAN_DIR}/bin/sdkman-init.sh"
