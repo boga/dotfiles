@@ -59,6 +59,7 @@
           - alt-tab
           - font-fira-code
           - font-hack-nerd-font
+          - lulu
           - wezterm
       when: dont_run_homebrew_tasks is not defined or false == dont_run_homebrew_tasks
 
