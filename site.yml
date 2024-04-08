@@ -39,6 +39,7 @@
           - kubectx
           - midnight-commander
           - ncdu
+          - neovim
           - pwgen
           - sdkman-cli
           - tig
