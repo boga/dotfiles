@@ -50,12 +50,12 @@
           - zoxide
           - zsh
           - zsh-history-substring-search
-        state: present
+        state: latest
       when: dont_run_homebrew_tasks is not defined or false == dont_run_homebrew_tasks
 
     - name: Install casks
       community.general.homebrew_cask:
-        state: present
+        state: latest
         name:
           - alt-tab
           - font-fira-code
