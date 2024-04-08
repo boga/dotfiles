@@ -15,7 +15,6 @@
       community.general.homebrew:
         update_homebrew: true
         upgrade_all: true
-      when: dont_run_homebrew_tasks is not defined or false == dont_run_homebrew_tasks
 
     - name: Install packages
       community.general.homebrew:
@@ -51,7 +50,6 @@
           - zsh
           - zsh-history-substring-search
         state: latest
-      when: dont_run_homebrew_tasks is not defined or false == dont_run_homebrew_tasks
 
     - name: Install casks
       community.general.homebrew_cask:
@@ -62,7 +60,6 @@
           - font-hack-nerd-font
           - lulu
           - wezterm
-      when: dont_run_homebrew_tasks is not defined or false == dont_run_homebrew_tasks
 
     - name: Install nvm
       ansible.builtin.shell: >
