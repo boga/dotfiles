@@ -59,6 +59,7 @@
           - font-fira-code
           - font-hack-nerd-font
           - lulu
+          - neovide
           - wezterm
 
     - name: Install nvm
