@@ -94,3 +94,8 @@
             src: "./templates/zed/keymap.json",
             dest: "~/.config/zed/keymap.json",
           }
+        - {
+            name: "Vim config",
+            src: "./templates/vimrc",
+            dest: "~/.vimrc",
+          }
