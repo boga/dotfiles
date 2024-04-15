@@ -36,6 +36,7 @@
           - kind
           - ktlint
           - kubectx
+          - micro
           - midnight-commander
           - ncdu
           - neovim
