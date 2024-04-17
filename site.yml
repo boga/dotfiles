@@ -100,3 +100,8 @@
             src: "./templates/vimrc",
             dest: "~/.vimrc",
           }
+        - {
+            name: "Midnight commander INI config",
+            src: "./templates/mc.ini",
+            dest: "~/.config/mc/ini",
+          }
