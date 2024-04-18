@@ -43,6 +43,7 @@
           - ncdu
           - neovim
           - pwgen
+          - ripgrep
           - sdkman-cli
           - tig
           - watch
