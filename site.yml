@@ -39,6 +39,7 @@
           - kubectx
           - micro
           - midnight-commander
+          - MonitorControl
           - ncdu
           - neovim
           - pwgen
