@@ -89,3 +89,8 @@ export SDKMAN_DIR=$(brew --prefix sdkman-cli)/libexec
 
 export PS1="$ "
 export RPS1=$' %F{cyan}${vcs_info_msg_0_:0:12}'"%F{green} %3~ %*%F{white}"
+
+if [ -e "$HOME/.zshrc.local" ]
+then
+  source "$HOME/.zshrc.local"
+fi
