@@ -31,12 +31,13 @@
           - gron
           - helm
           - htop
+          - jesseduffield/lazygit/lazygit
           - jq
           - k9s
           - kind
           - ktlint
           - kubectx
-          - micro
+          - micro          
           - midnight-commander
           - ncdu
           - neovim
