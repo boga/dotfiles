@@ -1,7 +1,11 @@
 // {{ ansible_managed }}
 
 {
-  "theme": "One Dark",
+  "theme": {
+    "mode": "system",
+    "dark": "Fleet Dark",
+    "light": "Fleet Light"
+  },
   "telemetry": {
     "metrics": false,
     "diagnostics": false
