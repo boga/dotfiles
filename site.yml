@@ -9,6 +9,8 @@
         state: present
         name:
           - sdkman/tap
+          - jesseduffield/lazygit
+
 
     - name: Update Homebrew
       community.general.homebrew:
@@ -30,7 +32,7 @@
           - gron
           - helm
           - htop
-          - jesseduffield/lazygit/lazygit
+          - lazygit
           - jq
           - k9s
           - kind
@@ -38,6 +40,7 @@
           - kubectx
           - micro
           - midnight-commander
+          - MonitorControl
           - ncdu
           - neovim
           - pwgen
@@ -100,11 +103,7 @@
             src: "./templates/zed/keymap.json",
             dest: "~/.config/zed/keymap.json",
           }
-        - {
-            name: "Vim config",
-            src: "./templates/vimrc",
-            dest: "~/.vimrc",
-          }
+        - { name: "Vim config", src: "./templates/vimrc", dest: "~/.vimrc" }
         - {
             name: "Midnight commander INI config",
             src: "./templates/mc.ini",
