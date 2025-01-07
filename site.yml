@@ -29,6 +29,7 @@
           - dust
           - eza
           - fd
+          - fzf
           - gron
           - helm
           - htop
