@@ -76,6 +76,11 @@ then
   eval "$(zoxide init zsh)"
 fi
 
+if type fzf &>/dev/null
+then
+  source <(fzf --zsh)
+fi
+
 # NVM
 function nvm_init {
   export NVM_DIR="$HOME/.nvm"
