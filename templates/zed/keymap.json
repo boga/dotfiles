@@ -1,4 +1,4 @@
-// Ansible managed: ./templates/zed/settings.json modified on 2024-03-20 16:31:31 by ivan.s on Ivans-MacBook-Pro.local
+{{ ansible_managed }}
 [
   {
     "bindings": {
@@ -12,7 +12,7 @@
       "ctrl->": "zed::IncreaseBufferFontSize",
       "ctrl-<": "zed::DecreaseBufferFontSize",
       "ctrl-shift-j": "editor::JoinLines",
-      "cmd-d": "editor::DuplicateLine",
+      "cmd-d": "editor::DuplicateLineDown",
       "cmd-backspace": "editor::DeleteLine",
       "cmd-pagedown": "editor::MovePageDown",
       "cmd-pageup": "editor::MovePageUp",
@@ -35,7 +35,7 @@
         }
       ],
       "cmd-/": [
-        "editor::ToggleCozmments",
+        "editor::ToggleComments",
         {
           "advance_downwards": true
         }
