@@ -2,7 +2,7 @@
 [
   {
     "bindings": {
-      "ctrl-tab": "pane::ActivatePrevItem",
+      "ctrl-tab": "pane::ActivatePreviousItem",
       "ctrl-shift-tab": "pane::ActivateNextItem"
     }
   },
@@ -56,9 +56,9 @@
       "cmd-alt-shift-b": "editor::GoToTypeDefinitionSplit",
       "alt-enter": "editor::ToggleCodeActions",
       "f2": "editor::GoToDiagnostic",
-      "cmd-f2": "editor::GoToPrevDiagnostic",
+      "cmd-f2": "editor::GoToPreviousDiagnostic",
       "ctrl-alt-shift-down": "editor::GoToHunk",
-      "ctrl-alt-shift-up": "editor::GoToPrevHunk",
+      "ctrl-alt-shift-up": "editor::GoToPreviousDiagnostic",
       "cmd-home": "editor::MoveToBeginning",
       "cmd-end": "editor::MoveToEnd",
       "cmd-shift-home": "editor::SelectToBeginning",
