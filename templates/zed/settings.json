@@ -15,6 +15,10 @@
   "buffer_font_size": 15,
   "buffer_font_family": "Fira Code",
   "format_on_save": "off",
+  "collaboration_panel": {
+    "button": false,
+    "dock":null
+  },
   "file_types": {
     "Ansible": [
       "**.ansible.yml",
