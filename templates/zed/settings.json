@@ -6,6 +6,12 @@
     "dark": "Fleet Dark",
     "light": "Fleet Light"
   },
+  "tab_size": 2,
+  "languages": {
+    "YAML": {
+      "tab_size": 2
+    }
+  },
   "telemetry": {
     "metrics": false,
     "diagnostics": false
