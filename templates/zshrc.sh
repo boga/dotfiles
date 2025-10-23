@@ -10,6 +10,8 @@ unset LSCOLORS
 export CLICOLOR=1
 export CLICOLOR_FORCE=1
 
+setopt HIST_SAVE_NO_DUPS
+
 # Don't require escaping globbing characters in zsh.
 unsetopt nomatch
 
@@ -17,7 +19,7 @@ unsetopt nomatch
 plugins=(git brew history kubectl history-substring-search)
 
 # Custom $PATH with extra locations.
-export PATH=/usr/local/bin:$HOME/Library/Python/3.9/bin:/opt/homebrew/bin:/usr/local/sbin:$HOME/.cargo/bin:/usr/local/git/bin:$HOME/.composer/vendor/bin:$HOME/.sdkman/candidates/maven/current/bin:$HOME/.sdkman/candidates/java/current/bin:$HOME/.nvm/versions/node/v20.10.0/bin:/System/Cryptexes/App/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin:/Applications/Wireshark.app/Contents/MacOS:/usr/local/go/bin
+export PATH=/usr/local/bin:$HOME/Library/Python/3.9/bin:/opt/homebrew/bin:/usr/local/sbin:$HOME/.cargo/bin:/usr/local/git/bin:$HOME/.composer/vendor/bin:/System/Cryptexes/App/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin:/Applications/Wireshark.app/Contents/MacOS:/usr/local/go/bin
 
 # Bash-style time output.
 export TIMEFMT=$'\nreal\t%*E\nuser\t%*U\nsys\t%*S'
@@ -87,10 +89,6 @@ function nvm_init {
   [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
   [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 }
-
-# SDKMAN!
-export SDKMAN_DIR=$(brew --prefix sdkman-cli)/libexec
-[[ -s "${SDKMAN_DIR}/bin/sdkman-init.sh" ]] && source "${SDKMAN_DIR}/bin/sdkman-init.sh"
 
 export PS1="$ "
 export RPS1=$' %F{cyan}${vcs_info_msg_0_:0:12}'"%F{green} %3~ %*%F{white}"
