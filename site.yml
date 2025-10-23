@@ -8,9 +8,7 @@
       community.general.homebrew_tap:
         state: present
         name:
-          - sdkman/tap
           - jesseduffield/lazygit
-
 
     - name: Update Homebrew
       community.general.homebrew:
@@ -68,12 +66,6 @@
           - monitorcontrol
           - neovide
           - wezterm
-
-    - name: Install nvm
-      ansible.builtin.shell: >
-        curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash
-      args:
-        creates: "~/.nvm/nvm.sh"
 
     - name: "Copy configs"
       tags: configs
