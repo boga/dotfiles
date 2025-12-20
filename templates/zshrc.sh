@@ -55,9 +55,18 @@ fi
 if type brew &>/dev/null
 then
   FPATH="$(brew --prefix)/share/zsh/site-functions:${FPATH}"
+fi
 
+# Initialize completion system once.
+if (( ! ${+_comps} ))
+then
   autoload -Uz compinit
   compinit
+fi
+
+if type codex &>/dev/null
+then
+  source <(codex completion zsh)
 fi
 # Case insensitive.
 zstyle ':completion:*' matcher-list 'm:{[:lower:][:upper:]}={[:upper:][:lower:]}' 'm:{[:lower:][:upper:]}={[:upper:][:lower:]} l:|=* r:|=*' 'm:{[:lower:][:upper:]}={[:upper:][:lower:]} l:|=* r:|=*' 'm:{[:lower:][:upper:]}={[:upper:][:lower:]} l:|=* r:|=*'
