@@ -81,6 +81,11 @@ precmd_functions+=( precmd_vcs_info )
 setopt prompt_subst
 zstyle ':vcs_info:git:*' formats '%b'
 
+# ^x^e opens editor with the current command
+autoload -z edit-command-line
+zle -N edit-command-line
+bindkey "^X^E" edit-command-line
+
 # zoxide
 if type zoxide &>/dev/null
 then
