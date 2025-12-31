@@ -102,6 +102,14 @@ function nvm_init {
 export PS1="$ "
 export RPS1=$' %F{cyan}${vcs_info_msg_0_:0:12}'"%F{green} %3~ %*%F{white}"
 
+chpwd() {
+  # Set KUBECONFIG when a local kubeconfig file exists in the CWD.
+  if [ -f "$PWD/kubeconfig" ]
+  then
+    export KUBECONFIG="$PWD/kubeconfig"
+  fi
+}
+
 if [ -e "$HOME/.zshrc.local" ]
 then
   source "$HOME/.zshrc.local"
