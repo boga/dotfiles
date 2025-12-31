@@ -86,6 +86,9 @@ autoload -z edit-command-line
 zle -N edit-command-line
 bindkey "^X^E" edit-command-line
 
+# space expands !!, !$, !v (last command starting with "v")
+bindkey " " magic-space
+
 # zoxide
 if type zoxide &>/dev/null
 then
