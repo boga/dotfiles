@@ -99,3 +99,4 @@
             src: "./templates/mc.ini",
             dest: "~/.config/mc/ini",
           }
+        - { name: "Kitty config", src: "./templates/kitty.conf", dest: "~/.config/kitty/kitty.conf" }
