@@ -81,6 +81,14 @@ precmd_functions+=( precmd_vcs_info )
 setopt prompt_subst
 zstyle ':vcs_info:git:*' formats '%b'
 
+# ^x^e opens editor with the current command
+autoload -z edit-command-line
+zle -N edit-command-line
+bindkey "^X^E" edit-command-line
+
+# space expands !!, !$, !v (last command starting with "v")
+bindkey " " magic-space
+
 # zoxide
 if type zoxide &>/dev/null
 then
@@ -101,6 +109,15 @@ function nvm_init {
 
 export PS1="$ "
 export RPS1=$' %F{cyan}${vcs_info_msg_0_:0:12}'"%F{green} %3~ %*%F{white}"
+
+chpwd() {
+  # Set KUBECONFIG when a local kubeconfig file exists in the CWD.
+  if [ -f "$PWD/kubeconfig" ]
+  then
+    export KUBECONFIG="$PWD/kubeconfig"
+    echo "kubeconfig is ${KUBECONFIG}"
+  fi
+}
 
 if [ -e "$HOME/.zshrc.local" ]
 then
