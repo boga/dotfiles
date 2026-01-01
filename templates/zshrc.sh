@@ -115,6 +115,7 @@ chpwd() {
   if [ -f "$PWD/kubeconfig" ]
   then
     export KUBECONFIG="$PWD/kubeconfig"
+    echo "kubeconfig is ${KUBECONFIG}"
   fi
 }
 
