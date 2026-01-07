@@ -100,3 +100,8 @@
             dest: "~/.config/mc/ini",
           }
         - { name: "Kitty config", src: "./templates/kitty.conf", dest: "~/.config/kitty/kitty.conf" }
+        - {
+            name: "Gemini config",
+            src: "./templates/geminiSettings.json",
+            dest: "~/.gemini/settings.json",
+          }
