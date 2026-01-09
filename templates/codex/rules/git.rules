@@ -1,0 +1,31 @@
+# Allow read-only git commands outside the sandbox.
+prefix_rule(pattern=["git", "status"]      , decision="allow")
+prefix_rule(pattern=["git", "diff"]        , decision="allow")
+prefix_rule(pattern=["git", "log"]         , decision="allow")
+prefix_rule(pattern=["git", "show"]        , decision="allow")
+prefix_rule(pattern=["git", "branch"]      , decision="allow")
+prefix_rule(pattern=["git", "remote", "-v"], decision="allow")
+prefix_rule(pattern=["git", "fetch"]       , decision="allow")
+prefix_rule(pattern=["git", "rev-parse"]   , decision="allow")
+prefix_rule(pattern=["git", "ls-tree"]     , decision="allow")
+prefix_rule(pattern=["git", "cat-file"]    , decision="allow")
+
+# Prompt for edits and history changes.
+prefix_rule(pattern=["git", "add"]                , decision="prompt")
+prefix_rule(pattern=["git", "restore", "--staged"], decision="prompt")
+prefix_rule(pattern=["git", "commit"]             , decision="prompt")
+prefix_rule(pattern=["git", "switch", "-c"]       , decision="prompt")
+prefix_rule(pattern=["git", "checkout", "-b"]     , decision="prompt")
+
+# Prompt for potentially destructive operations.
+prefix_rule(pattern=["git", "checkout", "--"]               , decision="prompt")
+prefix_rule(pattern=["git", "restore", "--worktree"]        , decision="prompt")
+prefix_rule(pattern=["git", "clean"]                        , decision="prompt")
+prefix_rule(pattern=["git", "reset", "--hard"]              , decision="prompt")
+prefix_rule(pattern=["git", "rebase"]                       , decision="prompt")
+prefix_rule(pattern=["git", "commit", "--amend"]            , decision="prompt")
+prefix_rule(pattern=["git", "branch", ["-d", "-D"]]         , decision="prompt")
+prefix_rule(pattern=["git", "tag", "-d"]                    , decision="prompt")
+prefix_rule(pattern=["git", "push"]                         , decision="prompt")
+prefix_rule(pattern=["git", "fetch", "--prune"]             , decision="prompt")
+prefix_rule(pattern=["git", "remote", ["set-url", "remove"]], decision="prompt")

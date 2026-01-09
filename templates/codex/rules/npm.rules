@@ -1,0 +1,4 @@
+# Allow read-only NPM commands outside the sandbox.
+prefix_rule(pattern=["npm", "i"]      , decision="allow")
+prefix_rule(pattern=["npm", "install"], decision="allow")
+prefix_rule(pattern=["npm", "check"]  , decision="allow")
