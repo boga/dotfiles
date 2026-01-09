@@ -105,3 +105,13 @@
             src: "./templates/geminiSettings.json",
             dest: "~/.gemini/settings.json",
           }
+        - {
+            name: "Codex rules: Git",
+            src: "./templates/codex/rules/git.rules",
+            dest: "~/.codex/rules/git.rules",
+          }
+        - {
+            name: "Codex rules: NPM",
+            src: "./templates/codex/rules/npm.rules",
+            dest: "~/.codex/rules/npm.rules",
+          }
