@@ -63,9 +63,9 @@
           - font-monaspace
           - font-sf-mono
           - keepingyouawake
-          - lulu
           - monitorcontrol
           - neovide
+          - raycast
           - wezterm
 
     - name: "Copy configs"
