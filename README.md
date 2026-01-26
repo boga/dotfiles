@@ -7,4 +7,7 @@ all:
       ansible_connection: local
       ansible_user: here-comes-username
       ansible_group: of-people
+      # If using Homebrew Ansible, pin the interpreter to avoid discovery issues.
+      # Example for Intel Homebrew:
+      ansible_python_interpreter: /usr/local/bin/python3.14
 ```
