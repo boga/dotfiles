@@ -22,6 +22,7 @@
           - act
           - ansible
           - ansible-lint
+          - anomalyco/tap/opencode
           - bat
           - btop
           - dust
@@ -62,9 +63,9 @@
           - font-monaspace
           - font-sf-mono
           - keepingyouawake
-          - lulu
           - monitorcontrol
           - neovide
+          - raycast
           - wezterm
 
     - name: "Copy configs"
