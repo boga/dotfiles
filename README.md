@@ -10,4 +10,8 @@ all:
       # If using Homebrew Ansible, pin the interpreter to avoid discovery issues.
       # Example for Intel Homebrew:
       ansible_python_interpreter: /usr/local/bin/python3.14
+  vars:
+    # Replacement for the deprecated DEFAULT_MANAGED_STR option.
+    # Uses template context instead of {file}/{uid}/{host} placeholders.
+    ansible_managed: "Ansible managed: {{ template_path }} modified on {{ ansible_date_time.iso8601 }} by {{ ansible_user_id }} on {{ inventory_hostname }}"
 ```
