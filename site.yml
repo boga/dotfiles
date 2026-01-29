@@ -114,6 +114,16 @@
             dest: "~/.codex/rules/git.rules",
           }
         - {
+            name: "Codex rules: Helm",
+            src: "./templates/codex/rules/helm.rules",
+            dest: "~/.codex/rules/helm.rules",
+          }
+        - {
+            name: "Codex rules: GitHub CLI",
+            src: "./templates/codex/rules/gh.rules",
+            dest: "~/.codex/rules/gh.rules",
+          }
+        - {
             name: "Codex rules: NPM",
             src: "./templates/codex/rules/npm.rules",
             dest: "~/.codex/rules/npm.rules",
