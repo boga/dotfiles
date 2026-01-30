@@ -109,6 +109,51 @@
             dest: "~/.gemini/settings.json",
           }
         - {
+            name: "OpenCode config",
+            src: "./templates/opencode/opencode.json",
+            dest: "~/.config/opencode/opencode.json",
+          }
+        - {
+            name: "OpenCode skill: Email draft polish",
+            src: "./templates/opencode/skills/email-draft-polish/SKILL.md",
+            dest: "~/.config/opencode/skills/email-draft-polish/SKILL.md",
+          }
+        - {
+            name: "OpenCode skill: Create plan",
+            src: "./templates/opencode/skills/create-plan/SKILL.md",
+            dest: "~/.config/opencode/skills/create-plan/SKILL.md",
+          }
+        - {
+            name: "OpenCode skill: Reviewing code",
+            src: "./templates/opencode/skills/reviewing-code/SKILL.md",
+            dest: "~/.config/opencode/skills/reviewing-code/SKILL.md",
+          }
+        - {
+            name: "OpenCode skill: Reviewing code checklist",
+            src: "./templates/opencode/skills/reviewing-code/review-checklist.md",
+            dest: "~/.config/opencode/skills/reviewing-code/review-checklist.md",
+          }
+        - {
+            name: "OpenCode skill: Creating pull requests",
+            src: "./templates/opencode/skills/creating-pull-requests/SKILL.md",
+            dest: "~/.config/opencode/skills/creating-pull-requests/SKILL.md",
+          }
+        - {
+            name: "OpenCode skill: Fix gh CI",
+            src: "./templates/opencode/skills/gh-fix-ci/SKILL.md",
+            dest: "~/.config/opencode/skills/gh-fix-ci/SKILL.md",
+          }
+        - {
+            name: "OpenCode skill: Fix gh CI script",
+            src: "./templates/opencode/skills/gh-fix-ci/scripts/inspect_pr_checks.py",
+            dest: "~/.config/opencode/skills/gh-fix-ci/scripts/inspect_pr_checks.py",
+          }
+        - {
+            name: "OpenCode skill: Developer growth analysis",
+            src: "./templates/opencode/skills/developer-growth-analysis/SKILL.md",
+            dest: "~/.config/opencode/skills/developer-growth-analysis/SKILL.md",
+          }
+        - {
             name: "Codex rules: Git",
             src: "./templates/codex/rules/git.rules",
             dest: "~/.codex/rules/git.rules",
