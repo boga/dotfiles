@@ -109,6 +109,11 @@
             dest: "~/.gemini/settings.json",
           }
         - {
+            name: "OpenCode config",
+            src: "./templates/opencode/opencode.json",
+            dest: "~/.config/opencode/opencode.json",
+          }
+        - {
             name: "Codex rules: Git",
             src: "./templates/codex/rules/git.rules",
             dest: "~/.codex/rules/git.rules",
