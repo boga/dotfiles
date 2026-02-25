@@ -59,6 +59,7 @@
         state: latest
         name:
           - alt-tab
+          - finetune
           - font-fira-code
           - font-hack-nerd-font
           - font-monaspace
@@ -67,6 +68,7 @@
           - monitorcontrol
           - neovide
           - raycast
+          - thaw@beta
           - zed
           - wezterm
 
