@@ -175,3 +175,8 @@
             src: "./templates/codex/rules/npm.rules",
             dest: "~/.codex/rules/npm.rules",
           }
+        - {
+            name: "Firefox user.js",
+            src: "./templates/firefox/user.js",
+            dest: "{{ firefox_profile_dir }}/user.js"
+          }
