@@ -74,13 +74,6 @@ zstyle ':completion:*' matcher-list 'm:{[:lower:][:upper:]}={[:upper:][:lower:]}
 # Tell homebrew to not autoupdate every single time I run it (just once a week).
 export HOMEBREW_AUTO_UPDATE_SECS=604800
 
-# Git branch in prompt
-autoload -Uz vcs_info
-precmd_vcs_info() { vcs_info }
-precmd_functions+=( precmd_vcs_info )
-setopt prompt_subst
-zstyle ':vcs_info:git:*' formats '%b'
-
 # ^x^e opens editor with the current command
 autoload -z edit-command-line
 zle -N edit-command-line
@@ -107,8 +100,10 @@ function nvm_init {
   [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 }
 
-export PS1="$ "
-export RPS1=$' %F{cyan}${vcs_info_msg_0_:0:12}'"%F{green} %3~ %*%F{white}"
+# Use starship prompt if available; otherwise fall back to a minimal prompt.
+if command -v starship >/dev/null 2>&1; then
+  eval "$(starship init zsh)"
+fi
 
 chpwd() {
   # Set KUBECONFIG when a local kubeconfig file exists in the CWD.

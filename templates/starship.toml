@@ -1,0 +1,42 @@
+# {{ ansible_managed }}
+
+"$schema" = 'https://starship.rs/config-schema.json'
+
+add_newline = false
+
+format = '$character'
+right_format = '$status$git_branch$directory$time'
+
+[package]
+disabled = true
+
+[character]
+format = '$symbol '
+success_symbol = '[❯](bold green)'
+error_symbol = '[✖](bold red)'
+
+[git_branch]
+style = "cyan"
+format = " [$symbol$branch(:$remote_branch)]($style)"
+symbol = ''
+truncation_length = 12
+truncation_symbol = ""
+
+[directory]
+style = "green"
+format = " [$path]($style)"
+truncation_length = 3
+truncate_to_repo = true
+
+[gcloud]
+disabled = true
+
+[time]
+disabled = false
+style = "white"
+format = " [$time]($style)"
+time_format = "%T"
+
+[status]
+disabled = false
+format = ' [$symbol$status]($style)'
