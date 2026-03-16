@@ -20,9 +20,9 @@
         name:
           - ack
           - act
+          - anomalyco/tap/opencode
           - ansible
           - ansible-lint
-          - anomalyco/tap/opencode
           - bat
           - btop
           - dust
@@ -33,17 +33,18 @@
           - gron
           - helm
           - htop
-          - lazygit
           - jq
           - k9s
           - kind
           - ktlint
           - kubectx
+          - lazygit
           - micro
           - MonitorControl
           - ncdu
           - pwgen
           - ripgrep
+          - starship
           - tig
           - watch
           - yamllint
@@ -179,4 +180,9 @@
             name: "Firefox user.js",
             src: "./templates/firefox/user.js",
             dest: "{{ firefox_profile_dir }}/user.js"
+          }
+        - {
+            name: "Starship config",
+            src: "./templates/starship.toml",
+            dest: "~/.config/starship.toml"
           }
