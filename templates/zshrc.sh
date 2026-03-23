@@ -88,9 +88,9 @@ then
   eval "$(zoxide init zsh)"
 fi
 
-if type fzf &>/dev/null
+if type tv &>/dev/null
 then
-  source <(fzf --zsh)
+  source <(tv init zsh)
 fi
 
 # NVM
