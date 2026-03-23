@@ -45,6 +45,7 @@
           - pwgen
           - ripgrep
           - starship
+          - television
           - tig
           - watch
           - yamllint
