@@ -9,76 +9,76 @@ description: Run and manage Ansible playbooks and tasks. Use this skill when run
 
 ```bash
 # Run a playbook
-ansible-playbook -i inventory.yml site.yml
+ansible-playbook site.yml
 
 # Target specific tags
-ansible-playbook -i inventory.yml site.yml --tags mytag
-ansible-playbook -i inventory.yml site.yml --tags "tag1,tag2"
+ansible-playbook site.yml --tags mytag
+ansible-playbook site.yml --tags "tag1,tag2"
 
 # Skip tags
-ansible-playbook -i inventory.yml site.yml --skip-tags mytag
+ansible-playbook site.yml --skip-tags mytag
 
 # Dry-run: preview changes without applying
-ansible-playbook -i inventory.yml site.yml --check --diff
+ansible-playbook site.yml --check --diff
 ```
 
 ## Inspecting before running
 
 ```bash
 # Check syntax without executing
-ansible-playbook -i inventory.yml site.yml --syntax-check
+ansible-playbook site.yml --syntax-check
 
 # List all tasks that would run
-ansible-playbook -i inventory.yml site.yml --list-tasks
+ansible-playbook site.yml --list-tasks
 
 # List all available tags
-ansible-playbook -i inventory.yml site.yml --list-tags
+ansible-playbook site.yml --list-tags
 
 # List matching hosts
-ansible-playbook -i inventory.yml site.yml --list-hosts
+ansible-playbook site.yml --list-hosts
 ```
 
 ## Controlling execution
 
 ```bash
 # Start from a specific task (useful after a failure)
-ansible-playbook -i inventory.yml site.yml --start-at-task "Task name"
+ansible-playbook site.yml --start-at-task "Task name"
 
 # Confirm each task interactively
-ansible-playbook -i inventory.yml site.yml --step
+ansible-playbook site.yml --step
 
 # Limit to specific hosts
-ansible-playbook -i inventory.yml site.yml --limit hostname
+ansible-playbook site.yml --limit hostname
 
 # Pass extra variables
-ansible-playbook -i inventory.yml site.yml -e "key=value"
-ansible-playbook -i inventory.yml site.yml -e "@vars.yml"
+ansible-playbook site.yml -e "key=value"
+ansible-playbook site.yml -e "@vars.yml"
 ```
 
 ## Verbosity
 
 ```bash
-ansible-playbook -i inventory.yml site.yml -v      # task results
-ansible-playbook -i inventory.yml site.yml -vv     # + file diffs
-ansible-playbook -i inventory.yml site.yml -vvv    # + connection info
-ansible-playbook -i inventory.yml site.yml -vvvv   # + plugin debug
+ansible-playbook site.yml -v      # task results
+ansible-playbook site.yml -vv     # + file diffs
+ansible-playbook site.yml -vvv    # + connection info
+ansible-playbook site.yml -vvvv   # + plugin debug
 ```
 
 ## Debugging inventory and connectivity
 
 ```bash
 # Inspect parsed inventory
-ansible-inventory -i inventory.yml --list
-ansible-inventory -i inventory.yml --graph
+ansible-inventory --list
+ansible-inventory --graph
 
 # Test host connectivity
-ansible -i inventory.yml all -m ping
+ansible all -m ping
 
 # Run an ad-hoc command
-ansible -i inventory.yml all -m shell -a "uname -a"
+ansible all -m shell -a "uname -a"
 
 # Gather facts for a host
-ansible -i inventory.yml hostname -m gather_facts
+ansible hostname -m gather_facts
 ```
 
 ## Templates and Jinja2
