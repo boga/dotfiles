@@ -208,6 +208,11 @@
             src: "./templates/pi/skills/creating-pull-requests/SKILL.md",
             dest: "~/.pi/agent/skills/creating-pull-requests/SKILL.md",
           }
+        - {
+            name: "Pi skill: ansible",
+            src: "./templates/pi/skills/ansible/SKILL.md",
+            dest: "~/.pi/agent/skills/ansible/SKILL.md",
+          }
 
 
     - name: "Create mise conf.d directory"
