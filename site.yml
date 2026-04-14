@@ -203,6 +203,11 @@
             src: "./templates/pi/skills/gh-cli/SKILL.md",
             dest: "~/.pi/agent/skills/gh-cli/SKILL.md",
           }
+        - {
+            name: "Pi skill: creating-pull-requests",
+            src: "./templates/pi/skills/creating-pull-requests/SKILL.md",
+            dest: "~/.pi/agent/skills/creating-pull-requests/SKILL.md",
+          }
 
 
     - name: "Create mise conf.d directory"
