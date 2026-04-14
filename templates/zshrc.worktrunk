@@ -1,0 +1,3 @@
+# worktrunk (wt) shell integration — managed by Ansible
+# Loads directory-switching support and tab completions for wt.
+source <(wt config shell init zsh)

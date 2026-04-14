@@ -198,6 +198,11 @@
             src: "./templates/pi/skills/worktrunk/SKILL.md",
             dest: "~/.pi/agent/skills/worktrunk/SKILL.md",
           }
+        - {
+            name: "Worktrunk shell integration",
+            src: "./templates/zshrc.worktrunk",
+            dest: "~/.zshrc.worktrunk",
+          }
 
     - name: "Create mise conf.d directory"
       tags: configs
