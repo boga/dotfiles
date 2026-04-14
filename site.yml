@@ -40,6 +40,7 @@
           - kubectx
           - lazygit
           - micro
+          - mise
           - MonitorControl
           - ncdu
           - pwgen
@@ -187,3 +188,15 @@
             src: "./templates/starship.toml",
             dest: "~/.config/starship.toml"
           }
+        - {
+            name: "Mise config",
+            src: "./templates/mise.toml",
+            dest: "~/.config/mise/config.toml"
+          }
+
+    - name: "Create mise conf.d directory"
+      tags: configs
+      ansible.builtin.file:
+        path: "~/.config/mise/conf.d"
+        state: directory
+        mode: '0700'
