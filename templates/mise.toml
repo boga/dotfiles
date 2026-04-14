@@ -1,0 +1,5 @@
+[env]
+_.path = "/Applications/IntelliJ IDEA.app/Contents/MacOS"
+
+[tools]
+pi = "latest"
