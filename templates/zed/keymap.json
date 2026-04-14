@@ -2,7 +2,6 @@
 [
   {
     "bindings": {
-      "ctrl-shift-o": ["agent::NewExternalAgentThread", { "agent": "codex" }],
       "ctrl-tab": "pane::ActivatePreviousItem",
       "ctrl-shift-tab": "pane::ActivateNextItem"
     }
