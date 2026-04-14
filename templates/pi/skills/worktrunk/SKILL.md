@@ -1,4 +1,4 @@
----
+{% raw %}---
 name: worktrunk
 description: Manage git worktrees using the worktrunk CLI (`wt`). Use this skill when creating, switching, listing, merging, or removing git worktrees; running per-branch steps (commit, squash, rebase, push, diff); or configuring worktrunk hooks, aliases, and worktree path templates.
 ---
@@ -208,3 +208,4 @@ done
 - Use `--format=json` with `jq` for scripting.
 - `wt switch` opens an **interactive picker** when called with no branch argument.
 - All user config keys can be overridden via env vars with `WORKTRUNK_` prefix (nested keys use `__`, e.g., `WORKTRUNK_COMMIT__GENERATION__COMMAND`).
+{% endraw %}
