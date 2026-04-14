@@ -56,18 +56,27 @@ Common verbs: Add, Fix, Update, Remove, Refactor, Implement, Improve, Replace, E
 
 ## 1. Gather Context
 
-Before creating the PR, understand what's being changed:
+Before creating the PR, understand what's being changed. Detect the default branch dynamically instead of assuming `main`:
 
 ```bash
-# See all commits on this branch vs main
-git log main..HEAD --oneline
+# Detect the default remote branch, e.g. origin/main or origin/master
+git symbolic-ref --quiet --short refs/remotes/origin/HEAD
+BASE_REF=$(git symbolic-ref --quiet --short refs/remotes/origin/HEAD | sed 's#^origin/##')
+
+# See all commits on this branch vs the default branch
+git log "origin/$BASE_REF"..HEAD --oneline
 
 # See the full diff
-git diff main...HEAD
+git diff "origin/$BASE_REF"...HEAD
+
+# Get the merge base for precise comparisons
+git merge-base HEAD "origin/$BASE_REF"
 
 # Check current branch name
 git branch --show-current
 ```
+
+If `origin/HEAD` is unavailable, inspect `git remote show origin` and use the reported HEAD branch.
 
 ## 2. Identify Links and References
 
@@ -80,8 +89,10 @@ Ask the user or search for:
 
 ## 3. Draft the PR
 
+Prefer `--body-file` or a single-quoted heredoc saved to a temp file. This avoids shell interpolation bugs with backticks and inline code spans.
+
 ```bash
-gh pr create --title "Add feature X to service Y" --body "$(cat <<'EOF'
+cat > /tmp/pr-body.md <<'EOF'
 ## Why
 
 [Motivation here]
@@ -98,7 +109,20 @@ gh pr create --title "Add feature X to service Y" --body "$(cat <<'EOF'
 
 - [Ticket](url)
 EOF
-)"
+
+gh pr create --base "$BASE_REF" --title "Add feature X to service Y" --body-file /tmp/pr-body.md
+```
+
+After creation, verify what GitHub received:
+
+```bash
+gh pr view --json title,body,url
+```
+
+If formatting was mangled, immediately repair it with:
+
+```bash
+gh pr edit --body-file /tmp/pr-body.md
 ```
 
 # Example
@@ -140,15 +164,16 @@ gh pr create
 
 # Create with title and body
 gh pr create --title "Add X" --body "Description here"
+gh pr create --title "Add X" --body-file /tmp/pr-body.md
 
 # Create as draft
-gh pr create --draft --title "Add X" --body "..."
+gh pr create --draft --title "Add X" --body-file /tmp/pr-body.md
 
-# Create with specific base branch
-gh pr create --base develop --title "Add X" --body "..."
+# Create with detected default base branch
+gh pr create --base "$BASE_REF" --title "Add X" --body-file /tmp/pr-body.md
 
 # Create and immediately open in browser
-gh pr create --title "Add X" --body "..." --web
+gh pr create --title "Add X" --body-file /tmp/pr-body.md --web
 ```
 
 # Validation Checklist
@@ -160,3 +185,5 @@ Before creating the PR, verify:
 - [ ] All relevant links are included
 - [ ] No AI/Claude attribution anywhere
 - [ ] No Co-Authored-By headers in commits
+- [ ] Base branch was detected dynamically instead of assuming `main`
+- [ ] Created PR body was verified with `gh pr view`
