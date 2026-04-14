@@ -193,6 +193,27 @@
             src: "./templates/mise.toml",
             dest: "~/.config/mise/config.toml"
           }
+        - {
+            name: "Pi skill: worktrunk",
+            src: "./templates/pi/skills/worktrunk/SKILL.md",
+            dest: "~/.pi/agent/skills/worktrunk/SKILL.md",
+          }
+        - {
+            name: "Pi skill: gh-cli",
+            src: "./templates/pi/skills/gh-cli/SKILL.md",
+            dest: "~/.pi/agent/skills/gh-cli/SKILL.md",
+          }
+        - {
+            name: "Pi skill: creating-pull-requests",
+            src: "./templates/pi/skills/creating-pull-requests/SKILL.md",
+            dest: "~/.pi/agent/skills/creating-pull-requests/SKILL.md",
+          }
+        - {
+            name: "Pi skill: ansible",
+            src: "./templates/pi/skills/ansible/SKILL.md",
+            dest: "~/.pi/agent/skills/ansible/SKILL.md",
+          }
+
 
     - name: "Create mise conf.d directory"
       tags: configs
@@ -200,3 +221,16 @@
         path: "~/.config/mise/conf.d"
         state: directory
         mode: '0700'
+
+    - name: "Generate worktrunk shell integration"
+      tags: configs
+      ansible.builtin.command: wt config shell init zsh
+      register: wt_shell_init
+      changed_when: false
+
+    - name: "Write worktrunk shell integration to ~/.zshrc.worktrunk"
+      tags: configs
+      ansible.builtin.copy:
+        content: "{{ wt_shell_init.stdout }}\n"
+        dest: "~/.zshrc.worktrunk"
+        mode: '0600'
