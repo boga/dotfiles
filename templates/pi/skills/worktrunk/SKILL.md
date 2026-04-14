@@ -7,20 +7,6 @@ description: Manage git worktrees using the worktrunk CLI (`wt`). Use this skill
 
 Worktrunk's CLI binary is `wt` (not `worktrunk`). Always use `wt` when running commands.
 
-## Setup
-
-Check that the binary is available:
-
-```bash
-wt --version
-```
-
-Install shell integration once (needed for `wt switch` to `cd` into the new worktree):
-
-```bash
-wt config shell install
-```
-
 ## Core commands
 
 ### Create and switch to a new worktree / branch
