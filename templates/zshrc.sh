@@ -114,6 +114,9 @@ chpwd() {
   fi
 }
 
+# mise version manager/env vars handler/tasks runner
+eval "$(mise activate zsh)"
+
 for f in "$HOME"/.zshrc.*(N); do
   source "$f"
 done
