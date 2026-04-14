@@ -88,34 +88,22 @@ ansible hostname -m gather_facts
 - If a template file contains literal `{{ }}` that should not be interpreted by Jinja2 (e.g. config file syntax), wrap the relevant content in `{% raw %}...{% endraw %}`.
 - `ansible_managed` is available in templates as a standard "do not edit" header string.
 
-## Common patterns
+## Module documentation
 
-```yaml
-# Copy a file with templating
-- name: Deploy config
-  ansible.builtin.template:
-    src: templates/myconfig.j2
-    dest: ~/.config/myapp/config
-    mode: '0600'
+```bash
+# Full docs for a module
+ansible-doc ansible.builtin.template
+ansible-doc ansible.builtin.copy
+ansible-doc ansible.builtin.file
+ansible-doc ansible.builtin.command
 
-# Run a command and capture output
-- name: Generate something
-  ansible.builtin.command: mycommand --flag
-  register: cmd_output
-  changed_when: false
+# Short parameter summary
+ansible-doc -s ansible.builtin.template
 
-# Write captured output to a file
-- name: Write output to file
-  ansible.builtin.copy:
-    content: "{{ cmd_output.stdout }}\n"
-    dest: ~/.config/myapp/generated
-    mode: '0600'
+# List all available modules
+ansible-doc -l
 
-# Ensure a directory exists
-- name: Create directory
-  ansible.builtin.file:
-    path: ~/.config/myapp
-    state: directory
-    mode: '0700'
+# Search modules by keyword
+ansible-doc -l | grep copy
 ```
 {% endraw %}
