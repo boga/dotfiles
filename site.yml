@@ -193,6 +193,11 @@
             src: "./templates/mise.toml",
             dest: "~/.config/mise/config.toml"
           }
+        - {
+            name: "Pi skill: worktrunk",
+            src: "./templates/pi/skills/worktrunk/SKILL.md",
+            dest: "~/.pi/agent/skills/worktrunk/SKILL.md",
+          }
 
     - name: "Create mise conf.d directory"
       tags: configs
