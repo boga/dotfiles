@@ -56,11 +56,18 @@ Common verbs: Add, Fix, Update, Remove, Refactor, Implement, Improve, Replace, E
 
 ### 1. Gather context
 
+Determine the default branch dynamically instead of assuming `main`:
+
 ```bash
-git log main..HEAD --oneline   # commits on this branch
-git diff main...HEAD           # full diff
-git branch --show-current      # current branch name
+git symbolic-ref --quiet --short refs/remotes/origin/HEAD   # e.g. origin/main or origin/master
+BASE_REF=$(git symbolic-ref --quiet --short refs/remotes/origin/HEAD | sed 's#^origin/##')
+git log "origin/$BASE_REF"..HEAD --oneline                 # commits on this branch
+git diff "origin/$BASE_REF"...HEAD                         # full diff
+git merge-base HEAD "origin/$BASE_REF"                     # merge base for precise comparisons
+git branch --show-current                                   # current branch name
 ```
+
+If `origin/HEAD` is unavailable, inspect `git remote show origin` and use the reported HEAD branch.
 
 ### 2. Identify links and references
 
@@ -71,8 +78,10 @@ Look in commit messages and the branch name for:
 
 ### 3. Draft and create the PR
 
+Prefer `--body-file` or a single-quoted heredoc saved to a temp file. This avoids shell interpolation bugs with backticks and inline code spans.
+
 ```bash
-gh pr create --title "Add feature X" --body "$(cat <<'EOF'
+cat > /tmp/pr-body.md <<'EOF'
 ## Why
 
 [Motivation here]
@@ -89,7 +98,20 @@ gh pr create --title "Add feature X" --body "$(cat <<'EOF'
 
 - [Ticket](url)
 EOF
-)"
+
+gh pr create --base "$BASE_REF" --title "Add feature X" --body-file /tmp/pr-body.md
+```
+
+After creation, verify what GitHub received:
+
+```bash
+gh pr view --json title,body,url
+```
+
+If formatting was mangled, immediately repair it with:
+
+```bash
+gh pr edit --body-file /tmp/pr-body.md
 ```
 
 ## Example
@@ -129,7 +151,8 @@ waits `2^attempt * 100ms + random(0-50ms)` before retrying. Logs each retry for 
 gh pr create                                    # fully interactive
 gh pr create --fill                             # title + body from commit messages
 gh pr create --draft                            # open as draft
-gh pr create --base develop                     # target a non-default base branch
+gh pr create --base "$BASE_REF"                # target the detected default base branch
+gh pr create --body-file /tmp/pr-body.md        # safest for markdown with backticks/code spans
 gh pr create --reviewer alice,bob
 gh pr create --label bug --assignee "@me"
 gh pr create --web                              # finish in the browser
@@ -142,4 +165,6 @@ gh pr create --web                              # finish in the browser
 - [ ] All relevant links are included
 - [ ] No AI/Claude attribution anywhere in the PR or commits
 - [ ] No `Co-Authored-By` headers in commits
+- [ ] Base branch was detected dynamically instead of assuming `main`
+- [ ] Created PR body was verified with `gh pr view`
 {% endraw %}

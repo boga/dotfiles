@@ -13,8 +13,9 @@ description: Work with GitHub using the gh CLI. Use this skill for pull requests
 gh pr create                                      # interactive prompt
 gh pr create --fill                               # title + body from commit messages
 gh pr create --title "Fix bug" --body "Details"
+gh pr create --title "Fix bug" --body-file /tmp/pr-body.md
 gh pr create --draft
-gh pr create --base main --reviewer alice,bob
+gh pr create --base "$(git symbolic-ref --quiet --short refs/remotes/origin/HEAD | sed 's#^origin/##')" --reviewer alice,bob
 gh pr create --label bug --assignee "@me"
 ```
 
@@ -66,6 +67,7 @@ gh pr merge 123 --auto --squash     # auto-merge when checks pass
 
 ```bash
 gh pr edit 123 --title "New title" --body "New body"
+gh pr edit 123 --body-file /tmp/pr-body.md
 gh pr edit 123 --add-label bug --remove-label wip
 gh pr edit 123 --add-reviewer alice --add-assignee "@me"
 gh pr ready 123                     # mark draft as ready for review
@@ -212,6 +214,9 @@ gh issue list --assignee "@me" --json number,title,labels \
 
 - Most commands default to the current repo; use `-R owner/repo` to target another.
 - Use `@me` as a shorthand for your own GitHub username in filters.
+- Prefer `--body-file` over `--body` for PR descriptions containing markdown code spans or backticks.
+- Detect the default branch dynamically with `git symbolic-ref --quiet --short refs/remotes/origin/HEAD` instead of assuming `main`.
+- After `gh pr create`, verify the rendered PR body with `gh pr view --json title,body,url`.
 - `--web` on almost any command opens the relevant GitHub page in the browser.
 - `GH_REPO=owner/repo gh ...` sets the repo for a single command without `-R`.
 - `gh status` gives a cross-repo overview of your open PRs, review requests, and mentions.
