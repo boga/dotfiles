@@ -85,7 +85,7 @@ ansible hostname -m gather_facts
 
 - Use `ansible.builtin.template` to deploy files with variable interpolation.
 - Use `ansible.builtin.copy` when no interpolation is needed.
-- If a template file contains literal `{{ }}` that should not be interpreted by Jinja2 (e.g. config file syntax), wrap the relevant content in `{% raw %}...{% endraw %}`.
+- If a template file contains literal `{{ }}` that should not be interpreted by Jinja2 (e.g. config file syntax), wrap the relevant content in Jinja2 `raw` blocks.
 - `ansible_managed` is available in templates as a standard "do not edit" header string.
 
 ## Module documentation
