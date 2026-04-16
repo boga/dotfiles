@@ -29,6 +29,21 @@ Use **active voice** with a present-tense verb:
 
 **Pattern**: `<Verb> <what> [to/in/for <context>]`
 
+### Ticket number prefix
+
+If the work is tied to a Linear issue (or any other ticket system like Jira), **prefix the title with the ticket number**:
+
+```
+ENC-212 Add exponential backoff retry to HTTP client
+```
+
+Detect the ticket number by:
+1. Checking the branch name for a pattern like `enc-212-...` or `ENC-212-...`
+2. Checking recent commit messages for a ticket reference
+3. Asking the user if unclear
+
+If no ticket is associated, omit the prefix.
+
 Common verbs: Add, Fix, Update, Remove, Refactor, Implement, Improve, Replace, Enable, Disable
 
 ## PR Description Structure
@@ -161,6 +176,7 @@ gh pr create --web                              # finish in the browser
 ## Validation Checklist
 
 - [ ] Title uses active voice with a present-tense verb
+- [ ] Title is prefixed with the ticket number if working on a Linear/Jira issue (e.g. `ENC-212 Add foo`)
 - [ ] Description has Why, Approach, and How it works sections
 - [ ] All relevant links are included
 - [ ] No AI/Claude attribution anywhere in the PR or commits
