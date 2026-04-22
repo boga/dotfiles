@@ -2,6 +2,46 @@
 homebrew_taps:
   - jesseduffield/lazygit
 
+homebrew_packages:
+  - ack
+  - act
+  - anomalyco/tap/opencode
+  - ansible
+  - ansible-lint
+  - bat
+  - btop
+  - dust
+  - eza
+  - fd
+  - fzf
+  - gh
+  - gron # Make JSON greppable!
+  - helm
+  - htop
+  - jq
+  - k9s
+  - kind
+  - ktlint
+  - kubectx
+  - lazygit
+  - micro
+  - mise
+  - MonitorControl
+  - ncdu
+  - pwgen
+  - ripgrep
+  - starship
+  - television
+  - tig
+  - watch
+  - worktrunk
+  - yamllint
+  - yq
+  - zellij
+  - zoxide
+  - zsh
+  - zsh-history-substring-search
+
 homebrew_casks:
   - alt-tab
   - finetune
