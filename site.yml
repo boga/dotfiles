@@ -7,8 +7,7 @@
     - name: Install Homebrew taps
       community.general.homebrew_tap:
         state: present
-        name:
-          - jesseduffield/lazygit
+        name: "{{ homebrew_taps }}"
 
     - name: Update Homebrew
       community.general.homebrew:
@@ -17,64 +16,13 @@
 
     - name: Install packages
       community.general.homebrew:
-        name:
-          - ack
-          - act
-          - anomalyco/tap/opencode
-          - ansible
-          - ansible-lint
-          - bat
-          - btop
-          - dust
-          - eza
-          - fd
-          - fzf
-          - gh
-          - gron
-          - helm
-          - htop
-          - jq
-          - k9s
-          - kind
-          - ktlint
-          - kubectx
-          - lazygit
-          - micro
-          - mise
-          - MonitorControl
-          - ncdu
-          - pwgen
-          - ripgrep
-          - starship
-          - television
-          - tig
-          - watch
-          - worktrunk
-          - yamllint
-          - yq
-          - zellij
-          - zoxide
-          - zsh
-          - zsh-history-substring-search
+        name: "{{ homebrew_packages }}"
         state: latest
 
     - name: Install casks
       community.general.homebrew_cask:
         state: latest
-        name:
-          - alt-tab
-          - finetune
-          - font-fira-code
-          - font-hack-nerd-font
-          - font-monaspace
-          - font-sf-mono
-          - keepingyouawake
-          - monitorcontrol
-          - neovide
-          - raycast
-          - thaw@beta
-          - zed
-          - wezterm
+        name: "{{ homebrew_casks }}"
 
     - name: "Copy configs"
       tags: configs
@@ -85,95 +33,7 @@
         cp_entity_destination: "{{ item.dest }}"
         cp_entity_name: "{{ item.name }}"
         cp_entity_permissions: "0600"
-      loop:
-        - name: "Wez terminal config"
-          src: "./templates/wezterm.lua.j2"
-          dest: "~/.config/wezterm/wezterm.lua"
-        - name: "Zsh config"
-          src: "./templates/zshrc.sh"
-          dest: "~/.zshrc"
-        - name: "Zed config"
-          src: "./templates/zed/settings.json"
-          dest: "~/.config/zed/settings.json"
-        - name: "Zed keymap"
-          src: "./templates/zed/keymap.json"
-          dest: "~/.config/zed/keymap.json"
-        - name: "Vim config"
-          src: "./templates/vimrc"
-          dest: "~/.vimrc"
-        - name: "Midnight commander INI config"
-          src: "./templates/mc.ini"
-          dest: "~/.config/mc/ini"
-        - name: "Kitty config"
-          src: "./templates/kitty.conf"
-          dest: "~/.config/kitty/kitty.conf"
-        - name: "Gemini config"
-          src: "./templates/geminiSettings.json"
-          dest: "~/.gemini/settings.json"
-        - name: "OpenCode config"
-          src: "./templates/opencode/opencode.json"
-          dest: "~/.config/opencode/opencode.json"
-        - name: "OpenCode skill: Email draft polish"
-          src: "./templates/opencode/skills/email-draft-polish/SKILL.md"
-          dest: "~/.config/opencode/skills/email-draft-polish/SKILL.md"
-        - name: "OpenCode skill: Create plan"
-          src: "./templates/opencode/skills/create-plan/SKILL.md"
-          dest: "~/.config/opencode/skills/create-plan/SKILL.md"
-        - name: "OpenCode skill: Reviewing code"
-          src: "./templates/opencode/skills/reviewing-code/SKILL.md"
-          dest: "~/.config/opencode/skills/reviewing-code/SKILL.md"
-        - name: "OpenCode skill: Reviewing code checklist"
-          src: "./templates/opencode/skills/reviewing-code/review-checklist.md"
-          dest: "~/.config/opencode/skills/reviewing-code/review-checklist.md"
-        - name: "OpenCode skill: Creating pull requests"
-          src: "./templates/opencode/skills/creating-pull-requests/SKILL.md"
-          dest: "~/.config/opencode/skills/creating-pull-requests/SKILL.md"
-        - name: "OpenCode skill: Fix gh CI"
-          src: "./templates/opencode/skills/gh-fix-ci/SKILL.md"
-          dest: "~/.config/opencode/skills/gh-fix-ci/SKILL.md"
-        - name: "OpenCode skill: Fix gh CI script"
-          src: "./templates/opencode/skills/gh-fix-ci/scripts/inspect_pr_checks.py"
-          dest: "~/.config/opencode/skills/gh-fix-ci/scripts/inspect_pr_checks.py"
-        - name: "OpenCode skill: Developer growth analysis"
-          src: "./templates/opencode/skills/developer-growth-analysis/SKILL.md"
-          dest: "~/.config/opencode/skills/developer-growth-analysis/SKILL.md"
-        - name: "Codex rules: Git"
-          src: "./templates/codex/rules/git.rules"
-          dest: "~/.codex/rules/git.rules"
-        - name: "Codex rules: Helm"
-          src: "./templates/codex/rules/helm.rules"
-          dest: "~/.codex/rules/helm.rules"
-        - name: "Codex rules: GitHub CLI"
-          src: "./templates/codex/rules/gh.rules"
-          dest: "~/.codex/rules/gh.rules"
-        - name: "Codex rules: NPM"
-          src: "./templates/codex/rules/npm.rules"
-          dest: "~/.codex/rules/npm.rules"
-        - name: "Firefox user.js"
-          src: "./templates/firefox/user.js"
-          dest: "{{ firefox_profile_dir }}/user.js"
-        - name: "Starship config"
-          src: "./templates/starship.toml"
-          dest: "~/.config/starship.toml"
-        - name: "Mise config"
-          src: "./templates/mise.toml"
-          dest: "~/.config/mise/config.toml"
-        - name: "Pi skill: worktrunk"
-          src: "./templates/pi/skills/worktrunk/SKILL.md"
-          dest: "~/.pi/agent/skills/worktrunk/SKILL.md"
-        - name: "Pi skill: gh-cli"
-          src: "./templates/pi/skills/gh-cli/SKILL.md"
-          dest: "~/.pi/agent/skills/gh-cli/SKILL.md"
-        - name: "Pi skill: creating-pull-requests"
-          src: "./templates/pi/skills/creating-pull-requests/SKILL.md"
-          dest: "~/.pi/agent/skills/creating-pull-requests/SKILL.md"
-        - name: "Pi skill: ansible"
-          src: "./templates/pi/skills/ansible/SKILL.md"
-          dest: "~/.pi/agent/skills/ansible/SKILL.md"
-        - name: "Pi global AGENTS.md"
-          src: "./templates/pi/AGENTS.md"
-          dest: "~/.pi/agent/AGENTS.md"
-
+      loop: "{{ config_files }}"
 
     - name: "Create mise conf.d directory"
       tags: configs
