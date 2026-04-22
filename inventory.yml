@@ -1,0 +1,8 @@
+all:
+  hosts:
+    home:
+      ansible_host: localhost
+      ansible_connection: local
+    work:
+      ansible_host: localhost
+      ansible_connection: local

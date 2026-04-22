@@ -1,4 +1,6 @@
 ---
+ansible_managed: "Ansible managed: {{ template_path }} modified on {{ ansible_facts[\"date_time\"][\"iso8601\"] }} by {{ ansible_facts[\"user_id\"] }} on {{ inventory_hostname }}"
+
 homebrew_taps:
   - jesseduffield/lazygit
 
