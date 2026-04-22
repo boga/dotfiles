@@ -14,6 +14,7 @@ Create well-structured pull requests with clear titles and comprehensive descrip
 - Do NOT add yourself as a coauthor on commits (no `Co-Authored-By` headers)
 - Do NOT include phrases like "Generated with Claude" or "Created by AI"
 - Do NOT mention AI or Claude anywhere in commits or PR descriptions
+- Do NOT create a ready-for-review PR unless the user explicitly asks for it — **always use `--draft` by default**
 
 ## PR Title Format
 
@@ -181,6 +182,7 @@ gh pr create --web                              # finish in the browser
 - [ ] All relevant links are included
 - [ ] No AI/Claude attribution anywhere in the PR or commits
 - [ ] No `Co-Authored-By` headers in commits
+- [ ] PR was opened as `--draft` (unless user explicitly requested ready-for-review)
 - [ ] Base branch was detected dynamically instead of assuming `main`
 - [ ] Created PR body was verified with `gh pr view`
 {% endraw %}
