@@ -1,5 +1,7 @@
 # mise config is gitignored globally. This line is to ungitignore it for this very repo
 !templates/mise.toml
+# AGENTS.md is gitignored globally; un-ignore it for this repo
+!templates/pi/AGENTS.md
 *env*
 !sample.env
 id_ed*
