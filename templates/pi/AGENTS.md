@@ -2,14 +2,15 @@
 
 ## Worktree Policy — MANDATORY
 
-**Never commit directly to the default branch (`master`/`main`) unless the user explicitly says so.**
+**Before editing any file, you MUST be on a feature branch. Never edit files or commit on the default branch (`master`/`main`).**
 
-Always follow this workflow:
-1. Check existing worktrees with `wt list` to see if a relevant branch already exists.
-2. If yes — switch to it.
-3. If no — create a new worktree with `wt switch --create <branch-name>`.
-4. Make changes in that worktree, commit and push from the feature branch.
-5. Merge via `wt merge` (or open a PR).
+Before every file edit:
+1. Check the current branch — if it is `master` or `main`, **stop**.
+2. Check existing worktrees with `wt list` to see if a relevant branch already exists.
+3. If yes — switch to it.
+4. If no — create a new worktree with `wt switch --create <branch-name>`.
+5. Only then make changes, commit and push from the feature branch.
+6. Merge via `wt merge` (or open a PR).
 
 The only exception is when the user explicitly says something like *"commit directly to main"* or *"skip the branch"*.
 
