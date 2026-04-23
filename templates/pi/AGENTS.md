@@ -2,14 +2,16 @@
 
 ## Worktree Policy — MANDATORY
 
-**Never commit directly to the default branch (`master`/`main`) unless the user explicitly says so.**
+**Before editing any file, you MUST pass both checks below. No exceptions unless the user explicitly says otherwise.**
 
-Always follow this workflow:
-1. Check existing worktrees with `wt list` to see if a relevant branch already exists.
-2. If yes — switch to it.
-3. If no — create a new worktree with `wt switch --create <branch-name>`.
-4. Make changes in that worktree, commit and push from the feature branch.
-5. Merge via `wt merge` (or open a PR).
+Before every file edit:
+1. Verify the file is inside the current repository — if not, **stop and ask**.
+2. Check the current branch — if it is `master` or `main`, **stop**.
+3. Check existing worktrees with `wt list` to see if a relevant branch already exists.
+4. If yes — switch to it.
+5. If no — create a new worktree with `wt switch --create <branch-name>`.
+6. Only then make changes, commit and push from the feature branch.
+7. Create or update a PR. Only merge via `wt merge` if the user explicitly asks.
 
 The only exception is when the user explicitly says something like *"commit directly to main"* or *"skip the branch"*.
 
@@ -57,8 +59,14 @@ docs: update README with setup instructions
 refactor(api): extract retry logic into separate module
 ```
 
+## Commit and Push
+
+When the user says "commit and push" (or equivalent) — do exactly that and nothing else.
+Do not edit files. If the working tree state is unclear or unexpected, ask the user before touching any files.
+
 ## File Operations
 
 When the user references a specific file (e.g. `@AGENTS.md`, `src/foo.ts`), operate on **that exact file only**.
 
 Do **not** use `find` or glob patterns to discover and act on other files with the same name. If you notice other related files that might also need the same change, **ask the user first** before touching them.
+
