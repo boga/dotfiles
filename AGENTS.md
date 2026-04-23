@@ -1,3 +1,19 @@
+# Agent Guidelines
+
+## Git Workflow — MANDATORY
+
+**Never commit directly to the default branch (`master`/`main`) unless the user explicitly says so.**
+
+Always follow this workflow:
+1. Create a new branch/worktree: `wt switch --create <branch-name>`
+2. Make changes in that worktree
+3. Commit and push from the feature branch
+4. Merge via `wt merge` (or open a PR)
+
+The only exception is when the user explicitly says something like *"commit directly to main"* or *"skip the branch"*.
+
+---
+
 # Gemini Code Assistant Project Overview
 
 This project uses Ansible to automate the setup and configuration of a development environment on macOS. It installs various tools and applications, and deploys configuration files for them.
