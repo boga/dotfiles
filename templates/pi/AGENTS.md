@@ -11,7 +11,7 @@ Before every file edit:
 4. If yes — switch to it.
 5. If no — create a new worktree with `wt switch --create <branch-name>`.
 6. Only then make changes, commit and push from the feature branch.
-7. Merge via `wt merge` (or open a PR).
+7. Create or update a PR. Only merge via `wt merge` if the user explicitly asks.
 
 The only exception is when the user explicitly says something like *"commit directly to main"* or *"skip the branch"*.
 
