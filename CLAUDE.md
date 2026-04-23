@@ -16,6 +16,10 @@ This project uses Ansible to automate the setup and configuration of a developme
 - `templates/`: Jinja2 templates for configuration files (e.g., `wezterm.lua.j2`, `vimrc`).
 - `README.md`: Project README.
 
+## Boundaries
+
+Do **not** read or modify files outside this repository unless the user explicitly says so.
+
 ## How to Use
 
 The inventory is already committed. Since both `home` and `work` target `localhost`, always pass `--limit` to avoid running tasks against both entries at once.
