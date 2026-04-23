@@ -57,8 +57,17 @@ docs: update README with setup instructions
 refactor(api): extract retry logic into separate module
 ```
 
+## Commit and Push
+
+When the user says "commit and push" (or equivalent) — do exactly that and nothing else.
+Do not edit files. If the working tree state is unclear or unexpected, ask the user before touching any files.
+
 ## File Operations
 
 When the user references a specific file (e.g. `@AGENTS.md`, `src/foo.ts`), operate on **that exact file only**.
 
 Do **not** use `find` or glob patterns to discover and act on other files with the same name. If you notice other related files that might also need the same change, **ask the user first** before touching them.
+
+## Scope
+
+Only read or modify files inside the current repository unless the user explicitly says otherwise.
