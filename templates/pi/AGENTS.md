@@ -2,15 +2,16 @@
 
 ## Worktree Policy — MANDATORY
 
-**Before editing any file, you MUST be on a feature branch. Never edit files or commit on the default branch (`master`/`main`).**
+**Before editing any file, you MUST pass both checks below. No exceptions unless the user explicitly says otherwise.**
 
 Before every file edit:
-1. Check the current branch — if it is `master` or `main`, **stop**.
-2. Check existing worktrees with `wt list` to see if a relevant branch already exists.
-3. If yes — switch to it.
-4. If no — create a new worktree with `wt switch --create <branch-name>`.
-5. Only then make changes, commit and push from the feature branch.
-6. Merge via `wt merge` (or open a PR).
+1. Verify the file is inside the current repository — if not, **stop and ask**.
+2. Check the current branch — if it is `master` or `main`, **stop**.
+3. Check existing worktrees with `wt list` to see if a relevant branch already exists.
+4. If yes — switch to it.
+5. If no — create a new worktree with `wt switch --create <branch-name>`.
+6. Only then make changes, commit and push from the feature branch.
+7. Merge via `wt merge` (or open a PR).
 
 The only exception is when the user explicitly says something like *"commit directly to main"* or *"skip the branch"*.
 
@@ -69,6 +70,3 @@ When the user references a specific file (e.g. `@AGENTS.md`, `src/foo.ts`), oper
 
 Do **not** use `find` or glob patterns to discover and act on other files with the same name. If you notice other related files that might also need the same change, **ask the user first** before touching them.
 
-## Scope
-
-Only read or modify files inside the current repository unless the user explicitly says otherwise.
