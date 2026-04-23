@@ -56,3 +56,9 @@ chore: upgrade dependencies to latest
 docs: update README with setup instructions
 refactor(api): extract retry logic into separate module
 ```
+
+## File Operations
+
+When the user references a specific file (e.g. `@AGENTS.md`, `src/foo.ts`), operate on **that exact file only**.
+
+Do **not** use `find` or glob patterns to discover and act on other files with the same name. If you notice other related files that might also need the same change, **ask the user first** before touching them.
