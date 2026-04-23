@@ -2,6 +2,7 @@
 !templates/mise.toml
 # AGENTS.md is gitignored globally; un-ignore it for this repo
 !templates/pi/AGENTS.md
+CLAUDE.local.md
 *env*
 !sample.env
 id_ed*
