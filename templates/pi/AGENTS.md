@@ -1,13 +1,17 @@
 # Global Agent Rules
 
-## Worktree Policy
+## Worktree Policy — MANDATORY
 
-Before making any code or config changes in a git repository:
+**Never commit directly to the default branch (`master`/`main`) unless the user explicitly says so.**
+
+Always follow this workflow:
 1. Check existing worktrees with `wt list` to see if a relevant branch already exists.
 2. If yes — switch to it.
 3. If no — create a new worktree with `wt switch --create <branch-name>`.
+4. Make changes in that worktree, commit and push from the feature branch.
+5. Merge via `wt merge` (or open a PR).
 
-Never commit or make changes directly on the default branch (main, master, develop, etc.).
+The only exception is when the user explicitly says something like *"commit directly to main"* or *"skip the branch"*.
 
 ## Commit Message Convention
 
