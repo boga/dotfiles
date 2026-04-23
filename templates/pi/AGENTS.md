@@ -1,5 +1,9 @@
 # Global Agent Rules
 
+## Project-local Rules
+
+At the start of every session, check if `CLAUDE.local.md` exists in the repository root. If it does, read it and follow any instructions it contains.
+
 ## Worktree Policy — MANDATORY
 
 **Before editing any file, you MUST pass both checks below. No exceptions unless the user explicitly says otherwise.**
