@@ -5,3 +5,4 @@ git_global_ignore_entries:
   - ".idea"
   - ".run"
   - "tmp"
+git_user_name: "{{ ansible_user }}"
