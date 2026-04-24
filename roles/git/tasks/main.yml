@@ -6,7 +6,7 @@
       - ansible_user | string | length > 0
     fail_msg: ansible_user must be set before configuring global Git settings
 
-- name: Ensure Git identity is set
+- name: "Ensure Git identity is set: {{ git_user_name }} <{{ git_user_email }}>"
   ansible.builtin.assert:
     that:
       - git_user_name is defined
@@ -34,13 +34,13 @@
     scope: global
     value: "{{ git_global_excludesfile }}"
 
-- name: Configure Git user name
+- name: "Configure Git user name: {{ git_user_name }}"
   community.general.git_config:
     name: user.name
     scope: global
     value: "{{ git_user_name }}"
 
-- name: Configure Git user email
+- name: "Configure Git user email: {{ git_user_email }}"
   community.general.git_config:
     name: user.email
     scope: global
