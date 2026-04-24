@@ -35,6 +35,11 @@
         cp_entity_permissions: "0600"
       loop: "{{ config_files }}"
 
+    - name: "Configure Git"
+      tags: configs
+      ansible.builtin.include_role:
+        name: git
+
     - name: "Create mise conf.d directory"
       tags: configs
       ansible.builtin.file:

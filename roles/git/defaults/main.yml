@@ -1,0 +1,8 @@
+---
+git_global_excludesfile: "{{ ansible_env.HOME }}/.gitignore_global"
+git_global_ignore_entries:
+  - "PLAN.md"
+  - ".idea"
+  - ".run"
+  - "tmp"
+  - "vault-password.txt"
