@@ -4,12 +4,14 @@ Before you bootstrap this machine, make sure these tools are already available:
 
 - `mise`, installed manually first, because this repository uses it to manage the preferred `ansible` installation and does not bootstrap `mise` for you.
 - `ansible`, installed through `mise`.
+- `ansible-lint`, installed through `mise`.
 - `op` (the 1Password CLI), installed and signed in, because the playbook uses it to read the Ansible vault password.
 
 For example:
 
 ```bash
 mise use -g pipx:ansible
+mise use -g pipx:ansible-lint
 brew install 1password-cli
 ```
 
