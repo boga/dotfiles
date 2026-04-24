@@ -1,4 +1,5 @@
 ---
+ansible_user: ivan-shnurchenko
 ansible_group: staff
 ansible_python_interpreter: /opt/homebrew/bin/python3
 firefox_profile_dir: /Users/ivan-shnurchenko/Library/Application Support/Firefox/Profiles/vfxfh9r4.default-release

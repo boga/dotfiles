@@ -6,4 +6,3 @@ git_global_ignore_entries:
   - ".run"
   - "tmp"
   - "vault-password.txt"
-git_user_name: "{{ ansible_user }}"

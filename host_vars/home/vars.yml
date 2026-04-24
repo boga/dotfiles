@@ -1,4 +1,5 @@
 ---
+ansible_user: miju
 ansible_group: staff
 ansible_python_interpreter: /usr/local/bin/python3.14
 firefox_profile_dir: /Users/miju/Library/Application Support/Firefox/Profiles/pex9ak71.default-release

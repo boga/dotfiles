@@ -6,6 +6,15 @@
       - ansible_user | string | length > 0
     fail_msg: ansible_user must be set before configuring global Git settings
 
+- name: Ensure Git identity is set
+  ansible.builtin.assert:
+    that:
+      - git_user_name is defined
+      - git_user_name | string | length > 0
+      - git_user_email is defined
+      - git_user_email | string | length > 0
+    fail_msg: git_user_name and git_user_email must be set before configuring global Git identity
+
 - name: Ensure global gitignore file exists
   ansible.builtin.file:
     path: "{{ git_global_excludesfile }}"
