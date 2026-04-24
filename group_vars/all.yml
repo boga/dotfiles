@@ -1,6 +1,10 @@
 ---
 ansible_managed: "Ansible managed: {{ template_path }} modified on {{ ansible_facts[\"date_time\"][\"iso8601\"] }} by {{ ansible_facts[\"user_id\"] }} on {{ inventory_hostname }}"
 
+ansible_user: "{{ vault_ansible_user }}"
+git_user_email: "{{ vault_git_user_email }}"
+git_user_name: "{{ vault_git_user_name }}"
+
 homebrew_taps:
   - jesseduffield/lazygit
 

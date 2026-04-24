@@ -1,4 +1,11 @@
 ---
+- name: Ensure ansible_user is set
+  ansible.builtin.assert:
+    that:
+      - ansible_user is defined
+      - ansible_user | string | length > 0
+    fail_msg: ansible_user must be set before configuring global Git settings
+
 - name: Ensure global gitignore file exists
   ansible.builtin.file:
     path: "{{ git_global_excludesfile }}"
