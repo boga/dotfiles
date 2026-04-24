@@ -1,0 +1,19 @@
+---
+- name: Ensure global gitignore file exists
+  ansible.builtin.file:
+    path: "{{ git_global_excludesfile }}"
+    state: touch
+    mode: '0600'
+
+- name: Ensure global gitignore entries are present
+  ansible.builtin.lineinfile:
+    path: "{{ git_global_excludesfile }}"
+    line: "{{ item }}"
+    state: present
+  loop: "{{ git_global_ignore_entries }}"
+
+- name: Configure Git global excludes file
+  community.general.git_config:
+    name: core.excludesfile
+    scope: global
+    value: "{{ git_global_excludesfile }}"

@@ -35,31 +35,10 @@
         cp_entity_permissions: "0600"
       loop: "{{ config_files }}"
 
-    - name: "Ensure global gitignore file exists"
+    - name: "Configure Git"
       tags: configs
-      ansible.builtin.file:
-        path: "{{ ansible_env.HOME }}/.gitignore_global"
-        state: touch
-        mode: '0600'
-
-    - name: "Ensure global gitignore entries are present"
-      tags: configs
-      ansible.builtin.lineinfile:
-        path: "{{ ansible_env.HOME }}/.gitignore_global"
-        line: "{{ item }}"
-        state: present
-      loop:
-        - "PLAN.md"
-        - ".idea"
-        - ".run"
-        - "tmp"
-
-    - name: "Configure Git global excludes file"
-      tags: configs
-      community.general.git_config:
-        name: core.excludesfile
-        scope: global
-        value: "{{ ansible_env.HOME }}/.gitignore_global"
+      ansible.builtin.include_role:
+        name: git
 
     - name: "Create mise conf.d directory"
       tags: configs
