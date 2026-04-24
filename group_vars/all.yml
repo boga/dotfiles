@@ -13,6 +13,7 @@ homebrew_packages:
   - anomalyco/tap/opencode
   - ansible
   - ansible-lint
+  - 1password-cli
   - bat
   - btop
   - dust
