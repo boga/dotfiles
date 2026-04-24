@@ -1,3 +1,7 @@
+## Bootstrap requirement
+
+`op` (the 1Password CLI) must already be installed and signed in before you bootstrap this machine. The playbook uses it to read the Ansible vault password during setup, so bootstrapping will fail if the CLI is unavailable.
+
 Because both inventory entries target `localhost`, you should limit each run to the laptop you are currently on. This ensures Ansible loads the correct host-specific variables:
 
 ```bash

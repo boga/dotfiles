@@ -6,7 +6,7 @@
       - ansible_user | string | length > 0
     fail_msg: ansible_user must be set before configuring global Git settings
 
-- name: Ensure Git identity is set
+- name: "Ensure Git identity is set: {{ git_user_name }} <{{ git_user_email }}>"
   ansible.builtin.assert:
     that:
       - git_user_name is defined
@@ -15,32 +15,32 @@
       - git_user_email | string | length > 0
     fail_msg: git_user_name and git_user_email must be set before configuring global Git identity
 
-- name: Ensure global gitignore file exists
+- name: "Ensure global gitignore file exists: {{ git_global_excludesfile }}"
   ansible.builtin.file:
     path: "{{ git_global_excludesfile }}"
     state: touch
     mode: '0600'
 
-- name: Ensure global gitignore entries are present
+- name: "Ensure global gitignore entries are present: {{ git_global_excludesfile }}"
   ansible.builtin.lineinfile:
     path: "{{ git_global_excludesfile }}"
     line: "{{ item }}"
     state: present
   loop: "{{ git_global_ignore_entries }}"
 
-- name: Configure Git global excludes file
+- name: "Configure Git global excludes file: {{ git_global_excludesfile }}"
   community.general.git_config:
     name: core.excludesfile
     scope: global
     value: "{{ git_global_excludesfile }}"
 
-- name: Configure Git user name
+- name: "Configure Git user name: {{ git_user_name }}"
   community.general.git_config:
     name: user.name
     scope: global
     value: "{{ git_user_name }}"
 
-- name: Configure Git user email
+- name: "Configure Git user email: {{ git_user_email }}"
   community.general.git_config:
     name: user.email
     scope: global
