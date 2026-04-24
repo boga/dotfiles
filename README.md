@@ -1,6 +1,19 @@
-## Bootstrap requirement
+˚## Bootstrap requirements
 
-`op` (the 1Password CLI) must already be installed and signed in before you bootstrap this machine. The playbook uses it to read the Ansible vault password during setup, so bootstrapping will fail if the CLI is unavailable.
+Before you bootstrap this machine, make sure these tools are already available:
+
+- `mise`, installed manually first, because this repository uses it to manage the preferred `ansible` installation and does not bootstrap `mise` for you.
+- `ansible`, installed through `mise`.
+- `op` (the 1Password CLI), installed and signed in, because the playbook uses it to read the Ansible vault password.
+
+For example:
+
+```bash
+mise use -g pipx:ansible
+brew install 1password-cli
+```
+
+Bootstrapping will fail if any prerequisite is unavailable.
 
 Because both inventory entries target `localhost`, you should limit each run to the laptop you are currently on. This ensures Ansible loads the correct host-specific variables:
 

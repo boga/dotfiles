@@ -2,5 +2,6 @@
 _.path = "/Applications/IntelliJ IDEA.app/Contents/MacOS"
 
 [tools]
+ansible = "pipx:ansible"
 node = "25"
 pi = "latest"
