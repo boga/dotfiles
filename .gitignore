@@ -3,6 +3,7 @@
 # AGENTS.md is gitignored globally; un-ignore it for this repo
 !templates/pi/AGENTS.md
 CLAUDE.local.md
+.pi
 *env*
 !sample.env
 id_ed*
