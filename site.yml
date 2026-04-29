@@ -59,3 +59,7 @@
         content: "{{ wt_shell_init.stdout }}\n"
         dest: "~/.zshrc.worktrunk"
         mode: '0600'
+
+    - name: "Configure Pi agent"
+      ansible.builtin.include_role:
+        name: pi_agent
