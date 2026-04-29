@@ -151,3 +151,15 @@ config_files:
   - name: "Pi global AGENTS.md"
     src: "./templates/pi/AGENTS.md"
     dest: "~/.pi/agent/AGENTS.md"
+
+pi_agent_settings_path: "~/.pi/agent/settings.json"
+pi_agent_settings_overrides: |-
+  {
+    "collapseChangelog": true,
+    "enableInstallTelemetry": false
+  }
+pi_agent_settings_packages:
+  - "git:github.com/boga/pi-local-claude-loader"
+  - "npm:@plannotator/pi-extension"
+  - "npm:pi-mono-ask-user-question"
+  - "npm:pi-subagents"

@@ -3,4 +3,4 @@ _.path = "/Applications/IntelliJ IDEA.app/Contents/MacOS"
 
 [tools]
 node = "25"
-pi = "latest"
+"npm:@mariozechner/pi-coding-agent" = "latest"
