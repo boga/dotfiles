@@ -9,25 +9,25 @@ Installs and configures the [Pi coding agent](https://www.npmjs.com/package/@mar
 
 ## Variables
 
-| Variable | Default | Description |
-|---|---|---|
-| `pi_agent_settings_path` | `~/.pi/agent/settings.json` | Path to the Pi agent settings file |
-| `pi_agent_settings_packages` | `[]` | YAML list of Pi packages to enforce. Safe to extend per-host in `host_vars` by concatenating with the group list. |
-| `pi_agent_settings_overrides` | `{}` (JSON string) | JSON string of additional keys to enforce in `settings.json`. Intentionally a raw string to avoid YAML↔JSON type-mapping ambiguity. |
+| Variable                      | Default                     | Description                                                                                                                         |
+|-------------------------------|-----------------------------|-------------------------------------------------------------------------------------------------------------------------------------|
+| `pi_agent_settings_path`      | `~/.pi/agent/settings.json` | Path to the Pi agent settings file                                                                                                  |
+| `pi_agent_settings_overrides` | `{}` (JSON string)          | JSON string of additional keys to enforce in `settings.json`. Intentionally a raw string to avoid YAML↔JSON type-mapping ambiguity. |
+| `pi_agent_settings_packages`  | `[]`                        | YAML list of Pi packages to enforce. Safe to extend per-host in `host_vars` by concatenating with the group list.                   |
 
 ## Usage
 
 ```yaml
 # group_vars/all.yml
-pi_agent_settings_packages:
-  - "npm:some-extension"
-  - "npm:another-extension"
-
 pi_agent_settings_overrides: |-
   {
     "collapseChangelog": true,
     "enableInstallTelemetry": false
   }
+
+pi_agent_settings_packages:
+  - "npm:some-extension"
+  - "npm:another-extension"
 ```
 
 ```yaml
