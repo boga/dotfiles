@@ -4,8 +4,9 @@ Installs and configures the [Pi coding agent](https://www.npmjs.com/package/@mar
 
 ## What it does
 
-1. **Installs Pi** via mise, using the version declared in `~/.config/mise/config.toml` (managed by the `cp` role from `templates/mise.toml`).
-2. **Merges desired settings** into `~/.pi/agent/settings.json` without clobbering keys the agent manages at runtime (e.g. `lastChangelogVersion`, `defaultModel`).
+1. **Merges desired settings** into `~/.pi/agent/settings.json` without clobbering keys the agent manages at runtime (e.g. `lastChangelogVersion`, `defaultModel`).
+
+Pi itself is installed via mise — the version is declared in `templates/mise.toml` (deployed by the `cp` role) and mise handles the actual installation.
 
 ## Variables
 
