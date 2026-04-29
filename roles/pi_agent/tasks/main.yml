@@ -21,7 +21,7 @@
 - name: "Apply Pi agent settings overrides"
   vars:
     _base: "{{ pi_settings_file.content | b64decode | from_json if pi_settings_stat.stat.exists else {} }}"
-    _overrides: "{{ pi_agent_settings_overrides | from_json | combine({'packages': pi_agent_settings_packages}) }}"
+    _overrides: "{{ pi_agent_settings_overrides | from_json | combine({'packages': pi_agent_settings_packages + pi_agent_settings_extra_packages}) }}"
   ansible.builtin.copy:
     content: "{{ _base | combine(_overrides, recursive=true) | to_nice_json }}"
     dest: "{{ pi_agent_settings_path }}"

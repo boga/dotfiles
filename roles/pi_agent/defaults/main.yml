@@ -1,6 +1,7 @@
 ---
 pi_agent_settings_path: "~/.pi/agent/settings.json"
 pi_agent_settings_packages: []
+pi_agent_settings_extra_packages: []
 pi_agent_settings_overrides: |-
   {
   }

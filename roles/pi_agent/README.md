@@ -14,7 +14,8 @@ Pi itself is installed via mise — the version is declared in `templates/mise.t
 |-------------------------------|-----------------------------|-------------------------------------------------------------------------------------------------------------------------------------|
 | `pi_agent_settings_path`      | `~/.pi/agent/settings.json` | Path to the Pi agent settings file                                                                                                  |
 | `pi_agent_settings_overrides` | `{}` (JSON string)          | JSON string of additional keys to enforce in `settings.json`. Intentionally a raw string to avoid YAML↔JSON type-mapping ambiguity. |
-| `pi_agent_settings_packages`  | `[]`                        | YAML list of Pi packages to enforce. Safe to extend per-host in `host_vars` by concatenating with the group list.                   |
+| `pi_agent_settings_packages`  | `[]`                        | YAML list of Pi packages to enforce (group-level baseline).                                                                         |
+| `pi_agent_settings_extra_packages` | `[]`               | Host-specific packages to append to `pi_agent_settings_packages`. Define in `host_vars` to avoid self-referencing variable errors.  |
 
 ## Usage
 
@@ -33,7 +34,8 @@ pi_agent_settings_packages:
 
 ```yaml
 # host_vars/home/vars.yml — add host-specific packages without replacing the base list
-pi_agent_settings_packages: "{{ pi_agent_settings_packages + ['npm:home-only-extension'] }}"
+pi_agent_settings_extra_packages:
+  - "npm:home-only-extension"
 ```
 
 ```yaml
