@@ -163,3 +163,4 @@ pi_agent_settings_packages:
   - "npm:@plannotator/pi-extension"
   - "npm:pi-mono-ask-user-question"
   - "npm:pi-subagents"
+  - "npm:taskplane"
