@@ -63,3 +63,14 @@
     - name: "Install and configure Pi agent"
       ansible.builtin.include_role:
         name: pi_agent
+
+  post_tasks:
+    - name: "Upgrade mise-managed tools"
+      tags: always
+      ansible.builtin.command: mise upgrade
+      changed_when: true
+
+    - name: "Update Pi extensions"
+      tags: always
+      ansible.builtin.command: pi update --extensions
+      changed_when: true
