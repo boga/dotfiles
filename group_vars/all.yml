@@ -154,15 +154,15 @@ config_files:
 
 pi_agent_settings_path: "~/.pi/agent/settings.json"
 
+pi_agent_settings_packages:
+  - "npm:@fink-andreas/pi-linear-tools"
+  - "npm:pi-subagents"
+  - "npm:pi-mono-ask-user-question"
+  - "npm:@plannotator/pi-extension"
+  - "git:github.com/boga/pi-local-claude-loader"
+
 pi_agent_settings_overrides: |-
   {
     "collapseChangelog": true,
-    "enableInstallTelemetry": false,
-    "packages": [
-      "npm:@fink-andreas/pi-linear-tools",
-      "npm:pi-subagents",
-      "npm:pi-mono-ask-user-question",
-      "npm:@plannotator/pi-extension",
-      "git:github.com/boga/pi-local-claude-loader"
-    ]
+    "enableInstallTelemetry": false
   }
