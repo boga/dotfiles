@@ -1,8 +1,4 @@
 ---
-- name: "Install Pi coding agent via mise"
-  ansible.builtin.command: mise install pi
-  changed_when: false
-
 - name: "Stat Pi agent settings.json"
   ansible.builtin.stat:
     path: "{{ pi_agent_settings_path }}"
