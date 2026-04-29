@@ -60,6 +60,6 @@
         dest: "~/.zshrc.worktrunk"
         mode: '0600'
 
-    - name: "Configure Pi agent"
+    - name: "Install and configure Pi agent"
       ansible.builtin.include_role:
         name: pi_agent
