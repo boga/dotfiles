@@ -3,3 +3,6 @@ ansible_user: ivan-shnurchenko
 ansible_group: staff
 ansible_python_interpreter: /opt/homebrew/bin/python3
 firefox_profile_dir: /Users/ivan-shnurchenko/Library/Application Support/Firefox/Profiles/vfxfh9r4.default-release
+
+# Add to the global packages list work-related ones
+pi_agent_settings_packages: "{{ pi_agent_settings_packages + ['npm:@fink-andreas/pi-linear-tools'] }}"
