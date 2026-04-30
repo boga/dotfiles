@@ -135,22 +135,22 @@ Skills, roles, and decisions persist for the entire session. Do not abandon them
 
 Session history is persistent and searchable. On resume, search BEFORE asking the user:
 
-| Need | Command |
-|------|--------|
-| What did we decide? | `ctx_search(queries: ["decision"], source: "decision", sort: "timeline")` |
-| What constraints exist? | `ctx_search(queries: ["constraint"], source: "constraint")` |
+| Need                    | Command                                                                   |
+|-------------------------|---------------------------------------------------------------------------|
+| What did we decide?     | `ctx_search(queries: ["decision"], source: "decision", sort: "timeline")` |
+| What constraints exist? | `ctx_search(queries: ["constraint"], source: "constraint")`               |
 
 DO NOT ask "what were we working on?" — SEARCH FIRST.
 If search returns 0 results, proceed as a fresh session.
 
 ## ctx commands
 
-| Command | Action |
-|---------|--------|
-| `ctx stats` | Call `stats` MCP tool, display full output verbatim |
-| `ctx doctor` | Call `doctor` MCP tool, run returned shell command, display as checklist |
-| `ctx upgrade` | Call `upgrade` MCP tool, run returned shell command, display as checklist |
-| `ctx purge` | Call `purge` MCP tool with confirm: true. Warns before wiping knowledge base. |
+| Command       | Action                                                                        |
+|---------------|-------------------------------------------------------------------------------|
+| `ctx stats`   | Call `stats` MCP tool, display full output verbatim                           |
+| `ctx doctor`  | Call `doctor` MCP tool, run returned shell command, display as checklist      |
+| `ctx upgrade` | Call `upgrade` MCP tool, run returned shell command, display as checklist     |
+| `ctx purge`   | Call `purge` MCP tool with confirm: true. Warns before wiping knowledge base. |
 
 After /clear or /compact: knowledge base and session stats preserved. Use `ctx purge` to start fresh.
 
