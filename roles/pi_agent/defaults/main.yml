@@ -5,3 +5,6 @@ pi_agent_settings_extra_packages: []
 pi_agent_settings_overrides: |-
   {
   }
+
+pi_agent_mcp_path: "~/.pi/agent/mcp.json"
+pi_agent_mcp_servers: {}
