@@ -82,7 +82,7 @@ context-mode MCP tools available. Rules protect context window from flooding. On
 
 ## Think in Code — MANDATORY
 
-Analyze/count/filter/compare/search/parse/transform data: **write code** via `ctx_execute(language, code)`, `console.log()` only the answer. Do NOT read raw data into context. PROGRAM the analysis, not COMPUTE it. Pure JavaScript — Node.js built-ins only (`fs`, `path`, `child_process`). `try/catch`, handle `null`/`undefined`. One script replaces ten tool calls.
+Analyze/compare/count/filter/parse/search/transform data: **write code** via `ctx_execute(language, code)`, `console.log()` only the answer. Do NOT read raw data into context. PROGRAM the analysis, not COMPUTE it. Pure JavaScript — Node.js built-ins only (`child_process`, `fs`, `path`). `try/catch`, handle `null`/`undefined`. One script replaces ten tool calls.
 
 ## BLOCKED — do NOT use
 
@@ -101,7 +101,7 @@ Use: `ctx_fetch_and_index(url, source)` then `ctx_search(queries)`
 ## REDIRECTED — use sandbox
 
 ### bash (>20 lines output)
-`bash` ONLY for: `git`, `mkdir`, `rm`, `mv`, `cd`, `ls`, `npm install`, `pip install`.
+`bash` ONLY for: `cd`, `git`, `ls`, `mkdir`, `mv`, `npm install`, `pip install`, `rm`.
 Otherwise: `ctx_batch_execute(commands, queries)` or `ctx_execute(language: "shell", code: "...")`
 
 ### read (for analysis)
@@ -137,8 +137,8 @@ Session history is persistent and searchable. On resume, search BEFORE asking th
 
 | Need                    | Command                                                                   |
 |-------------------------|---------------------------------------------------------------------------|
-| What did we decide?     | `ctx_search(queries: ["decision"], source: "decision", sort: "timeline")` |
 | What constraints exist? | `ctx_search(queries: ["constraint"], source: "constraint")`               |
+| What did we decide?     | `ctx_search(queries: ["decision"], source: "decision", sort: "timeline")` |
 
 DO NOT ask "what were we working on?" — SEARCH FIRST.
 If search returns 0 results, proceed as a fresh session.
@@ -147,10 +147,10 @@ If search returns 0 results, proceed as a fresh session.
 
 | Command       | Action                                                                        |
 |---------------|-------------------------------------------------------------------------------|
-| `ctx stats`   | Call `stats` MCP tool, display full output verbatim                           |
 | `ctx doctor`  | Call `doctor` MCP tool, run returned shell command, display as checklist      |
-| `ctx upgrade` | Call `upgrade` MCP tool, run returned shell command, display as checklist     |
 | `ctx purge`   | Call `purge` MCP tool with confirm: true. Warns before wiping knowledge base. |
+| `ctx stats`   | Call `stats` MCP tool, display full output verbatim                           |
+| `ctx upgrade` | Call `upgrade` MCP tool, run returned shell command, display as checklist     |
 
 After /clear or /compact: knowledge base and session stats preserved. Use `ctx purge` to start fresh.
 

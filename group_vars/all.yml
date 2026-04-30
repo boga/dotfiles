@@ -165,7 +165,7 @@ pi_agent_mcp_servers:
 pi_agent_settings_packages:
   - "git:github.com/boga/pi-local-claude-loader"
   - "npm:@plannotator/pi-extension"
+  - "npm:context-mode"
   - "npm:pi-mono-ask-user-question"
   - "npm:pi-subagents"
   - "npm:taskplane"
-  - "npm:context-mode"
