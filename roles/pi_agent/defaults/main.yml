@@ -1,7 +1,11 @@
 ---
-pi_agent_settings_path: "~/.pi/agent/settings.json"
+pi_agent_dir: "~/.pi/agent"
+pi_agent_settings_path: "{{ pi_agent_dir }}/settings.json"
 pi_agent_settings_packages: []
 pi_agent_settings_extra_packages: []
 pi_agent_settings_overrides: |-
   {
   }
+
+pi_agent_mcp_path: "{{ pi_agent_dir }}/mcp.json"
+pi_agent_mcp_servers: {}
