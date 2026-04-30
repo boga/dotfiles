@@ -10,14 +10,6 @@
   register: pi_mcp_file
   when: pi_mcp_stat.stat.exists
 
-- name: "Ensure ~/.pi/agent directory exists"
-  ansible.builtin.file:
-    path: "{{ pi_agent_mcp_path | dirname }}"
-    state: directory
-    owner: "{{ ansible_user }}"
-    group: "{{ ansible_group }}"
-    mode: "0755"
-
 - name: "Apply Pi agent MCP server config"
   vars:
     _base: "{{ pi_mcp_file.content | b64decode | from_json if pi_mcp_stat.stat.exists else {} }}"

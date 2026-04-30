@@ -10,14 +10,6 @@
   register: pi_settings_file
   when: pi_settings_stat.stat.exists
 
-- name: "Ensure ~/.pi/agent directory exists"
-  ansible.builtin.file:
-    path: "{{ pi_agent_settings_path | dirname }}"
-    state: directory
-    owner: "{{ ansible_user }}"
-    group: "{{ ansible_group }}"
-    mode: "0755"
-
 - name: "Apply Pi agent settings overrides"
   vars:
     _base: "{{ pi_settings_file.content | b64decode | from_json if pi_settings_stat.stat.exists else {} }}"
