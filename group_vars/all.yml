@@ -151,6 +151,9 @@ config_files:
   - name: "Pi global AGENTS.md"
     src: "./templates/pi/AGENTS.md"
     dest: "~/.pi/agent/AGENTS.md"
+  - name: "Pi MCP config"
+    src: "./templates/pi/mcp.json"
+    dest: "~/.pi/agent/mcp.json"
 
 pi_agent_settings_path: "~/.pi/agent/settings.json"
 pi_agent_settings_overrides: |-
@@ -164,3 +167,4 @@ pi_agent_settings_packages:
   - "npm:pi-mono-ask-user-question"
   - "npm:pi-subagents"
   - "npm:taskplane"
+  - "npm:context-mode"
