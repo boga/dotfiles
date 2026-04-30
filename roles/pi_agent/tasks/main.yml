@@ -1,6 +1,6 @@
 ---
 - name: "Configure Pi agent settings"
-  ansible.builtin.include_tasks: settings.yml
+  ansible.builtin.import_tasks: settings.yml
 
 - name: "Configure Pi agent MCP servers"
-  ansible.builtin.include_tasks: mcp.yml
+  ansible.builtin.import_tasks: mcp.yml
