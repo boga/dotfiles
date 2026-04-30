@@ -1,0 +1,5 @@
+---
+config_files_items: []
+config_files_permissions: "0600"
+config_files_owner: "{{ ansible_user }}"
+config_files_group: "{{ ansible_group }}"

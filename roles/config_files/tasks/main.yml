@@ -1,0 +1,29 @@
+---
+- name: Ensure config file items are defined
+  ansible.builtin.assert:
+    that:
+      - config_files_items is defined
+      - config_files_items is iterable
+    fail_msg: config_files_items must be a list of config file definitions
+
+- name: Create config parent directories
+  ansible.builtin.file:
+    path: "{{ item.dest | dirname }}"
+    state: directory
+    owner: "{{ config_files_owner }}"
+    group: "{{ config_files_group }}"
+    mode: '1777'
+  loop: "{{ config_files_items }}"
+  loop_control:
+    label: "{{ item.name | default(item.dest) }} parent directory: {{ item.dest | dirname }}"
+
+- name: Copy config files
+  ansible.builtin.template:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+    mode: "{{ item.permissions | default(config_files_permissions) }}"
+    owner: "{{ item.owner | default(config_files_owner) }}"
+    group: "{{ item.group | default(config_files_group) }}"
+  loop: "{{ config_files_items }}"
+  loop_control:
+    label: "{{ item.name | default(item.dest) }}: {{ item.src }} -> {{ item.dest }}"
