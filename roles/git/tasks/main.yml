@@ -16,9 +16,10 @@
     fail_msg: git_user_name and git_user_email must be set before configuring global Git identity
 
 - name: "Ensure global gitignore file exists: {{ git_global_excludesfile }}"
-  ansible.builtin.file:
-    path: "{{ git_global_excludesfile }}"
-    state: touch
+  ansible.builtin.copy:
+    content: ""
+    dest: "{{ git_global_excludesfile }}"
+    force: false
     mode: '0600'
 
 - name: "Ensure global gitignore entries are present: {{ git_global_excludesfile }}"
@@ -27,6 +28,12 @@
     line: "{{ item }}"
     state: present
   loop: "{{ git_global_ignore_entries }}"
+
+- name: "Ensure global gitignore file permissions are correct: {{ git_global_excludesfile }}"
+  ansible.builtin.file:
+    path: "{{ git_global_excludesfile }}"
+    state: file
+    mode: '0600'
 
 - name: "Configure Git global excludes file: {{ git_global_excludesfile }}"
   community.general.git_config:
