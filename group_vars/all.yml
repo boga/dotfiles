@@ -164,15 +164,6 @@ config_files:
     src: "./templates/pi/STYLEGUIDE_MARKDOWN.md"
     dest: "~/.pi/agent/STYLEGUIDE_MARKDOWN.md"
 
-pi_plannotator_planning_model:
-  provider: "openai-codex"
-  id: "gpt-5.5"
-pi_plannotator_planning_thinking: "xhigh"
-pi_plannotator_executing_model:
-  provider: "openai-codex"
-  id: "gpt-5.5"
-pi_plannotator_executing_thinking: "medium"
-
 pi_agent_settings_path: "~/.pi/agent/settings.json"
 pi_agent_settings_overrides: |-
   {
