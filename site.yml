@@ -25,36 +25,27 @@
         name: "{{ homebrew_casks }}"
 
     - name: "Copy configs"
-      tags: configs
       ansible.builtin.include_role:
-        name: cp
+        name: config_files
       vars:
-        cp_entity_source: "{{ item.src }}"
-        cp_entity_destination: "{{ item.dest }}"
-        cp_entity_name: "{{ item.name }}"
-        cp_entity_permissions: "0600"
-      loop: "{{ config_files }}"
+        config_files_items: "{{ config_files }}"
 
     - name: "Configure Git"
-      tags: configs
       ansible.builtin.include_role:
         name: git
 
     - name: "Create mise conf.d directory"
-      tags: configs
       ansible.builtin.file:
         path: "~/.config/mise/conf.d"
         state: directory
         mode: '0700'
 
     - name: "Generate worktrunk shell integration"
-      tags: configs
       ansible.builtin.command: wt config shell init zsh
       register: wt_shell_init
       changed_when: false
 
     - name: "Write worktrunk shell integration to ~/.zshrc.worktrunk"
-      tags: configs
       ansible.builtin.copy:
         content: "{{ wt_shell_init.stdout }}\n"
         dest: "~/.zshrc.worktrunk"
@@ -66,11 +57,9 @@
 
   post_tasks:
     - name: "Upgrade mise-managed tools"
-      tags: always
       ansible.builtin.command: mise upgrade
       changed_when: true
 
     - name: "Update Pi extensions"
-      tags: always
       ansible.builtin.command: pi update --extensions
       changed_when: true
