@@ -1,6 +1,6 @@
 # Agent Guidelines
 
-# Claude Code Project Overview
+## Claude Code Project Overview
 
 This project uses Ansible to automate the setup and configuration of a development environment on macOS. It installs tools and applications via Homebrew and deploys configuration files.
 
