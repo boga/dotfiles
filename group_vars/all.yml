@@ -154,12 +154,24 @@ config_files:
   - name: "Pi global AGENTS.md"
     src: "./templates/pi/AGENTS.md"
     dest: "~/.pi/agent/AGENTS.md"
+  - name: "Pi Plannotator config"
+    src: "./templates/pi/plannotator.json"
+    dest: "~/.pi/agent/plannotator.json"
   - name: "Pi commit message convention"
     src: "./templates/pi/COMMIT_MESSAGE_CONVENTION.md"
     dest: "~/.pi/agent/COMMIT_MESSAGE_CONVENTION.md"
   - name: "Pi markdown styleguide"
     src: "./templates/pi/STYLEGUIDE_MARKDOWN.md"
     dest: "~/.pi/agent/STYLEGUIDE_MARKDOWN.md"
+
+pi_plannotator_planning_model:
+  provider: "openai-codex"
+  id: "gpt-5.5"
+pi_plannotator_planning_thinking: "xhigh"
+pi_plannotator_executing_model:
+  provider: "openai-codex"
+  id: "gpt-5.5"
+pi_plannotator_executing_thinking: "medium"
 
 pi_agent_settings_path: "~/.pi/agent/settings.json"
 pi_agent_settings_overrides: |-

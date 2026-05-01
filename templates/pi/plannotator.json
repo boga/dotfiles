@@ -1,0 +1,14 @@
+{
+  "phases": {
+    "planning": {
+      "model": {{ pi_plannotator_planning_model | to_json }},
+      "thinking": {{ pi_plannotator_planning_thinking | to_json }},
+      "activeTools": ["ask_user_question", "read", "grep", "find", "ls", "bash", "write", "edit", "plannotator_submit_plan"],
+      "instructions": "When asking the user for clarification, always use ask_user_question. Never ask clarification questions in plain text."
+    },
+    "executing": {
+      "model": {{ pi_plannotator_executing_model | to_json }},
+      "thinking": {{ pi_plannotator_executing_thinking | to_json }}
+    }
+  }
+}
