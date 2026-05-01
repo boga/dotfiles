@@ -1,5 +1,9 @@
 # Global Agent Rules
 
+## Markdown Styleguide
+
+When writing or editing agent-facing Markdown, follow `STYLEGUIDE_MARKDOWN.md`.
+
 ## Project-local Rules
 
 At the start of every session, check if `CLAUDE.local.md` exists in the repository root. If it does, read it and follow any instructions it contains.
