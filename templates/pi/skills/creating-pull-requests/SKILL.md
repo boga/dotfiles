@@ -21,7 +21,7 @@ Create well-structured pull requests with clear titles and comprehensive descrip
 Use **active voice** with a present-tense verb:
 
 | Good                              | Bad                       |
-|-----------------------------------|---------------------------|
+| --------------------------------- | ------------------------- |
 | Add user authentication           | Added user authentication |
 | Fix memory leak in cache          | Fixing memory leak        |
 | Update dependencies to latest     | Dependency updates        |

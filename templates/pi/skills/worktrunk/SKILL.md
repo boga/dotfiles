@@ -188,18 +188,18 @@ done
 
 ## Status symbols in `wt list`
 
-| Symbol | Meaning |
-|--------|---------|
-| `_`    | Same commit as default branch (clean, safe to delete) |
-| `⊂`    | Content integrated into default branch (safe to delete) |
-| `↑`    | Ahead of default branch (needs merging) |
-| `↓`    | Behind default branch (needs rebase) |
-| `↕`    | Diverged from default branch |
-| `\|`    | In sync with remote |
-| `⇡`    | Ahead of remote (needs push) |
-| `⇣`    | Behind remote (needs pull) |
-| `!`    | Uncommitted changes |
-| `?`    | Untracked files |
+| Symbol    | Meaning                                                 |
+| --------- | ------------------------------------------------------- |
+| `_`       | Same commit as default branch (clean, safe to delete)   |
+| `⊂`       | Content integrated into default branch (safe to delete) |
+| `↑`       | Ahead of default branch (needs merging)                 |
+| `↓`       | Behind default branch (needs rebase)                    |
+| `↕`       | Diverged from default branch                            |
+| `\|`      | In sync with remote                                     |
+| `⇡`       | Ahead of remote (needs push)                            |
+| `⇣`       | Behind remote (needs pull)                              |
+| `!`       | Uncommitted changes                                     |
+| `?`       | Untracked files                                         |
 
 ## Tips
 

@@ -4,12 +4,12 @@ Copies a list of templated configuration files to their destination paths.
 
 ## Role Variables
 
-| Name                       | Description                                                                                                             | Default         |
-| -------------------------- | ----------------------------------------------------------------------------------------------------------------------- | --------------- |
-| `config_files_items`       | Config file definitions with `name`, `src`, `dest`, and optional `permissions`, `owner`, `group`.                       | `[]`            |
-| `config_files_permissions` | Default file permissions.                                                                                              | `0600`          |
-| `config_files_owner`       | Default file owner.                                                                                                    | `ansible_user`  |
-| `config_files_group`       | Default file group.                                                                                                    | `ansible_group` |
+| Name                       | Description                                                                                       | Default         |
+| -------------------------- | ------------------------------------------------------------------------------------------------- | --------------- |
+| `config_files_items`       | Config file definitions with `name`, `src`, `dest`, and optional `permissions`, `owner`, `group`. | `[]`            |
+| `config_files_permissions` | Default file permissions.                                                                         | `0600`          |
+| `config_files_owner`       | Default file owner.                                                                               | `ansible_user`  |
+| `config_files_group`       | Default file group.                                                                               | `ansible_group` |
 
 ## Example
 

@@ -1,3 +1,5 @@
+# Dotfiles
+
 ## Bootstrap requirement
 
 `op` (the 1Password CLI) must already be installed and signed in before you bootstrap this machine. The playbook uses it to read the Ansible vault password during setup, so bootstrapping will fail if the CLI is unavailable.
