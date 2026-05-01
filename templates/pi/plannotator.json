@@ -8,6 +8,10 @@
     "executing": {
       "model": {{ pi_plannotator_executing_model | to_json }},
       "thinking": {{ pi_plannotator_executing_thinking | to_json }}
+    },
+    "reviewing": {
+      "model": {{ pi_plannotator_reviewing_model | to_json }},
+      "thinking": {{ pi_plannotator_reviewing_thinking | to_json }}
     }
   }
 }
