@@ -53,7 +53,7 @@ Use this guide for agent-facing Markdown: instructions, skills, task prompts, an
 - Make each item observable.
 - Avoid checklist items that require guessing intent.
 
-Example:
+### Example
 
 ```md
 ## Verification
