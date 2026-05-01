@@ -12,3 +12,7 @@ pi_plannotator_executing_model:
   provider: "openai-codex"
   id: "gpt-5.5"
 pi_plannotator_executing_thinking: "medium"
+pi_plannotator_reviewing_model:
+  provider: "openai-codex"
+  id: "gpt-5.5"
+pi_plannotator_reviewing_thinking: "xhigh"
