@@ -3,7 +3,7 @@
 ## Role Variables
 
 | Name                  | Description                                                   | Default value                      |
-| --------------------- | ------------------------------------------------------------- | ---------------------------------- |
+|-----------------------|---------------------------------------------------------------|------------------------------------|
 | cp_entity_destination | Destination of the file, i.e. `~/.config/wezterm/wezterm.lua` |                                    |
 | cp_entity_source      | Source of the file, i.e. `./templates/wezterm.lua.j2`         |                                    |
 | cp_entity_name        | Human-readable name for an entity to improve run readability  |                                    |

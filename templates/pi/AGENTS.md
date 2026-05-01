@@ -100,7 +100,7 @@ Skills, roles, and decisions persist for the entire session. Do not abandon them
 Session history is persistent and searchable. On resume, search BEFORE asking the user:
 
 | Need                    | Command                                                                   |
-| ----------------------- | ------------------------------------------------------------------------- |
+|-------------------------|---------------------------------------------------------------------------|
 | What constraints exist? | `ctx_search(queries: ["constraint"], source: "constraint")`               |
 | What did we decide?     | `ctx_search(queries: ["decision"], source: "decision", sort: "timeline")` |
 
@@ -110,7 +110,7 @@ If search returns 0 results, proceed as a fresh session.
 ### ctx commands
 
 | Command       | Action                                                                        |
-| ------------- | ----------------------------------------------------------------------------- |
+|---------------|-------------------------------------------------------------------------------|
 | `ctx doctor`  | Call `doctor` MCP tool, run returned shell command, display as checklist      |
 | `ctx purge`   | Call `purge` MCP tool with confirm: true. Warns before wiping knowledge base. |
 | `ctx stats`   | Call `stats` MCP tool, display full output verbatim                           |

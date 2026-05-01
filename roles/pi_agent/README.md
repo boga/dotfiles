@@ -11,7 +11,7 @@ Pi itself is installed via mise — the version is declared in `templates/mise.t
 ## Variables
 
 | Variable                           | Default                     | Description                                                                                                                         |
-| ---------------------------------- | --------------------------- | ----------------------------------------------------------------------------------------------------------------------------------- |
+|------------------------------------|-----------------------------|-------------------------------------------------------------------------------------------------------------------------------------|
 | `pi_agent_settings_path`           | `~/.pi/agent/settings.json` | Path to the Pi agent settings file                                                                                                  |
 | `pi_agent_settings_overrides`      | `{}` (JSON string)          | JSON string of additional keys to enforce in `settings.json`. Intentionally a raw string to avoid YAML↔JSON type-mapping ambiguity. |
 | `pi_agent_settings_packages`       | `[]`                        | YAML list of Pi packages to enforce (group-level baseline).                                                                         |

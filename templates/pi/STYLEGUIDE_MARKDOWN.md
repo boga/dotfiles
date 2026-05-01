@@ -43,7 +43,12 @@ Use this guide for agent-facing Markdown: instructions, skills, task prompts, an
 
 - Wrap filenames, commands, variables, branches, and config keys in backticks.
 - Use tables only for compact reference data.
-- Format tables manually with leading and trailing pipes, padded cells, and aligned columns.
+- Format tables manually:
+  - Use leading and trailing pipes.
+  - Pad and align header/data cells with spaces.
+  - Do not pad separator rows; write separators as `|---|---|`.
+  - Match separator width to the visible column width.
+  - Escape literal pipe characters in cells as `\|`.
 - Avoid excessive emphasis; reserve bold text for mandatory or high-risk rules.
 - Keep lines readable and paragraphs short.
 
@@ -53,11 +58,20 @@ Use this guide for agent-facing Markdown: instructions, skills, task prompts, an
 - Make each item observable.
 - Avoid checklist items that require guessing intent.
 
-### Example
+### Checklist example
 
 ```md
 ## Verification
 
 - [ ] Run `ansible-playbook site.yml --limit home --syntax-check`.
 - [ ] Confirm `templates/pi/AGENTS.md` references this guide.
+```
+
+### Table example
+
+```md
+| Symbol | Meaning       |
+|--------|---------------|
+| `\|`   | Remote synced |
+| `↑`    | Ahead         |
 ```

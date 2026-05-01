@@ -13,7 +13,7 @@ Always use **Conventional Commits** format for all commit messages:
 ## Types
 
 | Type       | When to use                                         |
-| ---------- | --------------------------------------------------- |
+|------------|-----------------------------------------------------|
 | `feat`     | A new feature                                       |
 | `fix`      | A bug fix                                           |
 | `refactor` | Code change that is neither a bug fix nor a feature |

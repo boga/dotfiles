@@ -189,7 +189,7 @@ done
 ## Status symbols in `wt list`
 
 | Symbol    | Meaning                                                 |
-| --------- | ------------------------------------------------------- |
+|-----------|---------------------------------------------------------|
 | `_`       | Same commit as default branch (clean, safe to delete)   |
 | `⊂`       | Content integrated into default branch (safe to delete) |
 | `↑`       | Ahead of default branch (needs merging)                 |
