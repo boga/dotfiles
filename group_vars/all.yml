@@ -181,4 +181,3 @@ pi_agent_settings_packages:
   - "npm:pi-mcp-adapter"
   - "npm:pi-mono-ask-user-question"
   - "npm:pi-subagents"
-  - "npm:taskplane"
