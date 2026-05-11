@@ -4,6 +4,25 @@ ansible_group: staff
 ansible_python_interpreter: /usr/local/bin/python3.14
 firefox_profile_dir: /Users/miju/Library/Application Support/Firefox/Profiles/pex9ak71.default-release
 
+pi_agent_subagent_overrides:
+  subagents:
+    agentOverrides:
+      planner:
+        model: "google/gemini-3.1-deepthink"
+        thinking: "xhigh"
+      reviewer:
+        model: "google/gemini-3.1-deepthink"
+        thinking: "xhigh"
+      oracle:
+        model: "google/gemini-3.1-deepthink"
+        thinking: "xhigh"
+      scout:
+        model: "google/gemini-3.1-pro"
+        thinking: "medium"
+      worker:
+        model: "google/gemini-3.1-pro"
+        thinking: "medium"
+
 pi_plannotator_planning_model:
   provider: "openai-codex"
   id: "gpt-5.5"
