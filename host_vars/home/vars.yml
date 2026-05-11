@@ -8,19 +8,19 @@ pi_agent_subagent_overrides:
   subagents:
     agentOverrides:
       planner:
-        model: "google/gemini-3.1-deepthink"
+        model: "openai-codex/gpt-5.5"
         thinking: "xhigh"
       reviewer:
-        model: "google/gemini-3.1-deepthink"
+        model: "openai-codex/gpt-5.5"
         thinking: "xhigh"
       oracle:
-        model: "google/gemini-3.1-deepthink"
+        model: "openai-codex/gpt-5.5"
         thinking: "xhigh"
       scout:
-        model: "google/gemini-3.1-pro"
+        model: "openai-codex/gpt-5.5"
         thinking: "medium"
       worker:
-        model: "google/gemini-3.1-pro"
+        model: "openai-codex/gpt-5.5"
         thinking: "medium"
 
 pi_plannotator_planning_model:
