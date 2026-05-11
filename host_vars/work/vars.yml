@@ -12,6 +12,29 @@ pi_plannotator_executing_model:
   provider: "anthropic"
   id: "claude-sonnet-4-6"
 pi_plannotator_executing_thinking: "medium"
+pi_plannotator_reviewing_model:
+  provider: "anthropic"
+  id: "claude-opus-4-6"
+pi_plannotator_reviewing_thinking: "xhigh"
+
+pi_agent_subagent_overrides:
+  subagents:
+    agentOverrides:
+      planner:
+        model: "anthropic/claude-opus-4-6"
+        thinking: "xhigh"
+      reviewer:
+        model: "anthropic/claude-opus-4-6"
+        thinking: "xhigh"
+      oracle:
+        model: "anthropic/claude-opus-4-6"
+        thinking: "xhigh"
+      scout:
+        model: "anthropic/claude-sonnet-4-6"
+        thinking: "medium"
+      worker:
+        model: "anthropic/claude-sonnet-4-6"
+        thinking: "medium"
 
 # Work-specific packages, appended to the global pi_agent_settings_packages list
 pi_agent_settings_extra_packages:

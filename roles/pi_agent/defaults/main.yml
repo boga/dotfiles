@@ -9,3 +9,5 @@ pi_agent_settings_overrides: |-
 
 pi_agent_mcp_path: "{{ pi_agent_dir }}/mcp.json"
 pi_agent_mcp_servers: {}
+
+pi_agent_subagent_overrides: {}
