@@ -1,6 +1,6 @@
 # pi_agent
 
-Installs and configures the [Pi coding agent](https://www.npmjs.com/package/@mariozechner/pi-coding-agent) on macOS.
+Installs and configures the [Pi coding agent](https://www.npmjs.com/package/@earendil-works/pi-coding-agent) on macOS.
 
 ## What it does
 

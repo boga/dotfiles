@@ -2,6 +2,8 @@
 !templates/mise.toml
 # AGENTS.md is gitignored globally; un-ignore it for this repo
 !templates/pi/AGENTS.md
+# PLAN.md is gitignored globally; un-ignore prompt template
+!templates/pi/prompts/plan.md
 CLAUDE.local.md
 .pi
 *env*

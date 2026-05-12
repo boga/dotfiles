@@ -163,6 +163,12 @@ config_files:
   - name: "Pi markdown styleguide"
     src: "./templates/pi/STYLEGUIDE_MARKDOWN.md"
     dest: "~/.pi/agent/STYLEGUIDE_MARKDOWN.md"
+  - name: "Pi chain: scout-n-plan"
+    src: "./templates/pi/chains/scout-n-plan.chain.md"
+    dest: "~/.pi/agent/chains/scout-n-plan.chain.md"
+  - name: "Pi prompt: plan"
+    src: "./templates/pi/prompts/plan.md"
+    dest: "~/.pi/agent/prompts/plan.md"
 
 pi_agent_settings_path: "~/.pi/agent/settings.json"
 pi_agent_settings_overrides: |-
