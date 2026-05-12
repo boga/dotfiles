@@ -169,6 +169,12 @@ config_files:
   - name: "Pi prompt: plan"
     src: "./templates/pi/prompts/plan.md"
     dest: "~/.pi/agent/prompts/plan.md"
+  - name: "Pi chain: implement"
+    src: "./templates/pi/chains/implement.chain.md"
+    dest: "~/.pi/agent/chains/implement.chain.md"
+  - name: "Pi prompt: implement"
+    src: "./templates/pi/prompts/implement.md"
+    dest: "~/.pi/agent/prompts/implement.md"
 
 pi_agent_settings_path: "~/.pi/agent/settings.json"
 pi_agent_settings_overrides: |-
@@ -184,6 +190,7 @@ pi_agent_settings_packages:
   - "git:github.com/boga/pi-local-claude-loader"
   - "npm:@plannotator/pi-extension"
   - "npm:context-mode"
+  - "npm:pi-intercom"
   - "npm:pi-mcp-adapter"
   - "npm:pi-mono-ask-user-question"
   - "npm:pi-subagents"
