@@ -3,7 +3,7 @@ description: Research, scout, plan, review, and challenge an implementation plan
 argument-hint: "<task>"
 ---
 
-Run the scout-n-plan chain using the subagent tool with the chain parameter and task: "$@".
+Run the plan chain using the subagent tool with the chain parameter and task: "$@".
 
 After the chain completes, present:
 1. Full path to plan.md

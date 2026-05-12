@@ -1,5 +1,5 @@
 ---
-name: scout-n-plan
+name: plan
 description: Research, scout, plan, review, and challenge implementation
 ---
 
