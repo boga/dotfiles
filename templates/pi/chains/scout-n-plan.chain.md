@@ -1,5 +1,3 @@
-<!-- {{ ansible_managed }} --->
-
 ---
 name: scout-n-plan
 description: Gather context then plan implementation
@@ -15,3 +13,5 @@ reads: context.md
 output: plan.md
 
 Create an implementation plan based on {previous}. Save the plan to plan.md. When done, report the full path to plan.md.
+
+<!-- {{ ansible_managed }} --->
