@@ -1,6 +1,6 @@
 ---
 name: plan
-description: Research, scout, plan, review, and challenge implementation
+description: Research, scout, plan, and challenge implementation
 ---
 
 ## researcher
@@ -28,22 +28,11 @@ Research: {chain_dir}/research.md
 
 Save the plan to plan.md. When done, report the full path to plan.md.
 
-## reviewer
-reads: plan.md, context.md
-output: review.md
-
-Review the implementation plan for:
-- Correctness and feasibility — are the proposed changes sound? Any missing steps?
-- Test coverage and validation — does the plan include adequate testing? Any gaps?
-- Cleanup and maintainability — is there unnecessary complexity? Simpler alternatives?
-
-Cite specific files, assumptions, and line references. Report only evidence-backed findings.
-
 ## oracle
-reads: plan.md, review.md
+reads: plan.md, context.md
 output: oracle-verdict.md
 
-Review the plan and review findings. Challenge assumptions. Check for drift from the original task requirements. Surface contradictions, hidden risks, and anything the planner may have missed.
+Review the plan. Challenge assumptions. Check for drift from the original task requirements. Surface contradictions, hidden risks, and anything the planner may have missed.
 
 Report: inherited decisions, diagnosis, drift check, recommendation, risks.
 
