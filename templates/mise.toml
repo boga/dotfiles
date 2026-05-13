@@ -1,3 +1,6 @@
+[settings]
+trusted_config_paths = ["~/Work/**"]
+
 [env]
 _.path = "/Applications/IntelliJ IDEA.app/Contents/MacOS"
 
