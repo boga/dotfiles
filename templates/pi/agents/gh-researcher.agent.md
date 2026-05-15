@@ -4,7 +4,7 @@ description: Gathers GitHub project state via gh CLI — open PRs, issues, CI ru
 tools: bash, write, intercom
 thinking: low
 systemPromptMode: replace
-inheritProjectContext: true
+inheritProjectContext: false
 inheritSkills: false
 output: gh-context.md
 defaultProgress: true

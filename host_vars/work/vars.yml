@@ -24,6 +24,12 @@ pi_agent_subagent_overrides:
         thinking: "low"
       delegate:
         thinking: "none"
+      env-scout:
+        thinking: "none"
+      gh-researcher:
+        thinking: "low"
+      linear-researcher:
+        thinking: "low"
       oracle:
         model: "anthropic/claude-opus-4-6"
         thinking: "high"

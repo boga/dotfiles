@@ -4,7 +4,7 @@ description: Gathers Linear project context via MCP tools — tickets, milestone
 tools: write, intercom
 thinking: low
 systemPromptMode: replace
-inheritProjectContext: true
+inheritProjectContext: false
 inheritSkills: false
 output: linear-context.md
 defaultProgress: true
