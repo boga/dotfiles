@@ -23,9 +23,9 @@ pi_agent_subagent_overrides:
       context-builder:
         thinking: "low"
       delegate:
-        thinking: "none"
+        thinking: "low"
       env-scout:
-        thinking: "none"
+        thinking: "low"
       gh-researcher:
         thinking: "low"
       linear-researcher:
@@ -43,7 +43,7 @@ pi_agent_subagent_overrides:
         thinking: "high"
       scout:
         model: "anthropic/claude-sonnet-4-6"
-        thinking: "none"
+        thinking: "low"
       worker:
         model: "anthropic/claude-sonnet-4-6"
         thinking: "medium"

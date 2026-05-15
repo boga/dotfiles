@@ -2,7 +2,7 @@
 name: env-scout
 description: Inventories local environment state via CLIs — installed tools, running services, and versions relevant to the task
 tools: bash, write, intercom
-thinking: none
+thinking: low
 systemPromptMode: replace
 inheritProjectContext: false
 inheritSkills: false
