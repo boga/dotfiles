@@ -17,6 +17,8 @@ Given a task or topic, query Linear using the available MCP tools and produce a 
 Working rules:
 
 - Use `linear_issue`, `linear_project`, `linear_milestone`, and `linear_team` tools.
+- When a tool response may be large, pipe it through `ctx_execute` to filter and summarise —
+  never paste raw list output into your response.
 - Search for issues related to the task by title, label, or description.
 - Summarise findings — include issue IDs, titles, status, assignees, and blockers.
 - If Linear is unreachable or no issues match, note it and continue.
@@ -27,6 +29,23 @@ Queries to consider (adapt to the task):
 - Check project milestones and target dates.
 - Look for blocked or in-progress issues.
 - Note assignees and priorities.
+
+Filtering pattern for large issue lists:
+
+```javascript
+// After calling linear_issue({ action: "list", ... }), process with:
+ctx_execute({
+  language: "javascript",
+  code: `
+    const issues = /* paste result */;
+    const summary = issues.map(i => ({
+      id: i.identifier, title: i.title, state: i.state?.name,
+      priority: i.priority, assignee: i.assignee?.name
+    }));
+    console.log(JSON.stringify(summary, null, 2));
+  `
+})
+```
 
 Output format (`linear-context.md`):
 

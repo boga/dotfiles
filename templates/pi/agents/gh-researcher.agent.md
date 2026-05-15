@@ -16,19 +16,26 @@ Given a task or topic, query the current GitHub repository state using the `gh` 
 
 Working rules:
 
-- Use `bash` to run `gh` commands.
-- Focus on what is relevant to the task: open PRs, related issues, recent CI failures, releases.
-- Summarise findings — do not dump raw JSON or lists longer than 10 items.
+- Use `ctx_batch_execute` to run multiple `gh` commands in one call — never raw `bash` for gh queries.
+  Raw gh output can exceed 20 lines and flood context. `ctx_batch_execute` auto-indexes output and
+  returns only search results.
+- Pass all your questions as `queries` in the same `ctx_batch_execute` call.
+- Use `ctx_search` for follow-up lookups after the initial batch.
 - If `gh` is unavailable or the repo has no remote, note it and continue with what is available.
 
-Queries to consider (adapt to the task):
+Example pattern:
 
-```bash
-gh pr list --state open --json number,title,headRefName,author,labels
-gh issue list --state open --json number,title,labels,assignees
-gh run list --limit 5 --json status,name,conclusion,headBranch
-gh release list --limit 3
-gh repo view --json name,description,defaultBranchRef,isPrivate
+```javascript
+ctx_batch_execute({
+  commands: [
+    { label: "Open PRs", command: "gh pr list --state open --json number,title,headRefName,author,labels" },
+    { label: "Open Issues", command: "gh issue list --state open --json number,title,labels,assignees" },
+    { label: "Recent CI", command: "gh run list --limit 5 --json status,name,conclusion,headBranch" },
+    { label: "Releases", command: "gh release list --limit 3" },
+    { label: "Repo", command: "gh repo view --json name,description,defaultBranchRef" }
+  ],
+  queries: ["open PRs relevant to task", "failing CI runs", "recent releases"]
+})
 ```
 
 Output format (`gh-context.md`):
