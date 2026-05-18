@@ -7,13 +7,31 @@ firefox_profile_dir: /Users/miju/Library/Application Support/Firefox/Profiles/pe
 pi_agent_subagent_overrides:
   subagents:
     agentOverrides:
+      context-builder:
+        model: "openai-codex/gpt-5.5"
+        thinking: "low"
+      delegate:
+        model: "openai-codex/gpt-5.5"
+        thinking: "low"
+      env-scout:
+        model: "openai-codex/gpt-5.5"
+        thinking: "low"
+      gh-researcher:
+        model: "openai-codex/gpt-5.5"
+        thinking: "low"
+      linear-researcher:
+        model: "openai-codex/gpt-5.5"
+        thinking: "low"
+      oracle:
+        model: "openai-codex/gpt-5.5"
+        thinking: "xhigh"
       planner:
         model: "openai-codex/gpt-5.5"
         thinking: "xhigh"
-      reviewer:
+      researcher:
         model: "openai-codex/gpt-5.5"
-        thinking: "xhigh"
-      oracle:
+        thinking: "medium"
+      reviewer:
         model: "openai-codex/gpt-5.5"
         thinking: "xhigh"
       scout:
