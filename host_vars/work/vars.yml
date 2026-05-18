@@ -20,18 +20,30 @@ pi_plannotator_reviewing_thinking: "xhigh"
 pi_agent_subagent_overrides:
   subagents:
     agentOverrides:
+      context-builder:
+        thinking: "low"
+      delegate:
+        thinking: "low"
+      env-scout:
+        thinking: "low"
+      gh-researcher:
+        thinking: "low"
+      linear-researcher:
+        thinking: "low"
+      oracle:
+        model: "anthropic/claude-opus-4-6"
+        thinking: "high"
       planner:
         model: "anthropic/claude-opus-4-6"
         thinking: "xhigh"
+      researcher:
+        thinking: "medium"
       reviewer:
         model: "anthropic/claude-opus-4-6"
-        thinking: "xhigh"
-      oracle:
-        model: "anthropic/claude-opus-4-6"
-        thinking: "xhigh"
+        thinking: "high"
       scout:
         model: "anthropic/claude-sonnet-4-6"
-        thinking: "medium"
+        thinking: "low"
       worker:
         model: "anthropic/claude-sonnet-4-6"
         thinking: "medium"

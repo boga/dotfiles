@@ -6,7 +6,7 @@
 !templates/pi/prompts/plan.md
 CLAUDE.local.md
 .pi
-*env*
+*.env*
 !sample.env
 id_ed*
 .terraform*
