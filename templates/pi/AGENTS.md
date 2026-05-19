@@ -25,7 +25,7 @@ The only exception is when the user explicitly says something like *"commit dire
 
 ## Commit Message Convention
 
-Before composing commit messages, read and follow `COMMIT_MESSAGE_CONVENTION.md`.
+Before composing commit messages, read and follow `COMMIT_MESSAGE_CONVENTION.md` (`~/.pi/agent/COMMIT_MESSAGE_CONVENTION.md`).
 
 ## Commit and Push
 
