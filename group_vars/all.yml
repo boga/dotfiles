@@ -194,6 +194,9 @@ pi_agent_settings_overrides: |-
 pi_agent_mcp_servers:
   context-mode:
     command: "context-mode"
+  context7:
+    type: "streamable-http"
+    url: "https://mcp.context7.com/mcp"
 
 pi_agent_settings_packages:
   - "git:github.com/boga/pi-local-claude-loader"
