@@ -56,7 +56,7 @@ pi_agent_mcp_servers:
     url: "https://mcp.context7.com/mcp"
   new-relic:
     type: "http"
-    url: "https://mcp.newrelic.com/mcp/"
+    url: "https://mcp.eu.newrelic.com/mcp/"
     headers:
       Api-Key: "{{ vault_new_relic_api_key }}"
 
