@@ -48,6 +48,18 @@ pi_agent_subagent_overrides:
         model: "anthropic/claude-sonnet-4-6"
         thinking: "medium"
 
+pi_agent_mcp_servers:
+  context-mode:
+    command: "context-mode"
+  context7:
+    type: "streamable-http"
+    url: "https://mcp.context7.com/mcp"
+  new-relic:
+    type: "http"
+    url: "https://mcp.newrelic.com/mcp/"
+    headers:
+      Api-Key: "{{ vault_new_relic_api_key }}"
+
 # Work-specific packages, appended to the global pi_agent_settings_packages list
 pi_agent_settings_extra_packages:
   - "npm:@fink-andreas/pi-linear-tools"
