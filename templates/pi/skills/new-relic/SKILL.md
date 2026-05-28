@@ -9,7 +9,7 @@ Query New Relic observability data via MCP tools. The NR MCP server is pre-confi
 
 ## Account ID
 
-Read the account ID from the environment before every tool call:
+Read the account ID once at the start of any NR task:
 
 ```bash
 echo $NEW_RELIC_MCP_ACCOUNT_ID
