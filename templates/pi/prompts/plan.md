@@ -41,13 +41,14 @@ If **any are missing**, run only the missing research agents in parallel:
       "output": "env-context.md"
     }
   ],
-  "concurrency": 4
+  "concurrency": 4,
+  "chainDir": "<pick a stable shared path, e.g. /tmp/plan-$@-YYYYMMDD>"
 }
 ```
 
 Only include tasks for agents whose output files are missing. Drop the rest.
 
-Note the `chainDir` returned — use the same `chainDir` for Step 2.
+Note the `chainDir` used — all subsequent steps must reuse the exact same value.
 
 ## Step 2 — Scout, plan, and challenge
 
