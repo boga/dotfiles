@@ -33,11 +33,12 @@ Run all 4 research agents in parallel to gather external context:
       "output": "env-context.md"
     }
   ],
-  "concurrency": 4
+  "concurrency": 4,
+  "chainDir": "<pick a stable shared path, e.g. /tmp/plan-$@-YYYYMMDD>"
 }
 ```
 
-Note the `chainDir` returned — all subsequent steps must use the same `chainDir`.
+Note the `chainDir` used — all subsequent steps must reuse the exact same value.
 
 ## Step 2 — Scout, plan, and challenge
 
@@ -50,7 +51,7 @@ Run the plan chain using the same `chainDir` from Step 1:
     { "agent": "planner", "task": "Create an implementation plan. Context: {chain_dir}/context.md. Save to plan.md.", "output": "plan.md", "reads": ["context.md", "research.md", "gh-context.md", "linear-context.md", "env-context.md"] },
     { "agent": "oracle", "task": "Review the plan. Challenge assumptions. Check for drift. Report: diagnosis, drift check, recommendation, risks.", "output": "oracle-verdict.md", "reads": ["plan.md", "context.md"] }
   ],
-  "chainDir": "<chainDir from Step 1>"
+  "chainDir": "<same chainDir as Step 1>"
 }
 ```
 
