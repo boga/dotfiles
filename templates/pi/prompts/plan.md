@@ -5,6 +5,16 @@ argument-hint: "<task>"
 
 Plan "$@" by following the steps below. Execute each step using the subagent tool.
 
+## Step 0 — Pick a chainDir
+
+Compute a session-scoped directory for all artifacts:
+
+```bash
+echo "$HOME/.pi/agent/sessions/--$(pwd | sed 's|^/||' | tr '/' '-')--/chain-runs/<slug>"
+```
+
+Replace `<slug>` with a short kebab-case label for the task (e.g. `add-nr-skill`). Use this same `chainDir` on every subagent call below — it keeps artifacts out of the repo working tree and co-located with session history.
+
 ## Step 1 — Conditional research
 
 Check if these research artifacts already exist in the chainDir:
@@ -41,13 +51,14 @@ If **any are missing**, run only the missing research agents in parallel:
       "output": "env-context.md"
     }
   ],
-  "concurrency": 4
+  "concurrency": 4,
+  "chainDir": "<chainDir from Step 0>"
 }
 ```
 
 Only include tasks for agents whose output files are missing. Drop the rest.
 
-Note the `chainDir` returned — use the same `chainDir` for Step 2.
+Note the `chainDir` used — all subsequent steps must reuse the exact same value.
 
 ## Step 2 — Scout, plan, and challenge
 

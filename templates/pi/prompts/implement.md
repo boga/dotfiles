@@ -5,12 +5,23 @@ description: Implement a task with context building, coding, and parallel review
 
 Implement "$@" by following the decision tree below. Execute each step using the subagent tool.
 
+## Step 0 — Establish chainDir
+
+- **Prior `/plan` ran in this session** — reuse its `chainDir`. All research and plan artifacts are already there.
+- **No prior plan** — compute a new one:
+
+```bash
+echo "$HOME/.pi/agent/sessions/--$(pwd | sed 's|^/||' | tr '/' '-')--/chain-runs/<slug>"
+```
+
+Replace `<slug>` with a short kebab-case label for the task. Use this same `chainDir` on **every** subagent call below.
+
 ## Step 1 — Determine execution mode
 
 Check the user's request:
 
 - **Background mode** — user says "background", "bg", or "if blocked, ask me":
-  1. Run worker only (Step 3) with `async: true`.
+  1. Run worker only (Step 3) with `async: true` and the chosen `chainDir`.
   2. Worker escalates blocked decisions via `contact_supervisor`.
   3. After worker completes, notify the user and offer to run reviewers (Step 4).
   4. Stop here until user responds.
@@ -27,41 +38,42 @@ Check the user's request:
 Check session state for a prior plan chain run:
 
 - **Prior plan chain ran in this session** — reuse its `chainDir`:
-  1. Skip the implement chain. Run worker directly with `plan.md` and `context.md` from that `chainDir`.
-  2. Research artifacts (`research.md`, `gh-context.md`, `linear-context.md`, `env-context.md`) are available in the same `chainDir` — pass them to worker for additional context.
-  3. After worker completes, run parallel reviewers (Step 4) using the same `chainDir`.
-  4. Go to Step 5.
+  1. Skip context-builder.
+  2. Worker reads existing `plan.md` and `context.md` from that `chainDir`.
+  3. Go to Step 3.
 
-- **No prior context** — run the implement chain:
+- **No prior context**:
+  1. Run context-builder (Step 2A), then continue to Step 3.
+
+### Step 2A — Context building
 
 ```json
 {
-  "chain": "implement",
-  "task": "$@"
+  "agent": "context-builder",
+  "task": "Analyze the codebase for: $@",
+  "chainDir": "<chainDir from Step 0>"
 }
 ```
 
-The chain runs: context-builder → worker → 3 parallel reviewers.
-Go to Step 5.
+Outputs: `context.md`, `meta-prompt.md` in `{chain_dir}`.
 
-## Step 3 — Implementation (background/plan-reuse mode only)
-
-Only used when skipping the chain (background mode or prior plan reuse).
+## Step 3 — Implementation
 
 ```json
 {
   "agent": "worker",
-  "task": "Implement the task using context and meta-prompt. Escalate unapproved decisions via contact_supervisor. No placeholders, no TODOs, no silent scope changes."
+  "task": "Implement the task using context and meta-prompt. Escalate unapproved decisions via contact_supervisor. No placeholders, no TODOs, no silent scope changes.",
+  "chainDir": "<chainDir from Step 0>",
+  "output": "progress.md"
 }
 ```
 
 Worker reads: `context.md`, `meta-prompt.md` (or `plan.md` if from a prior plan chain).
-If research artifacts exist in `chainDir` (`research.md`, `gh-context.md`, `linear-context.md`, `env-context.md`), worker may reference them for implementation details.
-Output: `progress.md`.
+Output: `progress.md` in `chainDir`.
 
-## Step 4 — Parallel review (background/plan-reuse/review-only mode)
+## Step 4 — Parallel review
 
-Only used when not running the full implement chain (chain includes reviewers).
+Run three reviewers in parallel. Each must **not** edit files — report findings only.
 
 ```json
 {
@@ -82,11 +94,12 @@ Only used when not running the full implement chain (chain includes reviewers).
       "output": "review-cleanup.md"
     }
   ],
-  "concurrency": 3
+  "concurrency": 3,
+  "chainDir": "<chainDir from Step 0>"
 }
 ```
 
-Each reviewer reads: `progress.md`, `context.md`, `meta-prompt.md`, `plan.md` (if available from prior plan chain).
+Each reviewer reads: `progress.md`, `context.md`, `meta-prompt.md`, `plan.md` (if available) from `chainDir`.
 
 ## Step 5 — Apply fixes and present findings
 
@@ -103,15 +116,16 @@ After reviewers complete:
 ```json
 {
   "agent": "worker",
-  "task": "Apply the reviewer fixes. Skip suggestions that conflict with meta-prompt constraints or expand scope. Report what was applied vs skipped with rationale."
+  "task": "Apply the reviewer fixes. Skip suggestions that conflict with meta-prompt constraints or expand scope. Report what was applied vs skipped with rationale.",
+  "chainDir": "<chainDir from Step 0>"
 }
 ```
-
-Worker reads: `review-correctness.md`, `review-tests.md`, `review-cleanup.md`, `context.md`.
 
 Then present:
    - Summary of what worker implemented and what fixes were applied.
    - Key findings per reviewer — notes and suggestions that were skipped.
    - Paths to all artifacts: `context.md`, `meta-prompt.md`, `progress.md`, `review-correctness.md`, `review-tests.md`, `review-cleanup.md`.
+
+Worker reads: `review-correctness.md`, `review-tests.md`, `review-cleanup.md`, `context.md` from `chainDir`.
 
 <!-- {{ ansible_managed }} --->
