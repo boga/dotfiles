@@ -1,6 +1,6 @@
 ---
 name: plan
-description: Scout codebase, plan, and challenge implementation (called after parallel research)
+description: Scout codebase, plan, and challenge implementation (expects research artifacts in chain_dir)
 ---
 
 ## scout
@@ -34,10 +34,10 @@ If you need to verify details or the context is insufficient, the raw research f
 Save the plan to plan.md. When done, report the full path to plan.md.
 
 ## oracle
-reads: plan.md, context.md
+reads: plan.md, context.md, research.md
 output: oracle-verdict.md
 
-Review the plan. Challenge assumptions. Check for drift from the original task requirements. Surface contradictions, hidden risks, and anything the planner may have missed.
+Review the plan. Challenge assumptions. Check for drift from the original task requirements. Cross-check claims against research sources. Surface contradictions, hidden risks, and anything the planner may have missed.
 
 Report: inherited decisions, diagnosis, drift check, recommendation, risks.
 
