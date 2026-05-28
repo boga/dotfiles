@@ -5,15 +5,16 @@ description: Implement a task with context building, coding, and parallel review
 
 Implement "$@" by following the decision tree below. Execute each step using the subagent tool.
 
-## Step 0 — Pick a chainDir
+## Step 0 — Establish chainDir
 
-Before anything else, choose a stable shared directory for all artifacts in this session:
+- **Prior `/plan` ran in this session** — reuse its `chainDir`. All research and plan artifacts are already there.
+- **No prior plan** — compute a new one:
 
+```bash
+echo "$HOME/.pi/agent/sessions/--$(pwd | sed 's|^/||' | tr '/' '-')--/chain-runs/<slug>"
 ```
-chainDir = /tmp/implement-<slug>-<YYYYMMDD>
-```
 
-Use this same `chainDir` on **every** subagent call below. This keeps all output files out of the repo working tree.
+Replace `<slug>` with a short kebab-case label for the task. Use this same `chainDir` on **every** subagent call below.
 
 ## Step 1 — Determine execution mode
 
