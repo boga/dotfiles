@@ -79,17 +79,17 @@ Run three reviewers in parallel. Each must **not** edit files — report finding
   "tasks": [
     {
       "agent": "reviewer",
-      "task": "Review the implementation for CORRECTNESS and FEASIBILITY. Are the changes sound and logically complete? Do they match the requirements? Any missing steps or broken assumptions? Check against meta-prompt.md constraints. Do not edit files. Report: Correct → Blocker → Note.",
+      "task": "Review the implementation for CORRECTNESS and FEASIBILITY. Are the changes sound and logically complete? Do they match the requirements? Any missing steps or broken assumptions? Check against meta-prompt.md constraints and plan.md (if available). Do not edit files. Report: Correct → Blocker → Note.",
       "output": "review-correctness.md"
     },
     {
       "agent": "reviewer",
-      "task": "Review the implementation for TEST COVERAGE and EDGE CASES. Are there gaps in validation or untested paths? Are edge cases handled? Is error handling adequate? Check against meta-prompt.md constraints. Do not edit files. Report: Correct → Blocker → Note.",
+      "task": "Review the implementation for TEST COVERAGE and EDGE CASES. Are there gaps in validation or untested paths? Are edge cases handled? Is error handling adequate? Check against meta-prompt.md constraints and plan.md (if available). Do not edit files. Report: Correct → Blocker → Note.",
       "output": "review-tests.md"
     },
     {
       "agent": "reviewer",
-      "task": "Review the implementation for CLEANUP and SIMPLICITY. Is there unnecessary complexity? Dead code, poor naming, or redundant logic? Simpler alternatives? Check against meta-prompt.md constraints. Do not edit files. Report: Correct → Blocker → Note.",
+      "task": "Review the implementation for CLEANUP and SIMPLICITY. Is there unnecessary complexity? Dead code, poor naming, or redundant logic? Simpler alternatives? Check against meta-prompt.md constraints and plan.md (if available). Do not edit files. Report: Correct → Blocker → Note.",
       "output": "review-cleanup.md"
     }
   ],
@@ -98,27 +98,32 @@ Run three reviewers in parallel. Each must **not** edit files — report finding
 }
 ```
 
-Each reviewer reads: `progress.md`, `context.md`, `meta-prompt.md` from `chainDir`.
+Each reviewer reads: `progress.md`, `context.md`, `meta-prompt.md`, `plan.md` (if available) from `chainDir`.
 
-## Step 5 — Present findings
+## Step 5 — Apply fixes and present findings
 
-After reviewers complete, present to the user:
+After reviewers complete:
 
-1. Summary of what worker implemented (from `progress.md`).
-2. Key findings per reviewer — blockers first, then fixes, then notes.
-3. Paths to all artifacts: `context.md`, `meta-prompt.md`, `progress.md`, `review-correctness.md`, `review-tests.md`, `review-cleanup.md`.
+1. **If blockers found** — stop and present to the user:
+   - Summary of what worker implemented (from `progress.md`).
+   - Blockers that need user decision.
+   - Paths to all artifacts.
+   - **Wait for user confirmation before applying any fixes.**
 
-**Stop and wait for user confirmation before proceeding to Step 6.**
-
-## Step 6 — Apply fixes (only after user confirms)
+2. **If no blockers** — auto-apply non-blocker fixes:
 
 ```json
 {
   "agent": "worker",
-  "task": "Apply the reviewer fixes that make sense. Skip suggestions that conflict with meta-prompt constraints or expand scope. Report what was applied vs skipped with rationale.",
+  "task": "Apply the reviewer fixes. Skip suggestions that conflict with meta-prompt constraints or expand scope. Report what was applied vs skipped with rationale.",
   "chainDir": "<chainDir from Step 0>"
 }
 ```
+
+Then present:
+   - Summary of what worker implemented and what fixes were applied.
+   - Key findings per reviewer — notes and suggestions that were skipped.
+   - Paths to all artifacts: `context.md`, `meta-prompt.md`, `progress.md`, `review-correctness.md`, `review-tests.md`, `review-cleanup.md`.
 
 Worker reads: `review-correctness.md`, `review-tests.md`, `review-cleanup.md`, `context.md` from `chainDir`.
 
