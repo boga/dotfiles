@@ -5,9 +5,17 @@ argument-hint: "<task>"
 
 Plan "$@" by following the steps below. Execute each step using the subagent tool.
 
-## Step 1 — Parallel research
+## Step 1 — Conditional research
 
-Run all 4 research agents in parallel to gather external context:
+Check if these research artifacts already exist in the chainDir:
+- `research.md`
+- `gh-context.md`
+- `linear-context.md`
+- `env-context.md`
+
+If **all 4 files exist**, skip to Step 2 — reuse cached research.
+
+If **any are missing**, run only the missing research agents in parallel:
 
 ```json
 {
@@ -37,19 +45,18 @@ Run all 4 research agents in parallel to gather external context:
 }
 ```
 
-Note the `chainDir` returned — all subsequent steps must use the same `chainDir`.
+Only include tasks for agents whose output files are missing. Drop the rest.
+
+Note the `chainDir` returned — use the same `chainDir` for Step 2.
 
 ## Step 2 — Scout, plan, and challenge
 
-Run the plan chain using the same `chainDir` from Step 1:
+Run the plan chain using the same `chainDir`:
 
 ```json
 {
-  "chain": [
-    { "agent": "scout", "task": "Analyze the codebase for: $@\n\nRead the research artifacts from {chain_dir} for additional context.", "output": "context.md", "reads": ["research.md", "gh-context.md", "linear-context.md", "env-context.md"] },
-    { "agent": "planner", "task": "Create an implementation plan. Context: {chain_dir}/context.md. Save to plan.md.", "output": "plan.md", "reads": ["context.md", "research.md", "gh-context.md", "linear-context.md", "env-context.md"] },
-    { "agent": "oracle", "task": "Review the plan. Challenge assumptions. Check for drift. Report: diagnosis, drift check, recommendation, risks.", "output": "oracle-verdict.md", "reads": ["plan.md", "context.md"] }
-  ],
+  "chain": "plan",
+  "task": "$@",
   "chainDir": "<chainDir from Step 1>"
 }
 ```

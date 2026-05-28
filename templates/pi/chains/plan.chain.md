@@ -1,6 +1,6 @@
 ---
 name: plan
-description: Scout codebase, plan, and challenge implementation (called after parallel research)
+description: Scout codebase, plan, and challenge implementation (expects research artifacts in chain_dir)
 ---
 
 ## scout
@@ -18,24 +18,26 @@ Read the research artifacts from {chain_dir} for additional context on what to l
 Skip any missing files — not all research sources may be available.
 
 ## planner
-reads: context.md, research.md, gh-context.md, linear-context.md, env-context.md
+reads: context.md
 output: plan.md
 
-Create an implementation plan based on the codebase context and research findings.
+Create an implementation plan based on the codebase context.
 
-Context: {chain_dir}/context.md
-Web research: {chain_dir}/research.md
-GitHub context: {chain_dir}/gh-context.md
-Linear context: {chain_dir}/linear-context.md
-Environment context: {chain_dir}/env-context.md
+Primary input: {chain_dir}/context.md (scout's distilled codebase context including research findings).
 
-Skip any missing research files. Save the plan to plan.md. When done, report the full path to plan.md.
+If you need to verify details or the context is insufficient, the raw research files are available in {chain_dir}:
+- research.md — web research (docs, specs, benchmarks)
+- gh-context.md — GitHub state (PRs, issues, CI)
+- linear-context.md — Linear project state (tickets, milestones)
+- env-context.md — local environment (tool versions, services)
+
+Save the plan to plan.md. When done, report the full path to plan.md.
 
 ## oracle
-reads: plan.md, context.md
+reads: plan.md, context.md, research.md
 output: oracle-verdict.md
 
-Review the plan. Challenge assumptions. Check for drift from the original task requirements. Surface contradictions, hidden risks, and anything the planner may have missed.
+Review the plan. Challenge assumptions. Check for drift from the original task requirements. Cross-check claims against research sources. Surface contradictions, hidden risks, and anything the planner may have missed.
 
 Report: inherited decisions, diagnosis, drift check, recommendation, risks.
 
