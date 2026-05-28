@@ -5,12 +5,22 @@ description: Implement a task with context building, coding, and parallel review
 
 Implement "$@" by following the decision tree below. Execute each step using the subagent tool.
 
+## Step 0 — Pick a chainDir
+
+Before anything else, choose a stable shared directory for all artifacts in this session:
+
+```
+chainDir = /tmp/implement-<slug>-<YYYYMMDD>
+```
+
+Use this same `chainDir` on **every** subagent call below. This keeps all output files out of the repo working tree.
+
 ## Step 1 — Determine execution mode
 
 Check the user's request:
 
 - **Background mode** — user says "background", "bg", or "if blocked, ask me":
-  1. Run worker only (Step 3) with `async: true`.
+  1. Run worker only (Step 3) with `async: true` and the chosen `chainDir`.
   2. Worker escalates blocked decisions via `contact_supervisor`.
   3. After worker completes, notify the user and offer to run reviewers (Step 4).
   4. Stop here until user responds.
@@ -39,7 +49,8 @@ Check session state for a prior plan chain run:
 ```json
 {
   "agent": "context-builder",
-  "task": "Analyze the codebase for: $@"
+  "task": "Analyze the codebase for: $@",
+  "chainDir": "<chainDir from Step 0>"
 }
 ```
 
@@ -50,12 +61,14 @@ Outputs: `context.md`, `meta-prompt.md` in `{chain_dir}`.
 ```json
 {
   "agent": "worker",
-  "task": "Implement the task using context and meta-prompt. Escalate unapproved decisions via contact_supervisor. No placeholders, no TODOs, no silent scope changes."
+  "task": "Implement the task using context and meta-prompt. Escalate unapproved decisions via contact_supervisor. No placeholders, no TODOs, no silent scope changes.",
+  "chainDir": "<chainDir from Step 0>",
+  "output": "progress.md"
 }
 ```
 
 Worker reads: `context.md`, `meta-prompt.md` (or `plan.md` if from a prior plan chain).
-Output: `progress.md`.
+Output: `progress.md` in `chainDir`.
 
 ## Step 4 — Parallel review
 
@@ -80,11 +93,12 @@ Run three reviewers in parallel. Each must **not** edit files — report finding
       "output": "review-cleanup.md"
     }
   ],
-  "concurrency": 3
+  "concurrency": 3,
+  "chainDir": "<chainDir from Step 0>"
 }
 ```
 
-Each reviewer reads: `progress.md`, `context.md`, `meta-prompt.md`.
+Each reviewer reads: `progress.md`, `context.md`, `meta-prompt.md` from `chainDir`.
 
 ## Step 5 — Present findings
 
@@ -101,10 +115,11 @@ After reviewers complete, present to the user:
 ```json
 {
   "agent": "worker",
-  "task": "Apply the reviewer fixes that make sense. Skip suggestions that conflict with meta-prompt constraints or expand scope. Report what was applied vs skipped with rationale."
+  "task": "Apply the reviewer fixes that make sense. Skip suggestions that conflict with meta-prompt constraints or expand scope. Report what was applied vs skipped with rationale.",
+  "chainDir": "<chainDir from Step 0>"
 }
 ```
 
-Worker reads: `review-correctness.md`, `review-tests.md`, `review-cleanup.md`, `context.md`.
+Worker reads: `review-correctness.md`, `review-tests.md`, `review-cleanup.md`, `context.md` from `chainDir`.
 
 <!-- {{ ansible_managed }} --->
