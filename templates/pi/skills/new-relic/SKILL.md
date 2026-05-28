@@ -19,19 +19,19 @@ Pass the value as `account_id` to all tools. If the variable is unset or empty, 
 
 ## Tool Selection
 
-| Intent | Tool |
-|--------|------|
-| List dashboards | `new_relic_list_dashboards` → `new_relic_get_dashboard` for detail |
-| Run NRQL query | `new_relic_execute_nrql_query` |
-| Natural language query | `new_relic_natural_language_to_nrql_query` |
-| Find entities / apps | `new_relic_get_entity` |
-| Recent alerts / incidents | `new_relic_list_recent_issues` |
-| Alert policies | `new_relic_list_alert_policies` |
-| Logs | `new_relic_list_recent_logs` |
-| Synthetic monitors | `new_relic_list_synthetic_monitors` |
-| Deployment impact | `new_relic_analyze_deployment_impact` |
-| Alert insights report | `new_relic_generate_alert_insights_report` |
-| User impact report | `new_relic_generate_user_impact_report` |
+| Intent                    | Tool                                                               |
+|---------------------------|--------------------------------------------------------------------|
+| List dashboards           | `new_relic_list_dashboards` → `new_relic_get_dashboard` for detail |
+| Run NRQL query            | `new_relic_execute_nrql_query`                                     |
+| Natural language query    | `new_relic_natural_language_to_nrql_query`                         |
+| Find entities / apps      | `new_relic_get_entity`                                             |
+| Recent alerts / incidents | `new_relic_list_recent_issues`                                     |
+| Alert policies            | `new_relic_list_alert_policies`                                    |
+| Logs                      | `new_relic_list_recent_logs`                                       |
+| Synthetic monitors        | `new_relic_list_synthetic_monitors`                                |
+| Deployment impact         | `new_relic_analyze_deployment_impact`                              |
+| Alert insights report     | `new_relic_generate_alert_insights_report`                         |
+| User impact report        | `new_relic_generate_user_impact_report`                            |
 
 ## Entity GUIDs
 
