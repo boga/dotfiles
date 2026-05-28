@@ -88,25 +88,30 @@ Only used when not running the full implement chain (chain includes reviewers).
 
 Each reviewer reads: `progress.md`, `context.md`, `meta-prompt.md`, `plan.md` (if available from prior plan chain).
 
-## Step 5 — Present findings
+## Step 5 — Apply fixes and present findings
 
-After reviewers complete, present to the user:
+After reviewers complete:
 
-1. Summary of what worker implemented (from `progress.md`).
-2. Key findings per reviewer — blockers first, then fixes, then notes.
-3. Paths to all artifacts: `context.md`, `meta-prompt.md`, `progress.md`, `review-correctness.md`, `review-tests.md`, `review-cleanup.md`.
+1. **If blockers found** — stop and present to the user:
+   - Summary of what worker implemented (from `progress.md`).
+   - Blockers that need user decision.
+   - Paths to all artifacts.
+   - **Wait for user confirmation before applying any fixes.**
 
-**Stop and wait for user confirmation before proceeding to Step 6.**
-
-## Step 6 — Apply fixes (only after user confirms)
+2. **If no blockers** — auto-apply non-blocker fixes:
 
 ```json
 {
   "agent": "worker",
-  "task": "Apply the reviewer fixes that make sense. Skip suggestions that conflict with meta-prompt constraints or expand scope. Report what was applied vs skipped with rationale."
+  "task": "Apply the reviewer fixes. Skip suggestions that conflict with meta-prompt constraints or expand scope. Report what was applied vs skipped with rationale."
 }
 ```
 
 Worker reads: `review-correctness.md`, `review-tests.md`, `review-cleanup.md`, `context.md`.
+
+Then present:
+   - Summary of what worker implemented and what fixes were applied.
+   - Key findings per reviewer — notes and suggestions that were skipped.
+   - Paths to all artifacts: `context.md`, `meta-prompt.md`, `progress.md`, `review-correctness.md`, `review-tests.md`, `review-cleanup.md`.
 
 <!-- {{ ansible_managed }} --->
