@@ -59,6 +59,7 @@ pi_agent_mcp_servers:
     url: "https://mcp.eu.newrelic.com/mcp/"
     headers:
       Api-Key: "${NEW_RELIC_MCP_API_KEY}"
+      include-tags: "discovery,data-access,alerting,incident-response,performance-analytics,advanced-analysis"
 
 # Work-specific packages, appended to the global pi_agent_settings_packages list
 pi_agent_settings_extra_packages:
