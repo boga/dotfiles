@@ -47,7 +47,7 @@ Run the plan chain using the same `chainDir` from Step 1:
 {
   "chain": [
     { "agent": "scout", "task": "Analyze the codebase for: $@\n\nRead the research artifacts from {chain_dir} for additional context.", "output": "context.md", "reads": ["research.md", "gh-context.md", "linear-context.md", "env-context.md"] },
-    { "agent": "planner", "task": "Create an implementation plan. Context: {chain_dir}/context.md. Save to plan.md.", "output": "plan.md", "reads": ["context.md", "research.md", "gh-context.md", "linear-context.md", "env-context.md"] },
+    { "agent": "planner", "task": "Create an implementation plan. Primary input: {chain_dir}/context.md. Raw research files are available in {chain_dir} if you need to verify details.", "output": "plan.md", "reads": ["context.md"] },
     { "agent": "oracle", "task": "Review the plan. Challenge assumptions. Check for drift. Report: diagnosis, drift check, recommendation, risks.", "output": "oracle-verdict.md", "reads": ["plan.md", "context.md"] }
   ],
   "chainDir": "<chainDir from Step 1>"
