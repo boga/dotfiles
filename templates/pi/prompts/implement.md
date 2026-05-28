@@ -37,26 +37,26 @@ Check the user's request:
 Check session state for a prior plan chain run:
 
 - **Prior plan chain ran in this session** — reuse its `chainDir`:
-  1. Skip the implement chain. Run worker directly with `plan.md` and `context.md` from that `chainDir`.
-  2. Research artifacts (`research.md`, `gh-context.md`, `linear-context.md`, `env-context.md`) are available in the same `chainDir` — pass them to worker for additional context.
-  3. After worker completes, run parallel reviewers (Step 4) using the same `chainDir`.
-  4. Go to Step 5.
+  1. Skip context-builder.
+  2. Worker reads existing `plan.md` and `context.md` from that `chainDir`.
+  3. Go to Step 3.
 
-- **No prior context** — run the implement chain:
+- **No prior context**:
+  1. Run context-builder (Step 2A), then continue to Step 3.
+
+### Step 2A — Context building
 
 ```json
 {
-  "chain": "implement",
-  "task": "$@"
+  "agent": "context-builder",
+  "task": "Analyze the codebase for: $@",
+  "chainDir": "<chainDir from Step 0>"
 }
 ```
 
-The chain runs: context-builder → worker → 3 parallel reviewers.
-Go to Step 5.
+Outputs: `context.md`, `meta-prompt.md` in `{chain_dir}`.
 
-## Step 3 — Implementation (background/plan-reuse mode only)
-
-Only used when skipping the chain (background mode or prior plan reuse).
+## Step 3 — Implementation
 
 ```json
 {
@@ -70,26 +70,26 @@ Only used when skipping the chain (background mode or prior plan reuse).
 Worker reads: `context.md`, `meta-prompt.md` (or `plan.md` if from a prior plan chain).
 Output: `progress.md` in `chainDir`.
 
-## Step 4 — Parallel review (background/plan-reuse/review-only mode)
+## Step 4 — Parallel review
 
-Only used when not running the full implement chain (chain includes reviewers).
+Run three reviewers in parallel. Each must **not** edit files — report findings only.
 
 ```json
 {
   "tasks": [
     {
       "agent": "reviewer",
-      "task": "Review the implementation for CORRECTNESS and FEASIBILITY. Are the changes sound and logically complete? Do they match the requirements? Any missing steps or broken assumptions? Check against meta-prompt.md constraints and plan.md (if available). Do not edit files. Report: Correct → Blocker → Note.",
+      "task": "Review the implementation for CORRECTNESS and FEASIBILITY. Are the changes sound and logically complete? Do they match the requirements? Any missing steps or broken assumptions? Check against meta-prompt.md constraints. Do not edit files. Report: Correct → Blocker → Note.",
       "output": "review-correctness.md"
     },
     {
       "agent": "reviewer",
-      "task": "Review the implementation for TEST COVERAGE and EDGE CASES. Are there gaps in validation or untested paths? Are edge cases handled? Is error handling adequate? Check against meta-prompt.md constraints and plan.md (if available). Do not edit files. Report: Correct → Blocker → Note.",
+      "task": "Review the implementation for TEST COVERAGE and EDGE CASES. Are there gaps in validation or untested paths? Are edge cases handled? Is error handling adequate? Check against meta-prompt.md constraints. Do not edit files. Report: Correct → Blocker → Note.",
       "output": "review-tests.md"
     },
     {
       "agent": "reviewer",
-      "task": "Review the implementation for CLEANUP and SIMPLICITY. Is there unnecessary complexity? Dead code, poor naming, or redundant logic? Simpler alternatives? Check against meta-prompt.md constraints and plan.md (if available). Do not edit files. Report: Correct → Blocker → Note.",
+      "task": "Review the implementation for CLEANUP and SIMPLICITY. Is there unnecessary complexity? Dead code, poor naming, or redundant logic? Simpler alternatives? Check against meta-prompt.md constraints. Do not edit files. Report: Correct → Blocker → Note.",
       "output": "review-cleanup.md"
     }
   ],
@@ -100,31 +100,26 @@ Only used when not running the full implement chain (chain includes reviewers).
 
 Each reviewer reads: `progress.md`, `context.md`, `meta-prompt.md` from `chainDir`.
 
-## Step 5 — Apply fixes and present findings
+## Step 5 — Present findings
 
-After reviewers complete:
+After reviewers complete, present to the user:
 
-1. **If blockers found** — stop and present to the user:
-   - Summary of what worker implemented (from `progress.md`).
-   - Blockers that need user decision.
-   - Paths to all artifacts.
-   - **Wait for user confirmation before applying any fixes.**
+1. Summary of what worker implemented (from `progress.md`).
+2. Key findings per reviewer — blockers first, then fixes, then notes.
+3. Paths to all artifacts: `context.md`, `meta-prompt.md`, `progress.md`, `review-correctness.md`, `review-tests.md`, `review-cleanup.md`.
 
-2. **If no blockers** — auto-apply non-blocker fixes:
+**Stop and wait for user confirmation before proceeding to Step 6.**
+
+## Step 6 — Apply fixes (only after user confirms)
 
 ```json
 {
   "agent": "worker",
-  "task": "Apply the reviewer fixes. Skip suggestions that conflict with meta-prompt constraints or expand scope. Report what was applied vs skipped with rationale.",
+  "task": "Apply the reviewer fixes that make sense. Skip suggestions that conflict with meta-prompt constraints or expand scope. Report what was applied vs skipped with rationale.",
   "chainDir": "<chainDir from Step 0>"
 }
 ```
 
-Worker reads: `review-correctness.md`, `review-tests.md`, `review-cleanup.md`, `context.md`.
-
-Then present:
-   - Summary of what worker implemented and what fixes were applied.
-   - Key findings per reviewer — notes and suggestions that were skipped.
-   - Paths to all artifacts: `context.md`, `meta-prompt.md`, `progress.md`, `review-correctness.md`, `review-tests.md`, `review-cleanup.md`.
+Worker reads: `review-correctness.md`, `review-tests.md`, `review-cleanup.md`, `context.md` from `chainDir`.
 
 <!-- {{ ansible_managed }} --->
