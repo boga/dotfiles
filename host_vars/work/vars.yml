@@ -6,7 +6,7 @@ firefox_profile_dir: /Users/ivan-shnurchenko/Library/Application Support/Firefox
 
 pi_plannotator_planning_model:
   provider: "anthropic"
-  id: "claude-opus-4-6"
+  id: "claude-opus-4-8"
 pi_plannotator_planning_thinking: "xhigh"
 pi_plannotator_executing_model:
   provider: "anthropic"
@@ -14,7 +14,7 @@ pi_plannotator_executing_model:
 pi_plannotator_executing_thinking: "medium"
 pi_plannotator_reviewing_model:
   provider: "anthropic"
-  id: "claude-opus-4-6"
+  id: "claude-opus-4-8"
 pi_plannotator_reviewing_thinking: "xhigh"
 
 pi_agent_subagent_overrides:
@@ -31,15 +31,15 @@ pi_agent_subagent_overrides:
       linear-researcher:
         thinking: "low"
       oracle:
-        model: "anthropic/claude-opus-4-6"
+        model: "anthropic/claude-opus-4-8"
         thinking: "high"
       planner:
-        model: "anthropic/claude-opus-4-6"
+        model: "anthropic/claude-opus-4-8"
         thinking: "xhigh"
       researcher:
         thinking: "medium"
       reviewer:
-        model: "anthropic/claude-opus-4-6"
+        model: "anthropic/claude-opus-4-8"
         thinking: "high"
       scout:
         model: "anthropic/claude-sonnet-4-6"
