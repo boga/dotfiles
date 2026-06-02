@@ -63,6 +63,14 @@ pi_agent_mcp_servers:
     headers:
       Api-Key: "${NEW_RELIC_MCP_API_KEY}"
       include-tags: "discovery,data-access,alerting,incident-response,performance-analytics,advanced-analysis"
+  n8n:
+    type: "http"
+    url: "https://dev-n8n-server.api-swap-os.com/mcp"
+    # OAuth 2.1 with dynamic client registration. The adapter auto-discovers
+    # the authorization server (https://dev-n8n-server.api-swap-os.com/mcp-server/http)
+    # via the server's WWW-Authenticate / protected-resource metadata.
+    # Run `/mcp-auth n8n` in Pi to complete the browser auth flow.
+    auth: "oauth"
 
 # Work-specific packages, appended to the global pi_agent_settings_packages list
 pi_agent_settings_extra_packages:
