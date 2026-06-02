@@ -65,10 +65,10 @@ pi_agent_mcp_servers:
       include-tags: "discovery,data-access,alerting,incident-response,performance-analytics,advanced-analysis"
   n8n:
     type: "http"
-    url: "https://dev-n8n-server.api-swap-os.com/mcp"
+    url: "https://dev-n8n-server.api-swap-os.com/mcp-server/http"
     # OAuth 2.1 with dynamic client registration. The adapter auto-discovers
-    # the authorization server (https://dev-n8n-server.api-swap-os.com/mcp-server/http)
-    # via the server's WWW-Authenticate / protected-resource metadata.
+    # the authorization server from the endpoint's WWW-Authenticate /
+    # protected-resource metadata, so no static secret is stored.
     # Run `/mcp-auth n8n` in Pi to complete the browser auth flow.
     auth: "oauth"
 
