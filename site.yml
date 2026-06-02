@@ -60,6 +60,10 @@
       ansible.builtin.command: mise upgrade
       changed_when: true
 
+    - name: "Install graphify Pi skill"
+      ansible.builtin.command: mise exec -- python3 -m graphify pi install
+      changed_when: false
+
     - name: "Update Pi extensions"
       ansible.builtin.command: pi update --extensions
       changed_when: true
