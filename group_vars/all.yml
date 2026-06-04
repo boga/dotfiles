@@ -49,6 +49,7 @@ homebrew_packages:
   - zsh-history-substring-search
 
 homebrew_casks:
+  - coderabbit
   - alt-tab
   - finetune
   - font-fira-code
@@ -191,6 +192,9 @@ config_files:
   - name: "Pi agent: env-scout"
     src: "./templates/pi/agents/env-scout.agent.md"
     dest: "~/.pi/agent/agents/env-scout.agent.md"
+  - name: "Pi skill: coderabbit"
+    src: "./templates/pi/skills/coderabbit/SKILL.md"
+    dest: "~/.pi/agent/skills/coderabbit/SKILL.md"
 
 pi_agent_settings_path: "~/.pi/agent/settings.json"
 pi_agent_settings_overrides: |-
