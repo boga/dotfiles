@@ -55,6 +55,15 @@ cr review uncommitted
 cr review committed --base main
 ```
 
+## Output modes
+
+```bash
+cr review --plain --base main   # readable text output (default for human/LLM consumption)
+cr review --agent --base main   # structured JSON output (for machine parsing)
+```
+
+Prefer `--plain` when the output will be read by a person or an LLM. Use `--agent` only when a script needs to parse status or findings count.
+
 ## Tips
 
 - Must run from inside a Git repository (`--dir` flag overrides the directory)
