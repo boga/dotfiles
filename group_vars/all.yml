@@ -8,14 +8,15 @@ homebrew_taps:
   - jesseduffield/lazygit
 
 homebrew_packages:
+  - 1password-cli
   - ack
   - act
   - anomalyco/tap/opencode
   - ansible
   - ansible-lint
-  - 1password-cli
   - bat
   - btop
+  - coderabbit
   - dust
   - eza
   - fd
@@ -47,7 +48,6 @@ homebrew_packages:
   - zoxide
   - zsh
   - zsh-history-substring-search
-  - coderabbit
 
 homebrew_casks:
   - alt-tab
