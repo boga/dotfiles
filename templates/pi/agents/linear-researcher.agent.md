@@ -1,7 +1,7 @@
 ---
 name: linear-researcher
 description: Gathers Linear project context via MCP tools — tickets, milestones, project state, and blockers
-tools: write, intercom
+tools: write, intercom, linear_issue, linear_project, linear_milestone, linear_team
 thinking: low
 systemPromptMode: replace
 inheritProjectContext: false
