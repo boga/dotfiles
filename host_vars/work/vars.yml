@@ -51,6 +51,7 @@ pi_agent_subagent_overrides:
       worker:
         model: "anthropic/claude-sonnet-4-6"
         thinking: "medium"
+        defaultContext: "fresh"
 
 pi_agent_mcp_servers:
   context-mode:
