@@ -64,7 +64,7 @@ Outputs: `context.md`, `meta-prompt.md` in `{chain_dir}`.
   "agent": "worker",
   "task": "Implement the task using context and meta-prompt. Escalate unapproved decisions via contact_supervisor. No placeholders, no TODOs, no silent scope changes.",
   "chainDir": "<chainDir from Step 0>",
-  "output": "progress.md"
+  "output": "<chainDir from Step 0>/progress.md"
 }
 ```
 
@@ -81,17 +81,17 @@ Run three reviewers in parallel. Each must **not** edit files — report finding
     {
       "agent": "reviewer",
       "task": "Review the implementation for CORRECTNESS and FEASIBILITY. Are the changes sound and logically complete? Do they match the requirements? Any missing steps or broken assumptions? Check against meta-prompt.md constraints and plan.md (if available). Do not edit files. Report: Correct → Blocker → Note.",
-      "output": "review-correctness.md"
+      "output": "<chainDir from Step 0>/review-correctness.md"
     },
     {
       "agent": "reviewer",
       "task": "Review the implementation for TEST COVERAGE and EDGE CASES. Are there gaps in validation or untested paths? Are edge cases handled? Is error handling adequate? Check against meta-prompt.md constraints and plan.md (if available). Do not edit files. Report: Correct → Blocker → Note.",
-      "output": "review-tests.md"
+      "output": "<chainDir from Step 0>/review-tests.md"
     },
     {
       "agent": "reviewer",
       "task": "Review the implementation for CLEANUP and SIMPLICITY. Is there unnecessary complexity? Dead code, poor naming, or redundant logic? Simpler alternatives? Check against meta-prompt.md constraints and plan.md (if available). Do not edit files. Report: Correct → Blocker → Note.",
-      "output": "review-cleanup.md"
+      "output": "<chainDir from Step 0>/review-cleanup.md"
     }
   ],
   "concurrency": 3,
