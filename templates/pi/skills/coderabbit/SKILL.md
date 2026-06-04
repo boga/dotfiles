@@ -1,6 +1,6 @@
 ---
 name: coderabbit
-description: Review code changes using the CodeRabbit CLI (`cr`). Use this skill when reviewing uncommitted changes, staged changes, or committed branch changes before a PR. Triggers on "review my code", "run coderabbit", "cr review", "review changes", or "code review with coderabbit".
+description: Run a CodeRabbit CLI (`cr`) code review. Use this skill only when the user explicitly says "Use CR", "Ask CodeRabbit", or during /implement (Step 3.5). Do not trigger on general review phrases.
 ---
 
 # CodeRabbit CLI

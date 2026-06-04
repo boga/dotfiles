@@ -38,6 +38,15 @@ When the user references a specific file (e.g. `@AGENTS.md`, `src/foo.ts`), oper
 
 Do **not** use `find` or glob patterns to discover and act on other files with the same name. If you notice other related files that might also need the same change, **ask the user first** before touching them.
 
+## CodeRabbit Policy
+
+Run `cr` (CodeRabbit CLI) **only** in two situations:
+
+1. During `/implement` — as Step 3.5, after the worker and before the Pi reviewers.
+2. When the user explicitly says so: "Use CR" or "Ask CodeRabbit".
+
+Never invoke `cr` spontaneously during planning, exploration, or general code review.
+
 ---
 
 ## context-mode — MANDATORY routing rules
