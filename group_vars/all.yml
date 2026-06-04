@@ -47,9 +47,9 @@ homebrew_packages:
   - zoxide
   - zsh
   - zsh-history-substring-search
+  - coderabbit
 
 homebrew_casks:
-  - coderabbit
   - alt-tab
   - finetune
   - font-fira-code
