@@ -1,7 +1,11 @@
 ---
 name: linear-researcher
 description: Gathers Linear project context via MCP tools — tickets, milestones, project state, and blockers
-tools: write, intercom
+# Linear MCP tools must be declared explicitly here — pi passes --tools to the child
+# process and only listed tools are available. Without them the agent's system prompt
+# instructs it to call linear_issue/project/milestone/team but those calls silently
+# fail, producing a placeholder output instead of real Linear data.
+tools: write, intercom, linear_issue, linear_project, linear_milestone, linear_team
 thinking: low
 systemPromptMode: replace
 inheritProjectContext: false
