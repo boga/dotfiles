@@ -8,14 +8,15 @@ homebrew_taps:
   - jesseduffield/lazygit
 
 homebrew_packages:
+  - 1password-cli
   - ack
   - act
   - anomalyco/tap/opencode
   - ansible
   - ansible-lint
-  - 1password-cli
   - bat
   - btop
+  - coderabbit
   - dust
   - eza
   - fd
@@ -191,6 +192,9 @@ config_files:
   - name: "Pi agent: env-scout"
     src: "./templates/pi/agents/env-scout.agent.md"
     dest: "~/.pi/agent/agents/env-scout.agent.md"
+  - name: "Pi skill: coderabbit"
+    src: "./templates/pi/skills/coderabbit/SKILL.md"
+    dest: "~/.pi/agent/skills/coderabbit/SKILL.md"
 
 pi_agent_settings_path: "~/.pi/agent/settings.json"
 pi_agent_settings_overrides: |-
