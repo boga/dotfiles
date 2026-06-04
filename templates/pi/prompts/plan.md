@@ -17,11 +17,11 @@ Replace `<slug>` with a short kebab-case label for the task (e.g. `add-nr-skill`
 
 ## Step 1 — Conditional research
 
-Check if these research artifacts already exist in the chainDir:
-- `research.md`
-- `gh-context.md`
-- `linear-context.md`
-- `env-context.md`
+Check if these research artifacts already exist in the chainDir (use absolute paths, e.g. `<chainDir>/research.md`):
+- `<chainDir>/research.md`
+- `<chainDir>/gh-context.md`
+- `<chainDir>/linear-context.md`
+- `<chainDir>/env-context.md`
 
 If **all 4 files exist**, skip to Step 2 — reuse cached research.
 
@@ -33,22 +33,22 @@ If **any are missing**, run only the missing research agents in parallel:
     {
       "agent": "researcher",
       "task": "Research official docs, specs, benchmarks, and recent changes relevant to: $@\n\nFocus on primary sources. Drop stale or SEO-heavy results. Web research only — use web_search and fetch_content tools. If web tools are unavailable, write research.md noting no external research was available and exit successfully.",
-      "output": "research.md"
+      "output": "<chainDir from Step 0>/research.md"
     },
     {
       "agent": "gh-researcher",
       "task": "Gather GitHub repository state relevant to: $@\n\nFocus on open PRs, related issues, recent CI status, and releases. If gh CLI is unavailable or the repo has no remote, write gh-context.md noting that and exit successfully.",
-      "output": "gh-context.md"
+      "output": "<chainDir from Step 0>/gh-context.md"
     },
     {
       "agent": "linear-researcher",
       "task": "Gather Linear project context relevant to: $@\n\nFocus on related tickets, milestones, blockers, and project status. If Linear is unreachable or no relevant issues exist, write linear-context.md noting that and exit successfully.",
-      "output": "linear-context.md"
+      "output": "<chainDir from Step 0>/linear-context.md"
     },
     {
       "agent": "env-scout",
       "task": "Inventory local environment state relevant to: $@\n\nFocus on tool versions, running services, and package state that matter for the task. If nothing is relevant, write env-context.md noting a clean environment and exit successfully.",
-      "output": "env-context.md"
+      "output": "<chainDir from Step 0>/env-context.md"
     }
   ],
   "concurrency": 4,
@@ -78,6 +78,6 @@ After the chain completes, present:
 1. Full path to plan.md
 2. Key findings from each research source (web, GitHub, Linear, environment)
 3. Oracle verdict and challenged assumptions
-4. Paths to all artifacts (research.md, gh-context.md, linear-context.md, env-context.md, context.md, plan.md, oracle-verdict.md)
+4. Paths to all artifacts in the chainDir (research.md, gh-context.md, linear-context.md, env-context.md, context.md, plan.md, oracle-verdict.md)
 
 <!-- {{ ansible_managed }} --->
