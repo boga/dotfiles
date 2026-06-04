@@ -32,22 +32,22 @@ If **any are missing**, run only the missing research agents in parallel:
   "tasks": [
     {
       "agent": "researcher",
-      "task": "Research official docs, specs, benchmarks, and recent changes relevant to: $@\n\nFocus on primary sources. Drop stale or SEO-heavy results. Web research only — use web_search and fetch_content tools. If web tools are unavailable, write research.md noting no external research was available and exit successfully.",
+      "task": "Research official docs, specs, benchmarks, and recent changes relevant to: $@\n\nFocus on primary sources. Drop stale or SEO-heavy results. Web research only — use web_search and fetch_content tools. If web tools are unavailable, write <chainDir from Step 0>/research.md noting no external research was available and exit successfully.",
       "output": "<chainDir from Step 0>/research.md"
     },
     {
       "agent": "gh-researcher",
-      "task": "Gather GitHub repository state relevant to: $@\n\nFocus on open PRs, related issues, recent CI status, and releases. If gh CLI is unavailable or the repo has no remote, write gh-context.md noting that and exit successfully.",
+      "task": "Gather GitHub repository state relevant to: $@\n\nFocus on open PRs, related issues, recent CI status, and releases. If gh CLI is unavailable or the repo has no remote, write <chainDir from Step 0>/gh-context.md noting that and exit successfully.",
       "output": "<chainDir from Step 0>/gh-context.md"
     },
     {
       "agent": "linear-researcher",
-      "task": "Gather Linear project context relevant to: $@\n\nFocus on related tickets, milestones, blockers, and project status. If Linear is unreachable or no relevant issues exist, write linear-context.md noting that and exit successfully.",
+      "task": "Gather Linear project context relevant to: $@\n\nFocus on related tickets, milestones, blockers, and project status. If Linear is unreachable or no relevant issues exist, write <chainDir from Step 0>/linear-context.md noting that and exit successfully.",
       "output": "<chainDir from Step 0>/linear-context.md"
     },
     {
       "agent": "env-scout",
-      "task": "Inventory local environment state relevant to: $@\n\nFocus on tool versions, running services, and package state that matter for the task. If nothing is relevant, write env-context.md noting a clean environment and exit successfully.",
+      "task": "Inventory local environment state relevant to: $@\n\nFocus on tool versions, running services, and package state that matter for the task. If nothing is relevant, write <chainDir from Step 0>/env-context.md noting a clean environment and exit successfully.",
       "output": "<chainDir from Step 0>/env-context.md"
     }
   ],
