@@ -40,12 +40,12 @@ Do **not** use `find` or glob patterns to discover and act on other files with t
 
 ## CodeRabbit Policy
 
-Run `cr` (CodeRabbit CLI) **only** in two situations:
+Run `coderabbit` (CodeRabbit CLI) **only** in two situations:
 
 1. During `/implement` — as Step 3.5, after the worker and before the Pi reviewers.
-2. When the user explicitly says so: "Use CR" or "Ask CodeRabbit".
+2. When the user explicitly says so: "Use CodeRabbit" or "Ask CodeRabbit".
 
-Never invoke `cr` spontaneously during planning, exploration, or general code review.
+Never invoke `coderabbit` spontaneously during planning, exploration, or general code review.
 
 ---
 

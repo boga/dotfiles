@@ -78,7 +78,7 @@ Output: `progress.md` in `chainDir`.
 ```json
 {
   "agent": "delegate",
-  "task": "Detect the repo default branch: run `git symbolic-ref refs/remotes/origin/HEAD | sed 's|.*/||'`. Then run `cr review --plain --base <detected-branch> > <chainDir>/review-coderabbit.md 2>&1`. If cr is not found or exits non-zero, write `WARNING: CodeRabbit review skipped — cr not available or failed.` to `<chainDir>/review-coderabbit.md` and exit 0.",
+  "task": "Detect the repo default branch: run `git symbolic-ref refs/remotes/origin/HEAD | sed 's|.*/||'`. Then run `coderabbit review --plain --base <detected-branch> > <chainDir>/review-coderabbit.md 2>&1`. If coderabbit is not found or exits non-zero, write `WARNING: CodeRabbit review skipped — coderabbit not available or failed.` to `<chainDir>/review-coderabbit.md` and exit 0.",
   "chainDir": "<chainDir from Step 0>"
 }
 ```
