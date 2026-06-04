@@ -7,16 +7,6 @@ description: Review code changes using the CodeRabbit CLI (`cr`). Use this skill
 
 The CodeRabbit CLI binary is `cr` (`coderabbit` is an alias — both work identically).
 
-## Authentication
-
-One-time setup:
-
-```bash
-cr auth login     # opens browser; sign in to CodeRabbit
-cr auth org       # switch default organization (if multiple orgs)
-cr auth status    # inspect current auth state
-```
-
 ## Review commands
 
 ```bash
