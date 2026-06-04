@@ -38,6 +38,7 @@ pi_agent_subagent_overrides:
       planner:
         model: "anthropic/claude-opus-4-8"
         thinking: "xhigh"
+        maxExecutionTimeMs: 600000
         defaultContext: "fresh"
       researcher:
         thinking: "medium"
