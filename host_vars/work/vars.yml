@@ -33,12 +33,24 @@ pi_agent_subagent_overrides:
       oracle:
         model: "anthropic/claude-opus-4-8"
         thinking: "high"
+        # 10-minute ceiling for long reasoning passes over large context.
+        # Note: does not extend any API-level streaming limit — only caps
+        # pi-subagents' own resource-limit timer.
         maxExecutionTimeMs: 600000
+        # Must be "fresh" — oracle ships defaultContext: fork, which promotes
+        # the entire plan chain (scout→planner→oracle) to context: fork.
+        # A forked chain inherits the parent session's thinking blocks;
+        # Anthropic rejects those with HTTP 400. Fresh context is safe because
+        # oracle receives all it needs via reads: (plan.md, context.md, research.md).
         defaultContext: "fresh"
       planner:
         model: "anthropic/claude-opus-4-8"
         thinking: "xhigh"
+        # Same ceiling as oracle; planner uses xhigh thinking which runs longer.
         maxExecutionTimeMs: 600000
+        # Same chain-fork guard as oracle — planner appears in both plan and
+        # implement chains; fork promotion from either would re-expose it to
+        # the thinking-block API 400.
         defaultContext: "fresh"
       researcher:
         thinking: "medium"
@@ -51,6 +63,11 @@ pi_agent_subagent_overrides:
       worker:
         model: "anthropic/claude-sonnet-4-6"
         thinking: "medium"
+        # worker ships defaultContext: fork (continue-the-thread intent).
+        # In the implement chain (context-builder→worker→reviewer×3) this
+        # promotes ALL steps to context: fork, which causes Anthropic HTTP 400
+        # when the parent session has thinking blocks. worker gets everything
+        # it needs from reads: (context.md, meta-prompt.md), so fresh is safe.
         defaultContext: "fresh"
 
 pi_agent_mcp_servers:
