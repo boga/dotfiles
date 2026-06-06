@@ -105,14 +105,6 @@ if command -v starship >/dev/null 2>&1; then
   eval "$(starship init zsh)"
 fi
 
-chpwd() {
-  # Set KUBECONFIG when a local kubeconfig file exists in the CWD.
-  if [ -f "$PWD/kubeconfig" ]
-  then
-    export KUBECONFIG="$PWD/kubeconfig"
-    echo "kubeconfig is ${KUBECONFIG}"
-  fi
-}
 
 # mise version manager/env vars handler/tasks runner
 eval "$(mise activate zsh)"
