@@ -10,18 +10,19 @@ At the start of every session, check if `CLAUDE.local.md` exists in the reposito
 
 ## Worktree Policy — MANDATORY
 
-**Before editing any file, you MUST pass both checks below. No exceptions unless the user explicitly says otherwise.**
+**Before editing any file, you MUST pass every check below. No exceptions unless the user explicitly says otherwise.**
 
 Before every file edit:
 1. Verify the file is inside the current repository — if not, **stop and ask**.
-2. Check the current branch — if it is `master` or `main`, **stop**.
-3. Check existing worktrees with `wt list` to see if a relevant branch already exists.
-4. If yes — switch to it.
-5. If no — create a new worktree with `wt switch --create <branch-name>`.
-6. Only then make changes, commit and push from the feature branch.
-7. Create or update a PR. Only merge via `wt merge` if the user explicitly asks.
+2. Check the current branch.
+3. Check existing worktrees with `wt list`.
+4. If the current branch is `develop`, `main`, or `master`, create a feature worktree with `wt switch --create <branch-name>`.
+5. If the current branch already has a worktree and is not `develop`, `main`, or `master`, **stop and ask a question to confirm before creating another worktree**.
+6. If a relevant worktree already exists, switch to it instead of creating another one.
+7. Only then make changes, commit and push from the feature branch.
+8. Create or update a PR. Only merge via `wt merge` if the user explicitly asks.
 
-The only exception is when the user explicitly says something like *"commit directly to main"* or *"skip the branch"*.
+The only exception is when the user explicitly says something like *"commit directly to main"*, *"skip the branch"*, or *"create another worktree"*.
 
 ## Commit Message Convention
 
