@@ -85,6 +85,14 @@ pi_agent_mcp_servers:
     headers:
       Api-Key: "${NEW_RELIC_MCP_API_KEY}"
       include-tags: "discovery,data-access,alerting,incident-response,performance-analytics,advanced-analysis"
+  linear:
+    type: "streamable-http"
+    url: "https://mcp.linear.app/mcp"
+    # OAuth 2.1 with dynamic client registration. The adapter auto-discovers
+    # the authorization server from the endpoint's WWW-Authenticate /
+    # protected-resource metadata, so no static secret is stored.
+    # Run `/mcp-auth linear` in Pi to complete the browser auth flow.
+    auth: "oauth"
   n8n:
     type: "http"
     url: "https://dev-n8n-server.api-swap-os.com/mcp-server/http"
