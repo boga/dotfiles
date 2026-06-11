@@ -116,5 +116,4 @@ pi_agent_settings_overrides: |-
   }
 
 # Work-specific packages, appended to the global pi_agent_settings_packages list
-pi_agent_settings_extra_packages:
-  - "npm:@fink-andreas/pi-linear-tools"
+pi_agent_settings_extra_packages: []
