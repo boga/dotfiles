@@ -39,6 +39,24 @@ When the user references a specific file (e.g. `@AGENTS.md`, `src/foo.ts`), oper
 
 Do **not** use `find` or glob patterns to discover and act on other files with the same name. If you notice other related files that might also need the same change, **ask the user first** before touching them.
 
+## Unexpected State — Stop and Ask
+
+If you notice anything that does not match your expectations about the repository, filesystem, or environment, **STOP immediately**. Do not investigate, read further files, or run commands. Describe what you observed and ask the user how to proceed.
+
+Treat the following as unexpected state triggers:
+
+- Current branch is not what the task implies.
+- Worktrees exist that you did not create and were not mentioned.
+- Files are modified, staged, or untracked outside the scope of the current task.
+- Working directory is outside the expected repository.
+- Stale lock files, merge conflicts, or detached HEAD state.
+- Directory structure or file names differ from what the task described.
+
+Before every action, verify:
+
+1. Is the current state consistent with what was described or agreed?
+2. If not — **STOP** and ask before proceeding.
+
 ## CodeRabbit Policy
 
 Run `coderabbit` (CodeRabbit CLI) **only** in two situations:
