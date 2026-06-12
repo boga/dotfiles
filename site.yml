@@ -4,22 +4,6 @@
   connection: local
   gather_facts: true
   tasks:
-    - name: Untap unused/untrusted third-party taps
-      community.general.homebrew_tap:
-        state: absent
-        name: "{{ item }}"
-      loop:
-        - anomalyco/tap
-        - brewforge/extras
-        - derailed/k9s
-        - hashicorp/tap
-        - jesseduffield/lazygit
-        - oven-sh/bun
-        - sdkman/tap
-        - sst/tap
-        - theboredteam/boring-notch
-      ignore_errors: true
-
     - name: Install Homebrew taps
       community.general.homebrew_tap:
         state: present
