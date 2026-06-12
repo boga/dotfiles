@@ -8,6 +8,7 @@
       community.general.homebrew_tap:
         state: present
         name: "{{ homebrew_taps }}"
+      when: homebrew_taps | length > 0
 
     - name: Update Homebrew
       community.general.homebrew:
