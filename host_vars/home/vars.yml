@@ -23,8 +23,8 @@ pi_agent_subagent_overrides:
         model: "openai-codex/gpt-5.5"
         thinking: "low"
       oracle:
-        model: "anthropic/claude-opus-4-8"
-        thinking: "high"
+        model: "openai-codex/gpt-5.5"
+        thinking: "xhigh"
       planner:
         model: "openai-codex/gpt-5.5"
         thinking: "xhigh"
@@ -32,8 +32,8 @@ pi_agent_subagent_overrides:
         model: "openai-codex/gpt-5.5"
         thinking: "medium"
       reviewer:
-        model: "anthropic/claude-opus-4-8"
-        thinking: "high"
+        model: "openai-codex/gpt-5.5"
+        thinking: "xhigh"
       scout:
         model: "openai-codex/gpt-5.5"
         thinking: "medium"
@@ -46,7 +46,6 @@ pi_agent_settings_overrides: |-
     "collapseChangelog": true,
     "enableInstallTelemetry": false,
     "enabledModels": [
-      "anthropic/claude-opus-4-8",
       "openai-codex/gpt-5.5",
       "opencode-go/glm-5",
       "opencode-go/glm-5.1",
