@@ -31,7 +31,7 @@ pi_agent_subagent_overrides:
       linear-researcher:
         thinking: "low"
       oracle:
-        model: "google/gemini-3.1-pro-preview"
+        model: "anthropic/claude-opus-4-8"
         thinking: "high"
         # 10-minute ceiling for long reasoning passes over large context.
         # Note: does not extend any API-level streaming limit — only caps
@@ -55,7 +55,7 @@ pi_agent_subagent_overrides:
       researcher:
         thinking: "medium"
       reviewer:
-        model: "google/gemini-3.1-pro-preview"
+        model: "anthropic/claude-opus-4-8"
         thinking: "high"
       scout:
         model: "anthropic/claude-sonnet-4-6"
