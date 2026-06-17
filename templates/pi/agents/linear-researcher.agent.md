@@ -1,11 +1,9 @@
 ---
 name: linear-researcher
 description: Gathers Linear project context via MCP tools — tickets, milestones, project state, and blockers
-# Linear MCP tools must be declared explicitly here — pi passes --tools to the child
-# process and only listed tools are available. Without them the agent's system prompt
-# instructs it to call linear_issue/project/milestone/team but those calls silently
-# fail, producing a placeholder output instead of real Linear data.
-tools: write, intercom, linear_issue, linear_project, linear_milestone, linear_team
+# mcp is the gateway for all MCP server tools including Linear.
+# intercom removed — the agent must not coordinate with the supervisor during parallel research.
+tools: write, mcp
 thinking: low
 systemPromptMode: replace
 inheritProjectContext: false
@@ -20,7 +18,13 @@ Given a task or topic, query Linear using the available MCP tools and produce a 
 
 Working rules:
 
-- Use `linear_issue`, `linear_project`, `linear_milestone`, and `linear_team` tools.
+- If any tool call fails or Linear is unreachable for any reason,
+  immediately write the output file with a brief note explaining what failed,
+  and exit successfully. Do NOT use intercom. Do NOT ask the supervisor.
+- Use the `mcp` gateway to call Linear tools:
+  - `mcp({ tool: "linear_searchIssues", args: '{"query": "..."}' })`
+  - `mcp({ tool: "linear_getIssue", args: '{"id": "..."}' })`
+  - Discover all available Linear tool names first via `mcp({ server: "linear" })`.
 - When a tool response may be large, pipe it through `ctx_execute` to filter and summarise —
   never paste raw list output into your response.
 - Search for issues related to the task by title, label, or description.
@@ -37,7 +41,7 @@ Queries to consider (adapt to the task):
 Filtering pattern for large issue lists:
 
 ```javascript
-// After calling linear_issue({ action: "list", ... }), process with:
+// After calling mcp({ tool: "linear_searchIssues", args: '{"query": "..."}' }), process with:
 ctx_execute({
   language: "javascript",
   code: `
@@ -75,6 +79,4 @@ Overall project health if available.
 
 What could not be queried or found.
 
-## Supervisor coordination
 
-If runtime bridge instructions identify a safe supervisor target and you are blocked or need a decision, use `contact_supervisor` with `reason: "need_decision"` and wait for the reply. Use `reason: "progress_update"` only for meaningful progress or unexpected discoveries. Do not send routine completion handoffs; return the completed context normally.
