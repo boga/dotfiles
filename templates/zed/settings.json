@@ -1,6 +1,29 @@
 // {{ ansible_managed }}
 
 {
+  "prettier": {
+    "allowed": true
+  },
+  "autosave": {
+    "after_delay": {
+      "milliseconds": 1000
+    }
+  },
+  "icon_theme": {
+    "mode": "system",
+    "light": "JetBrains New UI Icons (Light)",
+    "dark": "JetBrains New UI Icons (Dark)"
+  },
+  "default_open_behavior": "new_window",
+  "cli_default_open_behavior": "new_window",
+  "agent_servers": {
+    "pi-acp": {
+      "type": "registry"
+    },
+    "claude-acp": {
+      "type": "registry"
+    }
+  },
   "theme": {
     "mode": "system",
     "dark": "Fleet Dark",
@@ -18,8 +41,8 @@
   },
   "base_keymap": "JetBrains",
   "enable_language_server": true,
-  "buffer_font_size": 15,
-  "buffer_font_family": "Fira Code",
+  "buffer_font_size": 15.0,
+  "buffer_font_family": "Iosevka Fixed",
   "format_on_save": "off",
   "collaboration_panel": {
     "button": false,
