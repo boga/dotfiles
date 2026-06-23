@@ -32,12 +32,6 @@ ansible-playbook site.yml --limit home
 ansible-playbook site.yml --limit work
 ```
 
-### Running Specific Tasks
+## Policy
 
-Use `--tags` to run only a subset of tasks:
-
-- `configs`: Copies configuration files and generates shell integrations.
-
-```bash
-ansible-playbook site.yml --limit home --tags configs
-```
+**Never run `ansible-playbook` automatically.** The user always runs it manually. Only prepare or edit files — do not execute playbooks.
