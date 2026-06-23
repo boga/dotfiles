@@ -746,7 +746,7 @@ gcloud firestore import gs://my-bucket/firestore-backup/2024-01-01T00:00:00_1234
 
 # Query / read documents via REST API (Application Default Credentials)
 PROJECT=$(gcloud config get-value project)
-TOKEN=$(gcloud auth print-access-token)
+TOKEN=$(gcloud auth application-default print-access-token)
 
 # List documents in a collection
 curl -s -H "Authorization: Bearer $TOKEN" \
@@ -779,8 +779,8 @@ curl -s -X POST \
 curl -s -X PATCH \
   -H "Authorization: Bearer $TOKEN" \
   -H "Content-Type: application/json" \
-  -d '{"fields": {"name": {"stringValue": "Alice"}, "age": {"integerValue": 30}}}' \
-  "https://firestore.googleapis.com/v1/projects/$PROJECT/databases/(default)/documents/COLLECTION/DOC_ID"
+  -d '{"fields": {"name": {"stringValue": "Alice"}, "age": {"integerValue": "30"}}}' \
+  "https://firestore.googleapis.com/v1/projects/$PROJECT/databases/(default)/documents/COLLECTION/DOC_ID?updateMask.fieldPaths=name&updateMask.fieldPaths=age"
 
 # Delete a document
 curl -s -X DELETE \
@@ -791,8 +791,8 @@ curl -s -X DELETE \
 gcloud firestore indexes composite list
 gcloud firestore indexes composite create \
   --collection-group=orders \
-  --field-config=field-path=userId,order=ASCENDING \
-  --field-config=field-path=createdAt,order=DESCENDING
+  --field-config=field-path=userId,order=ascending \
+  --field-config=field-path=createdAt,order=descending
 gcloud firestore indexes composite delete INDEX_ID
 
 gcloud firestore indexes fields list
