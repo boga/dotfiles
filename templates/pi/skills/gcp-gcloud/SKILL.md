@@ -1,6 +1,6 @@
 ---
 name: gcp-gcloud
-description: Work with Google Cloud Platform via the gcloud CLI. Use this skill for Compute Engine (VMs), Cloud Storage (GCS), Kubernetes Engine (GKE), Cloud Run, Cloud Functions, IAM, networking, Cloud SQL, Pub/Sub, logging, secrets, Artifact Registry, and project management.
+description: Work with Google Cloud Platform via the gcloud CLI. Use this skill for Compute Engine (VMs), Cloud Storage (GCS), Kubernetes Engine (GKE), Cloud Run, Cloud Functions, IAM, networking, Cloud SQL, Pub/Sub, logging, secrets, Artifact Registry, Firestore (queries, collections, documents, indexes), and project management. Also use this skill when working with any Firebase or GCP data store via the gcloud CLI.
 ---
 
 # Google Cloud CLI (`gcloud`)
@@ -714,6 +714,88 @@ gcloud projects get-iam-policy PROJECT_ID \
 # Projection (select fields)
 gcloud compute instances list \
   --format="table[box](name,zone.basename(),machineType.basename(),status)"
+```
+
+## Firestore
+
+> **Always prefer `gcloud` CLI and `curl` with ADC over firebase-admin JS scripts for Firestore operations.**
+
+```bash
+# Enable Firestore API
+gcloud services enable firestore.googleapis.com
+
+# Create a Firestore database (native mode)
+gcloud firestore databases create --location=us-central1
+
+# List databases
+gcloud firestore databases list
+
+# Describe a database
+gcloud firestore databases describe --database='(default)'
+
+# Delete a database
+gcloud firestore databases delete --database=my-db
+
+# Export data to GCS
+gcloud firestore export gs://my-bucket/firestore-backup \
+  --collection-ids=users,orders
+
+# Import data from GCS
+gcloud firestore import gs://my-bucket/firestore-backup/2024-01-01T00:00:00_12345 \
+  --collection-ids=users,orders
+
+# Query / read documents via REST API (Application Default Credentials)
+PROJECT=$(gcloud config get-value project)
+TOKEN=$(gcloud auth application-default print-access-token)
+
+# List documents in a collection
+curl -s -H "Authorization: Bearer $TOKEN" \
+  "https://firestore.googleapis.com/v1/projects/$PROJECT/databases/(default)/documents/COLLECTION"
+
+# Get a single document
+curl -s -H "Authorization: Bearer $TOKEN" \
+  "https://firestore.googleapis.com/v1/projects/$PROJECT/databases/(default)/documents/COLLECTION/DOC_ID"
+
+# Run a structured query (POST)
+curl -s -X POST \
+  -H "Authorization: Bearer $TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "structuredQuery": {
+      "from": [{"collectionId": "users"}],
+      "where": {
+        "fieldFilter": {
+          "field": {"fieldPath": "status"},
+          "op": "EQUAL",
+          "value": {"stringValue": "active"}
+        }
+      },
+      "limit": 10
+    }
+  }' \
+  "https://firestore.googleapis.com/v1/projects/$PROJECT/databases/(default)/documents:runQuery"
+
+# Create / upsert a document (PATCH)
+curl -s -X PATCH \
+  -H "Authorization: Bearer $TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{"fields": {"name": {"stringValue": "Alice"}, "age": {"integerValue": "30"}}}' \
+  "https://firestore.googleapis.com/v1/projects/$PROJECT/databases/(default)/documents/COLLECTION/DOC_ID?updateMask.fieldPaths=name&updateMask.fieldPaths=age"
+
+# Delete a document
+curl -s -X DELETE \
+  -H "Authorization: Bearer $TOKEN" \
+  "https://firestore.googleapis.com/v1/projects/$PROJECT/databases/(default)/documents/COLLECTION/DOC_ID"
+
+# Indexes
+gcloud firestore indexes composite list
+gcloud firestore indexes composite create \
+  --collection-group=orders \
+  --field-config=field-path=userId,order=ascending \
+  --field-config=field-path=createdAt,order=descending
+gcloud firestore indexes composite delete INDEX_ID
+
+gcloud firestore indexes fields list
 ```
 
 ## Tips
