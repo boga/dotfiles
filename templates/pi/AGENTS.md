@@ -15,12 +15,13 @@ At the start of every session, check if `CLAUDE.local.md` exists in the reposito
 Before every file edit:
 1. Verify the file is inside the current repository — if not, **stop and ask**.
 2. Check the current branch.
-3. Check existing worktrees with `wt list`.
-4. If the current branch is `develop`, `main`, or `master`, create a feature worktree with `wt switch --create <branch-name>`.
-5. If the current branch already has a worktree and is not `develop`, `main`, or `master`, **stop and ask a question to confirm before creating another worktree**.
-6. If a relevant worktree already exists, switch to it instead of creating another one.
-7. Only then make changes, commit and push from the feature branch.
-8. Create or update a PR. Only merge via `wt merge` if the user explicitly asks.
+3. **If the current branch is NOT `develop`, `main`, or `master`, the directory you are already in IS the feature worktree.** Do not run `wt switch --create` or consult `wt list` to look for another one — just work here. This applies even if the branch name doesn't look like a typical feature-branch name.
+4. Only if the current branch IS `develop`, `main`, or `master`: run `wt list` to check for an existing worktree for the change you intend to make.
+   - If a relevant worktree already exists, switch to it instead of creating another one.
+   - Otherwise, create one with `wt switch --create <branch-name>`.
+5. If you are unsure whether an existing non-main branch/worktree is "relevant" to the current task, **stop and ask** before creating a second worktree.
+6. Only then make changes, commit and push from the feature branch.
+7. Create or update a PR. Only merge via `wt merge` if the user explicitly asks.
 
 The only exception is when the user explicitly says something like *"commit directly to main"*, *"skip the branch"*, or *"create another worktree"*.
 
