@@ -1,0 +1,20 @@
+---
+- name: "Check for herdr on PATH"
+  ansible.builtin.command: command -v herdr
+  register: herdr_check
+  changed_when: false
+  failed_when: false
+
+- name: "Ensure Pi agent extensions directory exists"
+  ansible.builtin.file:
+    path: "{{ pi_agent_dir }}/extensions"
+    state: directory
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_group }}"
+    mode: "0755"
+  when: herdr_check.rc == 0
+
+- name: "Install Herdr Pi integration"
+  ansible.builtin.command: herdr integration install pi
+  changed_when: true
+  when: herdr_check.rc == 0

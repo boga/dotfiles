@@ -12,3 +12,6 @@
 
 - name: "Configure Pi agent MCP servers"
   ansible.builtin.import_tasks: mcp.yml
+
+- name: "Install Herdr Pi integration"
+  ansible.builtin.import_tasks: herdr_integration.yml
