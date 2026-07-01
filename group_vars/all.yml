@@ -169,6 +169,9 @@ config_files:
   - name: "Pi skill: coderabbit"
     src: "./templates/pi/skills/coderabbit/SKILL.md"
     dest: "~/.pi/agent/skills/coderabbit/SKILL.md"
+  - name: "Herdr config"
+    src: "./templates/herdr/config.toml"
+    dest: "~/.config/herdr/config.toml"
 
 pi_agent_settings_path: "~/.pi/agent/settings.json"
 pi_agent_settings_overrides: |-
