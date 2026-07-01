@@ -10,7 +10,7 @@ pi_plannotator_planning_model:
 pi_plannotator_planning_thinking: "xhigh"
 pi_plannotator_executing_model:
   provider: "anthropic"
-  id: "claude-sonnet-4-6"
+  id: "claude-sonnet-5"
 pi_plannotator_executing_thinking: "medium"
 pi_plannotator_reviewing_model:
   provider: "anthropic"
@@ -58,10 +58,10 @@ pi_agent_subagent_overrides:
         model: "anthropic/claude-opus-4-8"
         thinking: "high"
       scout:
-        model: "anthropic/claude-sonnet-4-6"
+        model: "anthropic/claude-sonnet-5"
         thinking: "low"
       worker:
-        model: "anthropic/claude-sonnet-4-6"
+        model: "anthropic/claude-sonnet-5"
         thinking: "medium"
         # worker ships defaultContext: fork (continue-the-thread intent).
         # In the implement chain (context-builder→worker→reviewer×3) this
@@ -107,11 +107,9 @@ pi_agent_settings_overrides: |-
     "collapseChangelog": true,
     "enableInstallTelemetry": false,
     "enabledModels": [
-      "anthropic/claude-sonnet-4-6",
+      "anthropic/claude-sonnet-5",
       "anthropic/claude-haiku-4-5",
-      "anthropic/claude-opus-4-8",
-      "google/gemini-3.1-pro-preview",
-      "google/gemini-3.5-flash"
+      "anthropic/claude-opus-4-8"
     ]
   }
 
