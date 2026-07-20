@@ -102,9 +102,9 @@ pi_agent_mcp_servers:
     # Run `/mcp-auth n8n` in Pi to complete the browser auth flow.
     auth: "oauth"
   intellij-idea:
-    type: "sse"
-    url: "http://127.0.0.1:64342/sse"
-    # IntelliJ IDEA's built-in MCP server (SSE) on localhost. The
+    type: "streamable-http"
+    url: "http://127.0.0.1:64342/stream"
+    # IntelliJ IDEA's built-in MCP server (streamable-http) on localhost. The
     # IJ_MCP_SERVER_PROJECT_PATH header tells the IDE which open project to
     # target. Pi's MCP adapter interpolates ${VAR} from the environment at
     # connection time (there is no literal per-call substitution), so ${PWD}
