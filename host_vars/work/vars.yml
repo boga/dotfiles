@@ -7,75 +7,55 @@ firefox_profile_dir: /Users/ivan-shnurchenko/Library/Application Support/Firefox
 pi_plannotator_planning_model:
   provider: "anthropic"
   id: "claude-opus-4-8"
-pi_plannotator_planning_thinking: "xhigh"
 pi_plannotator_executing_model:
   provider: "anthropic"
   id: "claude-sonnet-5"
-pi_plannotator_executing_thinking: "medium"
 pi_plannotator_reviewing_model:
   provider: "anthropic"
   id: "claude-opus-4-8"
-pi_plannotator_reviewing_thinking: "xhigh"
 
-pi_agent_subagent_overrides:
-  subagents:
-    agentOverrides:
-      context-builder:
-        thinking: "low"
-      delegate:
-        thinking: "low"
-      env-scout:
-        thinking: "low"
-      gh-researcher:
-        thinking: "low"
-      linear-researcher:
-        thinking: "low"
-      oracle:
-        model: "anthropic/claude-opus-4-8"
-        thinking: "high"
-        # 10-minute ceiling for long reasoning passes over large context.
-        # Note: does not extend any API-level streaming limit — only caps
-        # pi-subagents' own resource-limit timer.
-        maxExecutionTimeMs: 600000
-        # Must be "fresh" — oracle ships defaultContext: fork, which promotes
-        # the entire plan chain (scout→planner→oracle) to context: fork.
-        # A forked chain inherits the parent session's thinking blocks;
-        # Anthropic rejects those with HTTP 400. Fresh context is safe because
-        # oracle receives all it needs via reads: (plan.md, context.md, research.md).
-        defaultContext: "fresh"
-      planner:
-        model: "anthropic/claude-opus-4-8"
-        thinking: "xhigh"
-        # Same ceiling as oracle; planner uses xhigh thinking which runs longer.
-        maxExecutionTimeMs: 600000
-        # Same chain-fork guard as oracle — planner appears in both plan and
-        # implement chains; fork promotion from either would re-expose it to
-        # the thinking-block API 400.
-        defaultContext: "fresh"
-      researcher:
-        thinking: "medium"
-      reviewer:
-        model: "anthropic/claude-opus-4-8"
-        thinking: "high"
-      scout:
-        model: "anthropic/claude-sonnet-5"
-        thinking: "low"
-      worker:
-        model: "anthropic/claude-sonnet-5"
-        thinking: "medium"
-        # worker ships defaultContext: fork (continue-the-thread intent).
-        # In the implement chain (context-builder→worker→reviewer×3) this
-        # promotes ALL steps to context: fork, which causes Anthropic HTTP 400
-        # when the parent session has thinking blocks. worker gets everything
-        # it needs from reads: (context.md, meta-prompt.md), so fresh is safe.
-        defaultContext: "fresh"
+# Thinking-level deltas beyond the shared base in group_vars/all.yml, plus
+# this host's model assignments.
+pi_agent_subagent_overrides_local:
+  oracle:
+    model: "anthropic/claude-opus-4-8"
+    thinking: "high"
+    # 10-minute ceiling for long reasoning passes over large context.
+    # Note: does not extend any API-level streaming limit — only caps
+    # pi-subagents' own resource-limit timer.
+    maxExecutionTimeMs: 600000
+    # Must be "fresh" — oracle ships defaultContext: fork, which promotes
+    # the entire plan chain (scout→planner→oracle) to context: fork.
+    # A forked chain inherits the parent session's thinking blocks;
+    # Anthropic rejects those with HTTP 400. Fresh context is safe because
+    # oracle receives all it needs via reads: (plan.md, context.md, research.md).
+    defaultContext: "fresh"
+  planner:
+    model: "anthropic/claude-opus-4-8"
+    # Same ceiling as oracle; planner uses xhigh thinking which runs longer.
+    maxExecutionTimeMs: 600000
+    # Same chain-fork guard as oracle — planner appears in both plan and
+    # implement chains; fork promotion from either would re-expose it to
+    # the thinking-block API 400.
+    defaultContext: "fresh"
+  reviewer:
+    model: "anthropic/claude-opus-4-8"
+    thinking: "high"
+  scout:
+    model: "anthropic/claude-sonnet-5"
+    thinking: "low"
+  worker:
+    model: "anthropic/claude-sonnet-5"
+    # worker ships defaultContext: fork (continue-the-thread intent).
+    # In the implement chain (context-builder→worker→reviewer×3) this
+    # promotes ALL steps to context: fork, which causes Anthropic HTTP 400
+    # when the parent session has thinking blocks. worker gets everything
+    # it needs from reads: (context.md, meta-prompt.md), so fresh is safe.
+    defaultContext: "fresh"
 
-pi_agent_mcp_servers:
-  context-mode:
-    command: "context-mode"
-  context7:
-    type: "streamable-http"
-    url: "https://mcp.context7.com/mcp"
+# Work-only MCP servers, merged over pi_agent_mcp_servers_base in
+# group_vars/all.yml.
+pi_agent_mcp_servers_local:
   notion:
     type: "streamable-http"
     url: "https://mcp.notion.com/mcp"
@@ -101,31 +81,12 @@ pi_agent_mcp_servers:
     # protected-resource metadata, so no static secret is stored.
     # Run `/mcp-auth n8n` in Pi to complete the browser auth flow.
     auth: "oauth"
-  intellij-idea:
-    type: "streamable-http"
-    url: "http://127.0.0.1:64342/stream"
-    # IntelliJ IDEA's built-in MCP server (streamable-http) on localhost. The
-    # IJ_MCP_SERVER_PROJECT_PATH header tells the IDE which open project to
-    # target. Pi's MCP adapter interpolates ${VAR} from the environment at
-    # connection time (there is no literal per-call substitution), so ${PWD}
-    # resolves to the directory Pi was launched in — i.e. the worktree that
-    # IDEA is opened on. Custom headers also disable OAuth auto-detection, so
-    # no `auth` is needed for this local endpoint. If you switch the project
-    # mid-session, run `/mcp reconnect intellij-idea` to re-resolve the header
-    # from the new $PWD.
-    headers:
-      IJ_MCP_SERVER_PROJECT_PATH: "${PWD}"
 
-pi_agent_settings_overrides: |-
-  {
-    "collapseChangelog": true,
-    "enableInstallTelemetry": false,
-    "enabledModels": [
-      "anthropic/claude-sonnet-5",
-      "anthropic/claude-haiku-4-5",
-      "anthropic/claude-opus-4-8"
-    ]
-  }
+pi_agent_settings_overrides_local:
+  enabledModels:
+    - "anthropic/claude-sonnet-5"
+    - "anthropic/claude-haiku-4-5"
+    - "anthropic/claude-opus-4-8"
 
 # Work-specific packages, appended to the global pi_agent_settings_packages list
 pi_agent_settings_extra_packages: []

@@ -204,12 +204,7 @@ config_files:
     dest: "~/.config/television/cable/text.toml"
 
 pi_agent_settings_path: "~/.pi/agent/settings.json"
-pi_agent_settings_overrides: |-
-  {
-    "collapseChangelog": true,
-    "enableInstallTelemetry": false
-  }
-pi_agent_mcp_servers:
+pi_agent_mcp_servers_base:
   context-mode:
     command: "context-mode"
   context7:
@@ -227,12 +222,19 @@ pi_agent_mcp_servers:
     # no `auth` is needed for this local endpoint. If you switch the project
     # mid-session, run `/mcp reconnect intellij-idea` to re-resolve the header
     # from the new $PWD.
-    #
-    # NOTE: the `work` host redefines pi_agent_mcp_servers in full (Ansible
-    # hash_behaviour=replace), so keep this entry in sync with the copy in
-    # host_vars/work/vars.yml.
     headers:
       IJ_MCP_SERVER_PROJECT_PATH: "${PWD}"
+
+# Host-specific MCP servers (e.g. work-only integrations) are added via
+# pi_agent_mcp_servers_local in host_vars/<host>/vars.yml and merged in below.
+pi_agent_mcp_servers: >-
+  {{
+    pi_agent_mcp_servers_base
+    | combine(
+        hostvars[inventory_hostname].get('pi_agent_mcp_servers_local', {}),
+        recursive=True
+      )
+  }}
 
 pi_agent_settings_packages:
   - "git:github.com/boga/pi-local-claude-loader"
@@ -241,3 +243,70 @@ pi_agent_settings_packages:
   - "npm:pi-mcp-adapter"
   - "npm:pi-mono-ask-user-question"
   - "npm:pi-subagents"
+
+# Settings overrides shared across hosts; per-host deltas (e.g. enabledModels)
+# come from pi_agent_settings_overrides_local in host_vars/<host>/vars.yml.
+pi_agent_settings_overrides_base:
+  collapseChangelog: true
+  enableInstallTelemetry: false
+
+pi_agent_settings_overrides: >-
+  {{
+    pi_agent_settings_overrides_base
+    | combine(
+        hostvars[inventory_hostname].get('pi_agent_settings_overrides_local', {}),
+        recursive=True
+      )
+    | to_json
+  }}
+
+# Per-agent thinking levels shared across hosts today; a host can override via
+# pi_agent_subagent_overrides_local (agentOverrides map) in its vars.yml.
+pi_agent_subagent_overrides_base:
+  context-builder:
+    thinking: "low"
+  delegate:
+    thinking: "low"
+  env-scout:
+    thinking: "low"
+  gh-researcher:
+    thinking: "low"
+  linear-researcher:
+    thinking: "low"
+  planner:
+    thinking: "xhigh"
+  researcher:
+    thinking: "medium"
+  worker:
+    thinking: "medium"
+
+pi_agent_subagent_overrides:
+  subagents:
+    agentOverrides: >-
+      {{
+        pi_agent_subagent_overrides_base
+        | combine(
+            hostvars[inventory_hostname].get('pi_agent_subagent_overrides_local', {}),
+            recursive=True
+          )
+      }}
+
+# Plannotator thinking levels are identical across hosts today; per-host
+# overrides can be supplied via pi_plannotator_thinking_local.
+pi_plannotator_thinking_base:
+  planning: "xhigh"
+  executing: "medium"
+  reviewing: "xhigh"
+
+pi_plannotator_thinking: >-
+  {{
+    pi_plannotator_thinking_base
+    | combine(
+        hostvars[inventory_hostname].get('pi_plannotator_thinking_local', {}),
+        recursive=True
+      )
+  }}
+
+pi_plannotator_planning_thinking: "{{ pi_plannotator_thinking.planning }}"
+pi_plannotator_executing_thinking: "{{ pi_plannotator_thinking.executing }}"
+pi_plannotator_reviewing_thinking: "{{ pi_plannotator_thinking.reviewing }}"
