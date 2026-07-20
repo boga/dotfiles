@@ -101,6 +101,20 @@ pi_agent_mcp_servers:
     # protected-resource metadata, so no static secret is stored.
     # Run `/mcp-auth n8n` in Pi to complete the browser auth flow.
     auth: "oauth"
+  intellij-idea:
+    type: "streamable-http"
+    url: "http://127.0.0.1:64342/stream"
+    # IntelliJ IDEA's built-in MCP server (streamable-http) on localhost. The
+    # IJ_MCP_SERVER_PROJECT_PATH header tells the IDE which open project to
+    # target. Pi's MCP adapter interpolates ${VAR} from the environment at
+    # connection time (there is no literal per-call substitution), so ${PWD}
+    # resolves to the directory Pi was launched in — i.e. the worktree that
+    # IDEA is opened on. Custom headers also disable OAuth auto-detection, so
+    # no `auth` is needed for this local endpoint. If you switch the project
+    # mid-session, run `/mcp reconnect intellij-idea` to re-resolve the header
+    # from the new $PWD.
+    headers:
+      IJ_MCP_SERVER_PROJECT_PATH: "${PWD}"
 
 pi_agent_settings_overrides: |-
   {
