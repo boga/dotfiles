@@ -1,92 +1,96 @@
 ---
 name: postgres
-description: Query and inspect Postgres databases using psql, with DATABASE_URL sourced from the project's mise.toml (or an ancestor directory's mise.toml). Use when the user asks to run SQL, inspect schema/tables, or debug data in a Postgres-backed project.
+description: Query and inspect Postgres databases using psql, with DATABASE_URL read from the environment. Use when the user asks to run SQL, inspect schema/tables, or debug data in a Postgres-backed project.
 ---
 
 # Postgres
 
-Runs `psql` against the `DATABASE_URL` defined in the project's `mise.toml` (or an
-ancestor directory's `mise.toml`, per mise's usual config resolution).
+Runs `psql` against the `DATABASE_URL` already present in the environment.
 
 ## How DATABASE_URL Is Resolved
 
-Do not assume `DATABASE_URL` is already exported in the current shell — the agent's
-bash tool may run a non-interactive shell that never sourced `mise activate`. Never
-read, print, or echo the value of `DATABASE_URL` (it contains credentials) — only
-check that it resolves to a non-empty value, via `mise`, from the project directory
-(`cwd`):
+Do not assume `DATABASE_URL` is set — check first. Never read, print, or echo its
+value (it contains credentials) — only check that it resolves to a non-empty value:
 
 ```bash
-mise exec -- sh -c 'test -n "$DATABASE_URL"' && echo present || echo absent
+test -n "$DATABASE_URL" && echo present || echo absent
 ```
 
-`mise exec -- <command>` loads env vars (including `[env]` entries) from the nearest
-`mise.toml` walking up from `cwd`, then runs `<command>` with that env applied — no
-prior shell activation required.
+This prohibition includes partial or truncated output too — no `head`, `cut`,
+`grep -o`, `awk`, substring slicing, or any command that surfaces even a fragment of
+the value (e.g. `echo $DATABASE_URL | head -c 20`). A leaked prefix can still expose
+scheme, user, or host. The only permitted check is the `test -n` presence check
+above.
 
 ### If DATABASE_URL is absent
 
 Stop. Do not guess, invent, or ask the user to paste a connection string into chat.
 Report this exact failure and instructions:
 
-> `DATABASE_URL` is not set for this project. Provide it one of two ways:
+> `DATABASE_URL` is not set in this shell. Provide it one of two ways:
 >
 > 1. **Per-shell (temporary):** `export DATABASE_URL="postgres://user:password@host:5432/dbname"`
-> 2. **Per-project (persistent, recommended):** add to `mise.toml` in this project
->    (or an ancestor directory):
+> 2. **Per-project (persistent, via mise):** if this project uses `mise`, add to
+>    `mise.toml` (in this project or an ancestor directory):
 >    ```toml
 >    [env]
 >    DATABASE_URL = "postgres://user:password@host:5432/dbname"
 >    ```
->    Then re-run the task — `mise exec` will pick it up automatically.
+>    then make sure `mise` is activated in your shell so the var is exported
+>    automatically. Then re-run the task.
 
 Do not proceed with any `psql`/`pg_dump` command until the existence check passes.
 
-### Expected mise.toml shape
+## Usage
 
-The project (or an ancestor directory) is expected to define something like:
+### Discovery First
 
-```toml
-[env]
-DATABASE_URL = "postgres://user:password@localhost:5432/mydb"
+When the task is to find or confirm data (e.g., "find X users/table", "does a Y
+table exist"), run `\dt` first:
+
+```bash
+psql "$DATABASE_URL" -c "\dt"
 ```
 
-## Usage
+Do this before grepping application source code or guessing table names. Listing
+tables is one cheap command vs. multiple grep/read round-trips through source code.
+Only fall back to source-code search if the `\dt` output doesn't make the right
+table obvious.
 
 ### Run a query
 
 ```bash
-mise exec -- psql "$DATABASE_URL" -c "SELECT * FROM users LIMIT 10;"
+psql "$DATABASE_URL" -c "SELECT * FROM users LIMIT 10;"
 ```
 
 ### List tables
 
 ```bash
-mise exec -- psql "$DATABASE_URL" -c "\dt"
+psql "$DATABASE_URL" -c "\dt"
 ```
 
 ### Describe a table
 
 ```bash
-mise exec -- psql "$DATABASE_URL" -c "\d+ users"
+psql "$DATABASE_URL" -c "\d+ users"
 ```
 
 ### List schemas
 
 ```bash
-mise exec -- psql "$DATABASE_URL" -c "\dn"
+psql "$DATABASE_URL" -c "\dn"
 ```
 
 ### Run a .sql file
 
 ```bash
-mise exec -- psql "$DATABASE_URL" -f path/to/query.sql
+psql "$DATABASE_URL" -f path/to/query.sql
 ```
 
 ### Dump schema only (no data)
 
 ```bash
-mise exec -- pg_dump --schema-only "$DATABASE_URL"
+pg_dump --schema-only "$DATABASE_URL"
 ```
 
 ## Output Handling
@@ -97,7 +101,7 @@ rows or wide columns, so only the derived answer enters context:
 
 ```javascript
 ctx_execute(language: "shell", code: `
-  mise exec -- psql "$DATABASE_URL" -At -F',' -c "SELECT id, email FROM users LIMIT 1000;"
+  psql "$DATABASE_URL" -At -F',' -c "SELECT id, email FROM users LIMIT 1000;"
 `)
 ```
 
