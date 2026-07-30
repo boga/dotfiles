@@ -13,7 +13,7 @@ Do not assume `DATABASE_URL` is set — check first. Never read, print, or echo 
 value (it contains credentials) — only check that it resolves to a non-empty value:
 
 ```bash
-test -n "$DATABASE_URL" && echo present || echo absent
+test -n "${DATABASE_URL:-}" && echo present || echo absent
 ```
 
 This prohibition includes partial or truncated output too — no `head`, `cut`,
@@ -46,16 +46,17 @@ Do not proceed with any `psql`/`pg_dump` command until the existence check passe
 ### Discovery First
 
 When the task is to find or confirm data (e.g., "find X users/table", "does a Y
-table exist"), run `\dt` first:
+table exist"), run a schema-aware `\dt` first:
 
 ```bash
-psql "$DATABASE_URL" -c "\dt"
+psql "$DATABASE_URL" -c "\dt public.*"
 ```
 
-Do this before grepping application source code or guessing table names. Listing
-tables is one cheap command vs. multiple grep/read round-trips through source code.
-Only fall back to source-code search if the `\dt` output doesn't make the right
-table obvious.
+Use `\dt schema_name.*` if the project uses a non-`public` schema. Do this before
+grepping application source code or guessing table names. Listing tables is one
+cheap command vs. multiple grep/read round-trips through source code. Only fall
+back to source-code search if the `\dt` output doesn't make the right table
+obvious.
 
 ### Run a query
 
@@ -84,8 +85,13 @@ psql "$DATABASE_URL" -c "\dn"
 ### Run a .sql file
 
 ```bash
-psql "$DATABASE_URL" -f path/to/query.sql
+psql "$DATABASE_URL" -v ON_ERROR_STOP=1 -f path/to/query.sql
 ```
+
+`ON_ERROR_STOP=1` halts execution at the first SQL error instead of continuing
+with later statements. For write scripts, wrap the script's statements in an
+explicit `BEGIN; ... COMMIT;` transaction so a failure can be rolled back instead
+of leaving partial changes applied.
 
 ### Dump schema only (no data)
 
@@ -101,18 +107,23 @@ rows or wide columns, so only the derived answer enters context:
 
 ```javascript
 ctx_execute(language: "shell", code: `
-  psql "$DATABASE_URL" -At -F',' -c "SELECT id, email FROM users LIMIT 1000;"
+  psql "$DATABASE_URL" -At -F',' -c "SELECT status, COUNT(*) FROM users GROUP BY status;"
 `)
 ```
 
 Use `-At -F','` (unaligned, tuples-only, comma field separator) for machine-parseable
-output when you intend to filter/aggregate in code rather than eyeball it.
+output. Push filtering/aggregation into the SQL or the sandbox code so only the
+derived answer (counts, aggregates, filtered rows) is printed — do not select raw
+PII columns (email, name, phone, address, etc.) unless the task explicitly
+requires inspecting those values.
 
 ## Safety
 
-- Treat any `INSERT`/`UPDATE`/`DELETE`/`DROP`/`TRUNCATE`/`ALTER` statement as a write —
-  confirm with the user before running it, unless they explicitly asked for that exact
-  change.
+- Require explicit user confirmation before running any command or script that can
+  change database state or privileges — this is not limited to a fixed keyword
+  list. It includes (non-exhaustively) `INSERT`/`UPDATE`/`DELETE`/`DROP`/
+  `TRUNCATE`/`ALTER`/`CREATE`/`CREATE OR REPLACE`/`GRANT`/`REVOKE`/`MERGE`/`CALL`/
+  `DO`/`\copy`, unless the user explicitly asked for that exact change.
 - Default to read-only exploration (`SELECT`, `\d`, `\dt`, `EXPLAIN`) when the task is
   "inspect" or "debug", not "modify."
 - Never read, print, or log the value of `$DATABASE_URL` (it contains credentials).
