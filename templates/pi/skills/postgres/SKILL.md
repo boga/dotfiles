@@ -107,15 +107,19 @@ rows or wide columns, so only the derived answer enters context:
 
 ```javascript
 ctx_execute(language: "shell", code: `
-  psql "$DATABASE_URL" -At -F',' -c "SELECT status, COUNT(*) FROM users GROUP BY status;"
+  psql "$DATABASE_URL" --csv -t -c "SELECT status, COUNT(*) FROM users GROUP BY status;"
 `)
 ```
 
-Use `-At -F','` (unaligned, tuples-only, comma field separator) for machine-parseable
-output. Push filtering/aggregation into the SQL or the sandbox code so only the
-derived answer (counts, aggregates, filtered rows) is printed — do not select raw
-PII columns (email, name, phone, address, etc.) unless the task explicitly
-requires inspecting those values.
+Prefer `--csv -t` (tuples-only, quoting-safe CSV output; requires PostgreSQL 12+
+client) for machine-parseable output, since it properly quotes/escapes fields that
+contain the delimiter, newlines, or quotes. If `--csv` is unavailable (older
+`psql`), fall back to `-At -F','` but be aware it is not quoting-safe — only use it
+for queries where the selected columns cannot contain a comma or newline (e.g.
+status enums, counts, ids), not free-text/PII columns. Push filtering/aggregation
+into the SQL or the sandbox code so only the derived answer (counts, aggregates,
+filtered rows) is printed — do not select raw PII columns (email, name, phone,
+address, etc.) unless the task explicitly requires inspecting those values.
 
 ## Safety
 
