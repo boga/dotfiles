@@ -24,3 +24,7 @@ For any preference managed by this role, verify with:
 ```bash
 defaults read <domain> <key>
 ```
+
+## References
+
+- [Ты используешь Finder неправильно. 10 настроек которые это исправят (You're using Finder wrong. 10 settings to fix it)](https://www.youtube.com/watch?v=CzLpFft-JFA)
