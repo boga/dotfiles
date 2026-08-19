@@ -13,3 +13,47 @@
   ansible.builtin.command: killall Finder
   when: osx_settings_show_all_extensions.changed
   changed_when: true
+
+- name: "Configure Finder toolbar similar to screenshot"
+  community.general.osx_defaults:
+    domain: com.apple.finder
+    key: "NSToolbar Configuration Browser"
+    type: dict
+    value:
+      TB Display Mode: 1
+      TB Icon Size Mode: 1
+      TB Is Shown: 1
+      TB Size Mode: 1
+      TB Visibility Priority Values: {}
+      TB Item Identifiers:
+        # Back / Forward navigation
+        - com.apple.finder.BACK
+
+        # Finder view-style and arrange/sort controls
+        - com.apple.finder.SWCH
+
+        # Create a new folder
+        - com.apple.finder.NFLD
+
+        # Flexible positioning before actions on the right
+        - NSToolbarFlexibleSpaceItem
+
+        # Closest supported equivalent of a Send via AirDrop button:
+        # Share menu, which exposes AirDrop when available.
+        - com.apple.finder.SHAR
+
+        # Apply Finder tags
+        - com.apple.finder.LABL
+
+        # Finder actions / overflow-style menu
+        - com.apple.finder.ACTN
+
+        # Search field
+        - com.apple.finder.SRCH
+    state: present
+  register: osx_settings_finder_toolbar
+
+- name: "Restart Finder after toolbar changes"
+  ansible.builtin.command: killall Finder
+  changed_when: true
+  when: osx_settings_finder_toolbar.changed
