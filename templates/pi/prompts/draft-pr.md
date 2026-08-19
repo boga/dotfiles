@@ -20,7 +20,11 @@ Follow the `creating-pull-requests` skill to draft and apply a PR for the curren
      policy — never open ready-for-review unless explicitly asked.
    - If a PR already exists, update it in place with `gh pr edit --title ... --body-file ...`
      rather than creating a duplicate.
+   - If PR creation/update is not possible on this host (e.g. a push-only
+     environment), skip `gh pr create`/`gh pr edit` and just print the
+     composed title and description instead.
 6. Verify with `gh pr view --json title,body,url` and report the PR URL, final title, and a
-   summary of the description.
+   summary of the description. If PR creation/update was skipped, print the title and
+   description instead of a verification step.
 
 `$@`

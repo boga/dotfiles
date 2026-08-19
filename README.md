@@ -41,6 +41,7 @@ ansible-playbook site.yml --limit work
 - `host_vars/<host>/vault.yml` stores vaulted host secrets such as Git name and email.
 - `roles/config_files/` templates files from `templates/` into the home directory.
 - `roles/git/` configures global Git identity and excludes.
+- `roles/osx_settings/` sets macOS system preferences via `community.general.osx_defaults`, without `become`.
 - `roles/pi_agent/` merges Pi `settings.json` and `mcp.json` without replacing unrelated existing keys.
 - `templates/` contains managed dotfiles, editor settings, agent skills, and Codex rules.
 
@@ -54,10 +55,11 @@ The main playbook performs these steps:
 4. Install casks from `homebrew_casks`.
 5. Copy templated config files listed in `config_files`.
 6. Configure global Git user name, email, and excludes file.
-7. Create `~/.config/mise/conf.d`.
-8. Generate Worktrunk shell integration at `~/.zshrc.worktrunk`.
-9. Configure Pi agent settings and MCP servers.
-10. Run `mise upgrade` and `pi update --extensions` after the main tasks.
+7. Configure macOS defaults, restarting affected apps only when a preference changes.
+8. Create `~/.config/mise/conf.d`.
+9. Generate Worktrunk shell integration at `~/.zshrc.worktrunk`.
+10. Configure Pi agent settings and MCP servers.
+11. Run `mise upgrade` and `pi update --extensions` after the main tasks.
 
 ## Vault files
 

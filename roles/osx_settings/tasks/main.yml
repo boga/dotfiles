@@ -1,0 +1,15 @@
+---
+# Requires: ansible-galaxy collection install community.general
+- name: "Show all filename extensions in Finder"
+  community.general.osx_defaults:
+    domain: NSGlobalDomain
+    key: AppleShowAllExtensions
+    type: bool
+    value: true
+    state: present
+  register: osx_settings_show_all_extensions
+
+- name: "Restart Finder to apply preference change"
+  ansible.builtin.command: killall Finder
+  when: osx_settings_show_all_extensions.changed
+  changed_when: true
