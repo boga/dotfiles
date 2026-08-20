@@ -26,9 +26,17 @@ Do not manage nested preferences with `community.general.osx_defaults`. Its
 `-string str(val)` for every other value. Lists and nested dicts are written as
 Python `repr()` strings rather than plist `<array>` / `<dict>` nodes.
 
-This broke Finder once already: `NSToolbar Configuration Browser` was written
-with `TB Item Identifiers` as a string, Finder's `NSToolbar` deserializer
-requires an array, and Finder launched without ever opening a window.
+This broke Finder twice: `NSToolbar Configuration Browser` was written with
+`TB Item Identifiers` as a string, Finder's `NSToolbar` deserializer requires an
+array, and Finder launched without ever opening a window.
+
+The second time was a deliberate reproduction. With the live value perturbed by a
+single item, the task reported changed and rewrote both nested lists as strings,
+leaving the surrounding scalars as `<integer>`. Two details make this hard to
+catch: the corrupted plist still passes `plutil -lint`, and the module compares
+before it writes, so the task is silently well-behaved on any machine whose live
+value already matches. It only misfires when a write is genuinely required —
+which is exactly what provisioning a new machine does.
 
 `plutil -replace -json` writes such keys correctly, mapping JSON numbers to
 `<integer>` and JSON arrays to `<array>`.
@@ -36,23 +44,16 @@ requires an array, and Finder launched without ever opening a window.
 ## Finder toolbar
 
 The toolbar layout lives in `osx_finder_toolbar` (`defaults/main.yml`) and is
-applied by the `Configure Finder toolbar` task using `osx_defaults` with
-`type: dict` and `dict_mode: replace`, so the desired state is exact rather than
-merged with any stale value. This requires `community.general` >= 12.5.0, pinned
-in the repository `requirements.yml`.
+applied by the `Configure Finder toolbar` block. Writes go through
+`defaults export` / `defaults import` rather than editing
+`~/Library/Preferences/com.apple.finder.plist` directly, because `cfprefsd`
+caches that file in memory and silently overwrites in-place edits. Idempotence
+comes from comparing the live value against the desired one and skipping the
+write when they already match, so the `Restart Finder` handler fires only on a
+real change.
 
-Two known consequences of routing this key through `osx_defaults`, both caused by
-the serialisation limitation above:
-
-- **Finder may fail to open windows.** The two nested identifier lists are
-  written as Python `repr()` strings, and `NSToolbar` requires an `<array>`.
-- **The task is not idempotent.** The module reads the value back with
-  `defaults export` piped through `plutil -extract`, which preserves types, so
-  the string it wrote never compares equal to the list in `defaults/main.yml`.
-  The task reports changed on every run and restarts Finder each time.
-
-If either matters, write the key with `plutil -replace -json` instead, which
-preserves the types on both the write and the comparison.
+The desired state is exact rather than merged, since `plutil -replace` swaps the
+whole dictionary.
 
 Toolbar item identifiers are undocumented, vary between macOS releases, and
 Finder silently drops any it does not recognise. So capture the value rather
