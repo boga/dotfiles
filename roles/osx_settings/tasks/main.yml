@@ -107,23 +107,3 @@
     value: true
     state: present
   notify: Restart Finder
-
-# Always reveals hidden dotfiles and directories (equivalent to pressing Cmd + Shift + Period).
-- name: "Show all hidden files and folders"
-  community.general.osx_defaults:
-    domain: com.apple.finder
-    key: AppleShowAllFiles
-    type: bool
-    value: true
-    state: present
-  notify: Restart Finder
-
-# Sets the default Finder view mode across all folders to List view ('Nlsv').
-- name: "Set preferred view style to List View"
-  community.general.osx_defaults:
-    domain: com.apple.finder
-    key: FXPreferredViewStyle
-    type: string
-    value: Nlsv
-    state: present
-  notify: Restart Finder
