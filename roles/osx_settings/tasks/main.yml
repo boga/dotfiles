@@ -9,43 +9,27 @@
     state: present
   notify: Restart Finder
 
-- name: "Configure Finder toolbar"
+# Removes any managed Finder toolbar layout, reverting to the macOS stock toolbar.
+#
+# This key is deliberately NOT managed. An earlier revision of this role set it
+# with `community.general.osx_defaults` using `type: dict` and a nested value.
+# That module cannot serialize nesting: `_dict_value_to_args` types only int and
+# float, and falls through to `-string str(val)` for everything else. The
+# `TB Item Identifiers` list was therefore written as a Python repr string:
+#
+#   <key>TB Item Identifiers</key>
+#   <string>['com.apple.finder.BACK', 'com.apple.finder.SWCH', ...]</string>
+#
+# where Finder's NSToolbar deserializer requires an <array>. Finder would launch
+# but fail to build a toolbar, so no window ever appeared. Deleting the key is
+# what unblocks it. Do not reintroduce a nested-dict osx_defaults task here; if
+# the toolbar must be managed again, write it with `plutil -replace -xml` so the
+# <array> and <dict> types survive.
+- name: "Remove managed Finder toolbar layout"
   community.general.osx_defaults:
     domain: com.apple.finder
     key: "NSToolbar Configuration Browser"
-    type: dict
-    value:
-      TB Display Mode: 1
-      TB Icon Size Mode: 1
-      TB Is Shown: 1
-      TB Size Mode: 1
-      TB Visibility Priority Values: {}
-      TB Item Identifiers:
-        # Back / Forward navigation
-        - com.apple.finder.BACK
-
-        # Finder view-style and arrange/sort controls
-        - com.apple.finder.SWCH
-
-        # Create a new folder
-        - com.apple.finder.NFLD
-
-        # Flexible positioning before actions on the right
-        - NSToolbarFlexibleSpaceItem
-
-        # Closest supported equivalent of a Send via AirDrop button:
-        # Share menu, which exposes AirDrop when available.
-        - com.apple.finder.SHAR
-
-        # Apply Finder tags
-        - com.apple.finder.LABL
-
-        # Finder actions / overflow-style menu
-        - com.apple.finder.ACTN
-
-        # Search field
-        - com.apple.finder.SRCH
-    state: present
+    state: absent
   notify: Restart Finder
 
 # Sets the default search scope in the Finder search bar to the current folder ('SCcf') rather than the entire Mac ('SCev').
