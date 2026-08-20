@@ -1,0 +1,8 @@
+---
+# Install with: ansible-galaxy collection install -r requirements.yml
+collections:
+  # Provides community.general.osx_defaults, used by roles/osx_settings.
+  # 12.5.0 is the minimum for osx_defaults `type: dict` and `dict_mode`,
+  # required by the Finder toolbar task.
+  - name: community.general
+    version: ">=12.5.0"
