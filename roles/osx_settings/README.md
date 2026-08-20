@@ -30,19 +30,29 @@ This broke Finder once already: `NSToolbar Configuration Browser` was written
 with `TB Item Identifiers` as a string, Finder's `NSToolbar` deserializer
 requires an array, and Finder launched without ever opening a window.
 
-Stick to scalar keys when using `osx_defaults`. Nested values go through
-`plutil -replace -json`, which maps JSON numbers to `<integer>` and JSON arrays
-to `<array>`, as the toolbar task now does.
+`plutil -replace -json` writes such keys correctly, mapping JSON numbers to
+`<integer>` and JSON arrays to `<array>`.
 
 ## Finder toolbar
 
 The toolbar layout lives in `osx_finder_toolbar` (`defaults/main.yml`) and is
-applied by the `Configure Finder toolbar` block. Writes go through
-`defaults export` / `defaults import` rather than editing
-`~/Library/Preferences/com.apple.finder.plist` directly, because `cfprefsd`
-caches that file in memory and silently overwrites in-place edits. Idempotence
-comes from comparing the live value against the desired one and skipping the
-write when they already match.
+applied by the `Configure Finder toolbar` task using `osx_defaults` with
+`type: dict` and `dict_mode: replace`, so the desired state is exact rather than
+merged with any stale value. This requires `community.general` >= 12.5.0, pinned
+in the repository `requirements.yml`.
+
+Two known consequences of routing this key through `osx_defaults`, both caused by
+the serialisation limitation above:
+
+- **Finder may fail to open windows.** The two nested identifier lists are
+  written as Python `repr()` strings, and `NSToolbar` requires an `<array>`.
+- **The task is not idempotent.** The module reads the value back with
+  `defaults export` piped through `plutil -extract`, which preserves types, so
+  the string it wrote never compares equal to the list in `defaults/main.yml`.
+  The task reports changed on every run and restarts Finder each time.
+
+If either matters, write the key with `plutil -replace -json` instead, which
+preserves the types on both the write and the comparison.
 
 Toolbar item identifiers are undocumented, vary between macOS releases, and
 Finder silently drops any it does not recognise. So capture the value rather
