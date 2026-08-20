@@ -110,14 +110,13 @@
     state: present
   notify: Restart Finder
 
-# Defines the target for newly opened Finder windows. 'PfHm' is the preset code
-# for the user's home directory, so no companion path key is required.
-- name: "Open new Finder windows in the home directory"
+# Defines the target type for newly opened Finder windows ('PfLo' selects a custom "Other..." folder, set via NewWindowTargetPath below).
+- name: "Set target folder for new Finder windows (Target Code)"
   community.general.osx_defaults:
     domain: com.apple.finder
     key: NewWindowTarget
     type: string
-    value: PfHm
+    value: PfLo
     state: present
   notify: Restart Finder
 
