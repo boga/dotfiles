@@ -1,0 +1,7 @@
+---
+# Install with: ansible-galaxy collection install -r requirements.yml
+collections:
+  # Provides community.general.osx_defaults, used by roles/osx_settings.
+  # Unpinned: the role only uses osx_defaults for scalar values, which has been
+  # supported for far longer than any version worth pinning to.
+  - name: community.general

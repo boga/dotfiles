@@ -1,0 +1,46 @@
+---
+# Finder browser-window toolbar layout.
+#
+# Captured from a Finder-written value via:
+#   defaults read com.apple.finder "NSToolbar Configuration Browser"
+#
+# Capture rather than hand-write this. Item identifiers are undocumented and
+# vary between macOS releases, and Finder silently drops any it does not
+# recognise. To change the toolbar, customise it through Finder
+# (View > Customize Toolbar), re-run the command above, and update this value.
+#
+# Integers must stay unquoted so they serialise as plist <integer> nodes.
+osx_finder_toolbar:
+  "TB Display Mode": 2
+  "TB Icon Size Mode": 1
+  "TB Is Shown": 1
+  "TB Size Mode": 1
+
+  # Finder's record of the stock layout, used when the user picks
+  # "Restore Default Set" in the Customize Toolbar sheet. Kept because the
+  # whole dictionary is replaced wholesale; omitting it would discard it.
+  "TB Default Item Identifiers":
+    - com.apple.finder.BACK
+    - com.apple.finder.SWCH
+    - NSToolbarSpaceItem
+    - com.apple.finder.ARNG
+    - NSToolbarSpaceItem
+    - com.apple.finder.SHAR
+    - com.apple.finder.LABL
+    - com.apple.finder.ACTN
+    - NSToolbarSpaceItem
+    - com.apple.finder.SRCH
+
+  # The active layout, left to right.
+  "TB Item Identifiers":
+    - com.apple.finder.BACK  # Back / forward
+    - com.apple.finder.PATH  # Path
+    - com.apple.finder.SWCH  # View switcher
+    - NSToolbarSpaceItem
+    - com.apple.finder.ARNG  # Arrange / group by
+    - NSToolbarSpaceItem
+    - com.apple.finder.CNCT  # Connect to server
+    - com.apple.finder.SHAR  # Share (exposes AirDrop)
+    - com.apple.finder.ACTN  # Actions / overflow menu
+    - NSToolbarSpaceItem
+    - com.apple.finder.SRCH  # Search field

@@ -1,5 +1,4 @@
 ---
-# Requires: ansible-galaxy collection install community.general
 - name: "Show all filename extensions in Finder"
   community.general.osx_defaults:
     domain: NSGlobalDomain
@@ -9,43 +8,63 @@
     state: present
   notify: Restart Finder
 
-- name: "Configure Finder toolbar"
-  community.general.osx_defaults:
-    domain: com.apple.finder
-    key: "NSToolbar Configuration Browser"
-    type: dict
-    value:
-      TB Display Mode: 1
-      TB Icon Size Mode: 1
-      TB Is Shown: 1
-      TB Size Mode: 1
-      TB Visibility Priority Values: {}
-      TB Item Identifiers:
-        # Back / Forward navigation
-        - com.apple.finder.BACK
+# Finder toolbar layout. Deliberately NOT handled by community.general.osx_defaults.
+#
+# That module cannot serialise nested values: `_dict_value_to_args` types only
+# bool, int and float, then falls through to `-string str(val)` for everything
+# else. A `type: dict` task here writes the two nested identifier lists as Python
+# repr strings:
+#
+#   <key>TB Item Identifiers</key>
+#   <string>['com.apple.finder.BACK', 'com.apple.finder.SWCH', ...]</string>
+#
+# Finder's NSToolbar deserialiser requires an <array> there. Given a string it
+# fails to build a toolbar and Finder runs as a live process without ever
+# opening a window. This was reproduced deliberately: with the live value
+# perturbed by one item, the module reported changed and rewrote both lists as
+# strings, while the surrounding scalars stayed <integer>. The corrupted plist
+# still passed `plutil -lint`, so nothing surfaced the fault. Once written it
+# never converges either, since the type-preserving read never again matches the
+# list defined in defaults/main.yml. Do not reintroduce an osx_defaults task for
+# this key.
+#
+# `plutil -replace -json` is used instead: it maps JSON numbers to <integer> and
+# JSON arrays to <array>, so the types survive. Reads and writes go through
+# `defaults export`/`import` over stdin/stdout rather than editing the plist in
+# place, because cfprefsd caches that file in memory and would clobber a direct
+# edit, and rather than a temp file, since plutil accepts '-' for both input and
+# output.
+- name: "Read current Finder toolbar configuration"
+  ansible.builtin.shell:
+    cmd: >-
+      set -o pipefail;
+      defaults export com.apple.finder -
+      | plutil -extract "NSToolbar Configuration Browser" json -o - -
+    executable: /bin/bash
+  register: osx_finder_toolbar_current
+  changed_when: false
+  failed_when: false
 
-        # Finder view-style and arrange/sort controls
-        - com.apple.finder.SWCH
+# Absent or malformed values yield empty stdout, which counts as needing a write.
+# Jinja's `or` short-circuits, so from_json is never handed an empty string.
+- name: "Determine whether the Finder toolbar needs updating"
+  ansible.builtin.set_fact:
+    osx_finder_toolbar_needs_update: >-
+      {{ (osx_finder_toolbar_current.stdout | default('', true) | trim) == ''
+         or (osx_finder_toolbar_current.stdout | from_json) != osx_finder_toolbar }}
 
-        # Create a new folder
-        - com.apple.finder.NFLD
-
-        # Flexible positioning before actions on the right
-        - NSToolbarFlexibleSpaceItem
-
-        # Closest supported equivalent of a Send via AirDrop button:
-        # Share menu, which exposes AirDrop when available.
-        - com.apple.finder.SHAR
-
-        # Apply Finder tags
-        - com.apple.finder.LABL
-
-        # Finder actions / overflow-style menu
-        - com.apple.finder.ACTN
-
-        # Search field
-        - com.apple.finder.SRCH
-    state: present
+# `quote` shell-escapes the JSON for embedding in the pipeline below. The known
+# toolbar identifiers contain no shell metacharacters, but the value is user data
+# from defaults/main.yml, so it is not trusted to be shell-safe by construction.
+- name: "Apply Finder toolbar configuration"
+  when: osx_finder_toolbar_needs_update | bool
+  ansible.builtin.shell:
+    cmd: >-
+      set -o pipefail;
+      defaults export com.apple.finder -
+      | plutil -replace "NSToolbar Configuration Browser" -json {{ osx_finder_toolbar | to_json | quote }} -o - -
+      | defaults import com.apple.finder -
+    executable: /bin/bash
   notify: Restart Finder
 
 # Sets the default search scope in the Finder search bar to the current folder ('SCcf') rather than the entire Mac ('SCev').
