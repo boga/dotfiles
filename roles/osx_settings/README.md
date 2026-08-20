@@ -13,9 +13,11 @@ ansible-galaxy collection install community.general
 
 ## What it does
 
-Applies macOS system preferences via `community.general.osx_defaults`,
-restarting the affected app only when a preference actually changed, so
-each task stays idempotent.
+Applies macOS system preferences via `community.general.osx_defaults`. Each
+task that touches a Finder default notifies the `Restart Finder` handler
+(`handlers/main.yml`), which runs `killall Finder` once at the end of the
+play only if at least one preference actually changed, so the role stays
+idempotent.
 
 ## Verification
 

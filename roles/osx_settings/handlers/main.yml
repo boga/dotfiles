@@ -1,0 +1,5 @@
+---
+# Restarts the Finder process so updated plist preferences take effect immediately.
+- name: Restart Finder
+  ansible.builtin.command: killall Finder
+  changed_when: false

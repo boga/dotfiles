@@ -7,9 +7,9 @@
     type: bool
     value: true
     state: present
-  register: osx_settings_show_all_extensions
+  notify: Restart Finder
 
-- name: "Configure Finder toolbar"
+- name: "Configure Finder toolbar similar to screenshot"
   community.general.osx_defaults:
     domain: com.apple.finder
     key: "NSToolbar Configuration Browser"
@@ -46,9 +46,104 @@
         # Search field
         - com.apple.finder.SRCH
     state: present
-  register: osx_settings_finder_toolbar
+  notify: Restart Finder
 
-- name: "Restart Finder to apply preference changes"
-  ansible.builtin.command: killall Finder
-  changed_when: true
-  when: osx_settings_show_all_extensions.changed or osx_settings_finder_toolbar.changed
+# Keeps folders pinned at the top when sorting files alphabetically in Finder windows (Finder > Settings > Advanced).
+- name: "Keep folders on top in windows when sorting by name"
+  community.general.osx_defaults:
+    domain: com.apple.finder
+    key: _FXSortFoldersFirst
+    type: bool
+    value: true
+    state: present
+  notify: Restart Finder
+
+# Extends the folder-pinning behavior directly to items on the Desktop.
+- name: "Keep folders on top on Desktop"
+  community.general.osx_defaults:
+    domain: com.apple.finder
+    key: _FXSortFoldersFirstOnDesktop
+    type: bool
+    value: true
+    state: present
+  notify: Restart Finder
+
+# Sets the default search scope in the Finder search bar to the current folder ('SCcf') rather than the entire Mac ('SCev').
+- name: "Search current folder by default"
+  community.general.osx_defaults:
+    domain: com.apple.finder
+    key: FXDefaultSearchScope
+    type: string
+    value: SCcf
+    state: present
+  notify: Restart Finder
+
+# Forces folders to open in tabs within the existing window instead of spawning a new Finder window.
+- name: "Open folders in tabs instead of new windows"
+  community.general.osx_defaults:
+    domain: com.apple.finder
+    key: FinderSpawnTab
+    type: bool
+    value: true
+    state: present
+  notify: Restart Finder
+
+# Defines the target type for newly opened Finder windows ('PfHm' corresponds to the Home directory).
+- name: "Set target folder for new Finder windows (Target Code)"
+  community.general.osx_defaults:
+    domain: com.apple.finder
+    key: NewWindowTarget
+    type: string
+    value: PfHm
+    state: present
+  notify: Restart Finder
+
+# Sets the exact file URI path used when opening new Finder windows, pointing to the current user's home folder.
+- name: "Set target folder path for new Finder windows"
+  community.general.osx_defaults:
+    domain: com.apple.finder
+    key: NewWindowTargetPath
+    type: string
+    value: "file://{{ lookup('env', 'HOME') }}/"
+    state: present
+  notify: Restart Finder
+
+# Enables the breadcrumb path bar along the bottom of the Finder window (View > Show Path Bar).
+- name: "Show path bar in Finder"
+  community.general.osx_defaults:
+    domain: com.apple.finder
+    key: ShowPathbar
+    type: bool
+    value: true
+    state: present
+  notify: Restart Finder
+
+# Enables the status bar at the bottom to show item counts and available disk storage (View > Show Status Bar).
+- name: "Show status bar in Finder"
+  community.general.osx_defaults:
+    domain: com.apple.finder
+    key: ShowStatusBar
+    type: bool
+    value: true
+    state: present
+  notify: Restart Finder
+
+# Always reveals hidden dotfiles and directories (equivalent to pressing Cmd + Shift + Period).
+- name: "Show all hidden files and folders"
+  community.general.osx_defaults:
+    domain: com.apple.finder
+    key: AppleShowAllFiles
+    type: bool
+    value: true
+    state: present
+  notify: Restart Finder
+
+# Sets the default Finder view mode across all folders to List view ('Nlsv').
+- name: "Set preferred view style to List View"
+  community.general.osx_defaults:
+    domain: com.apple.finder
+    key: FXPreferredViewStyle
+    type: string
+    value: Nlsv
+    state: present
+  notify: Restart Finder
