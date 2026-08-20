@@ -35,9 +35,14 @@
       ansible.builtin.include_role:
         name: git
 
+    # `tags: always` keeps this include running under a tag filter, so tags on
+    # individual tasks inside the role stay selectable. Tags on a dynamic
+    # include apply only to the include itself, not to the tasks it pulls in.
     - name: "Configure macOS defaults"
       ansible.builtin.include_role:
         name: osx_settings
+      tags:
+        - always
 
     - name: "Create mise conf.d directory"
       ansible.builtin.file:

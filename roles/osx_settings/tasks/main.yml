@@ -37,6 +37,13 @@
 #
 # `plutil -replace -json` writes this key with the correct <array> and <integer>
 # types and compares cleanly; see the role README for that approach.
+# Tagged for debugging, so this one preference can be exercised on its own:
+#
+#   ansible-playbook site.yml --limit work --tags finder_toolbar
+#
+# The include_role in site.yml carries `tags: always` so the role still loads
+# when a tag filter is active; without it the include would be skipped and this
+# task never reached.
 - name: "Configure Finder toolbar"
   community.general.osx_defaults:
     domain: com.apple.finder
@@ -46,6 +53,8 @@
     value: "{{ osx_finder_toolbar }}"
     state: present
   notify: Restart Finder
+  tags:
+    - finder_toolbar
 
 # Sets the default search scope in the Finder search bar to the current folder ('SCcf') rather than the entire Mac ('SCev').
 - name: "Search current folder by default"

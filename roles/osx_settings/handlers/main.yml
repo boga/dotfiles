@@ -1,5 +1,10 @@
 ---
 # Restarts the Finder process so updated plist preferences take effect immediately.
+# `tags: always` so the handler still fires when notified under a tag filter.
+# Handlers are tag-filtered like ordinary tasks, so an untagged handler would be
+# skipped by a run such as `--tags finder_toolbar`.
 - name: Restart Finder
   ansible.builtin.command: killall Finder
   changed_when: false
+  tags:
+    - always
