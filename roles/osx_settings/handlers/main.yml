@@ -1,10 +1,5 @@
 ---
 # Restarts the Finder process so updated plist preferences take effect immediately.
-# Handlers are tag-filtered like ordinary tasks, so this carries the same tag as
-# the role. Left untagged it would be skipped by a `--tags osx_settings` run and
-# Finder would never relaunch.
 - name: Restart Finder
   ansible.builtin.command: killall Finder
   changed_when: false
-  tags:
-    - osx_settings

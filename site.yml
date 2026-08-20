@@ -35,17 +35,9 @@
       ansible.builtin.include_role:
         name: git
 
-    # Tags on a dynamic include apply only to the include itself, so `apply`
-    # pushes the tag onto every task the role pulls in. Without it the role
-    # would load under `--tags osx_settings` but every task inside would skip.
     - name: "Configure macOS defaults"
       ansible.builtin.include_role:
         name: osx_settings
-        apply:
-          tags:
-            - osx_settings
-      tags:
-        - osx_settings
 
     - name: "Create mise conf.d directory"
       ansible.builtin.file:
