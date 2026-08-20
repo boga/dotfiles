@@ -1,0 +1,81 @@
+---
+# Finder toolbar layout. Deliberately NOT handled by community.general.osx_defaults.
+#
+# That module cannot serialise nested values: `_dict_value_to_args` types only
+# bool, int and float, then falls through to `-string str(val)` for everything
+# else. A `type: dict` task here writes the two nested identifier lists as Python
+# repr strings:
+#
+#   <key>TB Item Identifiers</key>
+#   <string>['com.apple.finder.BACK', 'com.apple.finder.SWCH', ...]</string>
+#
+# Finder's NSToolbar deserialiser requires an <array> there. Given a string it
+# fails to build a toolbar and Finder runs as a live process without ever
+# opening a window. This was reproduced deliberately: with the live value
+# perturbed by one item, the module reported changed and rewrote both lists as
+# strings, while the surrounding scalars stayed <integer>. The corrupted plist
+# still passed `plutil -lint`, so nothing surfaced the fault. Once written it
+# never converges either, since the type-preserving read never again matches the
+# list defined in defaults/main.yml. Do not reintroduce an osx_defaults task for
+# this key.
+#
+# `plutil -replace -json` is used instead: it maps JSON numbers to <integer> and
+# JSON arrays to <array>, so the types survive. Writes go through
+# `defaults export`/`import` rather than editing the plist in place, because
+# cfprefsd caches that file in memory and would clobber a direct edit.
+- name: "Read current Finder toolbar configuration"
+  ansible.builtin.shell:
+    cmd: >-
+      set -o pipefail;
+      defaults export com.apple.finder -
+      | plutil -extract "NSToolbar Configuration Browser" json -o - -
+    executable: /bin/bash
+  register: osx_finder_toolbar_current
+  changed_when: false
+  failed_when: false
+
+# Absent or malformed values yield empty stdout, which counts as needing a write.
+# Jinja's `or` short-circuits, so from_json is never handed an empty string.
+- name: "Determine whether the Finder toolbar needs updating"
+  ansible.builtin.set_fact:
+    osx_finder_toolbar_needs_update: >-
+      {{ (osx_finder_toolbar_current.stdout | default('', true) | trim) == ''
+         or (osx_finder_toolbar_current.stdout | from_json) != osx_finder_toolbar }}
+
+- name: "Apply Finder toolbar configuration"
+  when: osx_finder_toolbar_needs_update | bool
+  block:
+    - name: "Create temporary plist for the Finder toolbar write"
+      ansible.builtin.tempfile:
+        state: file
+        suffix: .plist
+      register: osx_finder_toolbar_tmp
+      changed_when: false
+
+    - name: "Export current com.apple.finder preferences"
+      ansible.builtin.command:
+        argv: [defaults, export, com.apple.finder, "{{ osx_finder_toolbar_tmp.path }}"]
+      changed_when: false
+
+    # argv avoids a shell, so the JSON needs no quoting or escaping.
+    - name: "Set the toolbar configuration in the exported plist"
+      ansible.builtin.command:
+        argv:
+          - plutil
+          - -replace
+          - "NSToolbar Configuration Browser"
+          - -json
+          - "{{ osx_finder_toolbar | to_json }}"
+          - "{{ osx_finder_toolbar_tmp.path }}"
+      changed_when: false
+
+    - name: "Import updated com.apple.finder preferences"
+      ansible.builtin.command:
+        argv: [defaults, import, com.apple.finder, "{{ osx_finder_toolbar_tmp.path }}"]
+      notify: Restart Finder
+
+    - name: "Remove the temporary plist"
+      ansible.builtin.file:
+        path: "{{ osx_finder_toolbar_tmp.path }}"
+        state: absent
+      changed_when: false

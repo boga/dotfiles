@@ -44,7 +44,8 @@ which is exactly what provisioning a new machine does.
 ## Finder toolbar
 
 The toolbar layout lives in `osx_finder_toolbar` (`defaults/main.yml`) and is
-applied by the `Configure Finder toolbar` block. Writes go through
+applied by `tasks/finder_toolbar.yml`, imported from `tasks/main.yml` as
+`Configure Finder toolbar`. Writes go through
 `defaults export` / `defaults import` rather than editing
 `~/Library/Preferences/com.apple.finder.plist` directly, because `cfprefsd`
 caches that file in memory and silently overwrites in-place edits. Idempotence
