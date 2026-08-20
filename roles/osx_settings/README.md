@@ -44,14 +44,15 @@ which is exactly what provisioning a new machine does.
 ## Finder toolbar
 
 The toolbar layout lives in `osx_finder_toolbar` (`defaults/main.yml`) and is
-applied by `tasks/finder_toolbar.yml`, imported from `tasks/main.yml` as
-`Configure Finder toolbar`. Writes go through
-`defaults export` / `defaults import` rather than editing
+applied by the `Configure Finder toolbar` task in `tasks/main.yml`. Reads and
+writes go through `defaults export` / `defaults import` over stdin/stdout,
+piped through `plutil -replace -json`, rather than editing
 `~/Library/Preferences/com.apple.finder.plist` directly, because `cfprefsd`
-caches that file in memory and silently overwrites in-place edits. Idempotence
-comes from comparing the live value against the desired one and skipping the
-write when they already match, so the `Restart Finder` handler fires only on a
-real change.
+caches that file in memory and silently overwrites in-place edits. No temp file
+is involved, since `plutil` accepts `-` for both its input and output plist.
+Idempotence comes from comparing the live value against the desired one and
+skipping the write when they already match, so the `Restart Finder` handler
+fires only on a real change.
 
 The desired state is exact rather than merged, since `plutil -replace` swaps the
 whole dictionary.
