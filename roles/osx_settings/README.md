@@ -28,12 +28,36 @@ Python `repr()` strings rather than plist `<array>` / `<dict>` nodes.
 
 This broke Finder once already: `NSToolbar Configuration Browser` was written
 with `TB Item Identifiers` as a string, Finder's `NSToolbar` deserializer
-requires an array, and Finder launched without ever opening a window. The role
-now deletes that key instead of setting it.
+requires an array, and Finder launched without ever opening a window.
 
-Stick to scalar keys here. If a nested value genuinely must be managed, write it
-with `plutil -replace <key> -xml '<dict>...</dict>'` so the types survive, and
-guard idempotence with an explicit `changed_when` comparison.
+Stick to scalar keys when using `osx_defaults`. Nested values go through
+`plutil -replace -json`, which maps JSON numbers to `<integer>` and JSON arrays
+to `<array>`, as the toolbar task now does.
+
+## Finder toolbar
+
+The toolbar layout lives in `osx_finder_toolbar` (`defaults/main.yml`) and is
+applied by the `Configure Finder toolbar` block. Writes go through
+`defaults export` / `defaults import` rather than editing
+`~/Library/Preferences/com.apple.finder.plist` directly, because `cfprefsd`
+caches that file in memory and silently overwrites in-place edits. Idempotence
+comes from comparing the live value against the desired one and skipping the
+write when they already match.
+
+Toolbar item identifiers are undocumented, vary between macOS releases, and
+Finder silently drops any it does not recognise. So capture the value rather
+than hand-writing it: customise the toolbar via **View > Customize Toolbar**,
+then read back what Finder wrote and paste it into `defaults/main.yml`.
+
+```bash
+defaults read com.apple.finder "NSToolbar Configuration Browser"
+```
+
+If Finder ever fails to open a window again, clear the key and restart it:
+
+```bash
+defaults delete com.apple.finder "NSToolbar Configuration Browser" && killall Finder
+```
 
 ## Verification
 
