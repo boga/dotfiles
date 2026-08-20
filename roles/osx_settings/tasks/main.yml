@@ -1,0 +1,109 @@
+---
+# Requires: ansible-galaxy collection install community.general
+- name: "Show all filename extensions in Finder"
+  community.general.osx_defaults:
+    domain: NSGlobalDomain
+    key: AppleShowAllExtensions
+    type: bool
+    value: true
+    state: present
+  notify: Restart Finder
+
+- name: "Configure Finder toolbar"
+  community.general.osx_defaults:
+    domain: com.apple.finder
+    key: "NSToolbar Configuration Browser"
+    type: dict
+    value:
+      TB Display Mode: 1
+      TB Icon Size Mode: 1
+      TB Is Shown: 1
+      TB Size Mode: 1
+      TB Visibility Priority Values: {}
+      TB Item Identifiers:
+        # Back / Forward navigation
+        - com.apple.finder.BACK
+
+        # Finder view-style and arrange/sort controls
+        - com.apple.finder.SWCH
+
+        # Create a new folder
+        - com.apple.finder.NFLD
+
+        # Flexible positioning before actions on the right
+        - NSToolbarFlexibleSpaceItem
+
+        # Closest supported equivalent of a Send via AirDrop button:
+        # Share menu, which exposes AirDrop when available.
+        - com.apple.finder.SHAR
+
+        # Apply Finder tags
+        - com.apple.finder.LABL
+
+        # Finder actions / overflow-style menu
+        - com.apple.finder.ACTN
+
+        # Search field
+        - com.apple.finder.SRCH
+    state: present
+  notify: Restart Finder
+
+# Sets the default search scope in the Finder search bar to the current folder ('SCcf') rather than the entire Mac ('SCev').
+- name: "Search current folder by default"
+  community.general.osx_defaults:
+    domain: com.apple.finder
+    key: FXDefaultSearchScope
+    type: string
+    value: SCcf
+    state: present
+  notify: Restart Finder
+
+# Forces folders to open in tabs within the existing window instead of spawning a new Finder window.
+- name: "Open folders in tabs instead of new windows"
+  community.general.osx_defaults:
+    domain: com.apple.finder
+    key: FinderSpawnTab
+    type: bool
+    value: true
+    state: present
+  notify: Restart Finder
+
+# Defines the target type for newly opened Finder windows ('PfLo' selects a custom "Other..." folder, set via NewWindowTargetPath below).
+- name: "Set target folder for new Finder windows (Target Code)"
+  community.general.osx_defaults:
+    domain: com.apple.finder
+    key: NewWindowTarget
+    type: string
+    value: PfLo
+    state: present
+  notify: Restart Finder
+
+# Sets the exact file URI path used when opening new Finder windows, pointing to the current user's Downloads folder.
+- name: "Set target folder path for new Finder windows"
+  community.general.osx_defaults:
+    domain: com.apple.finder
+    key: NewWindowTargetPath
+    type: string
+    value: "file://{{ lookup('env', 'HOME') }}/Downloads/"
+    state: present
+  notify: Restart Finder
+
+# Enables the breadcrumb path bar along the bottom of the Finder window (View > Show Path Bar).
+- name: "Show path bar in Finder"
+  community.general.osx_defaults:
+    domain: com.apple.finder
+    key: ShowPathbar
+    type: bool
+    value: true
+    state: present
+  notify: Restart Finder
+
+# Enables the status bar at the bottom to show item counts and available disk storage (View > Show Status Bar).
+- name: "Show status bar in Finder"
+  community.general.osx_defaults:
+    domain: com.apple.finder
+    key: ShowStatusBar
+    type: bool
+    value: true
+    state: present
+  notify: Restart Finder

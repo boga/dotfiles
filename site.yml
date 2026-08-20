@@ -35,6 +35,10 @@
       ansible.builtin.include_role:
         name: git
 
+    - name: "Configure macOS defaults"
+      ansible.builtin.include_role:
+        name: osx_settings
+
     - name: "Create mise conf.d directory"
       ansible.builtin.file:
         path: "~/.config/mise/conf.d"
