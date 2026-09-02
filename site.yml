@@ -60,6 +60,10 @@
       ansible.builtin.include_role:
         name: pi_agent
 
+    - name: "Configure Antigravity"
+      ansible.builtin.include_role:
+        name: antigravity
+
   post_tasks:
     - name: "Upgrade mise-managed tools"
       ansible.builtin.command: mise upgrade

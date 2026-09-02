@@ -9,6 +9,22 @@ config_files_local:
     src: "./templates/pi/skills/antigravity-review/SKILL.md"
     dest: "~/.pi/agent/skills/antigravity-review/SKILL.md"
 
+# Permit Antigravity plan-mode reviews to inspect repository history and files
+# without granting write, network, or broad shell access.
+antigravity_permissions_allow:
+  - "command(git remote)"
+  - "command(git rev-parse)"
+  - "command(git symbolic-ref)"
+  - "command(ls)"
+  - "command(rg)"
+  - "command(sed)"
+  - "unsandboxed(git remote)"
+  - "unsandboxed(git rev-parse)"
+  - "unsandboxed(git symbolic-ref)"
+  - "unsandboxed(ls)"
+  - "unsandboxed(rg)"
+  - "unsandboxed(sed)"
+
 # Home uses gpt-5.6 variants by task complexity: luna for simple work,
 # terra as the daily driver, and sol for complex planning/review.
 pi_agent_subagent_overrides_local:

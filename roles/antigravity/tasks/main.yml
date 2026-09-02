@@ -1,0 +1,41 @@
+---
+- name: Stat Antigravity settings
+  ansible.builtin.stat:
+    path: "{{ antigravity_settings_path }}"
+  register: antigravity_settings_stat
+
+- name: Read existing Antigravity settings
+  ansible.builtin.slurp:
+    src: "{{ antigravity_settings_path }}"
+  register: antigravity_settings_file
+  when: antigravity_settings_stat.stat.exists
+
+- name: Ensure Antigravity settings directory exists
+  ansible.builtin.file:
+    path: "{{ antigravity_settings_path | dirname }}"
+    state: directory
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_group }}"
+    mode: "0700"
+  when: antigravity_permissions_allow | length > 0
+
+- name: Add Antigravity allowed permissions
+  vars:
+    _base: "{{ antigravity_settings_file.content | b64decode | from_json if antigravity_settings_stat.stat.exists else {} }}"
+    _permissions: >-
+      {{
+        (_base.permissions | default({}))
+        | combine({
+            'allow': (
+              ((_base.permissions | default({})).allow | default([]))
+              + antigravity_permissions_allow
+            ) | unique
+          })
+      }}
+  ansible.builtin.copy:
+    content: "{{ _base | combine({'permissions': _permissions}, recursive=true) | to_nice_json }}"
+    dest: "{{ antigravity_settings_path }}"
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_group }}"
+    mode: "0600"
+  when: antigravity_permissions_allow | length > 0
