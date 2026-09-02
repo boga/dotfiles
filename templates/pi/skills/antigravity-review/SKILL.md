@@ -21,14 +21,18 @@ Use the `antigravity` CLI for advisory reviews and second opinions.
 Run one-shot review prompts with:
 
 ```bash
-antigravity --print --mode plan --sandbox --effort high --prompt "<review prompt>"
+antigravity --mode plan --sandbox --effort high --print="<review prompt>"
 ```
 
 Use `--add-dir` for additional repository directories:
 
 ```bash
-antigravity --print --mode plan --sandbox --effort high --add-dir /path/to/repo --prompt "<review prompt>"
+antigravity --mode plan --sandbox --effort high --add-dir /path/to/repo --print="<review prompt>"
 ```
+
+**MUST NOT** pass a complete large diff through `--print`. Pass a concise review
+prompt, use `--add-dir` for the repository, and tell Antigravity which files or
+diff range to inspect.
 
 ## Review Workflow
 
@@ -61,15 +65,21 @@ Return:
 
 ## Local Changes Review
 
-Gather the branch base dynamically when reviewing a branch diff:
+Gather the branch base dynamically when reviewing a branch diff. If
+`origin/HEAD` is unavailable, use the remote's reported HEAD branch:
 
 ```bash
-BASE_REF=$(git symbolic-ref --quiet --short refs/remotes/origin/HEAD | sed 's#^origin/##')
+BASE_REF=$(git symbolic-ref --quiet --short refs/remotes/origin/HEAD 2>/dev/null | sed 's#^origin/##')
+if [ -z "$BASE_REF" ]; then
+  BASE_REF=$(git remote show origin | sed -n 's/.*HEAD branch: //p')
+fi
+test -n "$BASE_REF"
 git merge-base HEAD "origin/$BASE_REF"
 git diff "origin/$BASE_REF"...HEAD
 ```
 
-Then include the diff summary or relevant excerpts in the Antigravity prompt.
+Pass Antigravity a concise summary and the diff range. Use `--add-dir` so it can
+inspect the repository; include excerpts only when they are small and necessary.
 
 ## PR Review
 
