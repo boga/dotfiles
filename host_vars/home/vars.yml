@@ -4,45 +4,47 @@ ansible_group: staff
 ansible_python_interpreter: /usr/local/bin/python3.14
 firefox_profile_dir: /Users/miju/Library/Application Support/Firefox/Profiles/pex9ak71.default-release
 
-# Every agent runs on openai-codex/gpt-5.5 on this host; oracle/reviewer/scout
-# also need a thinking level bump beyond the shared base in group_vars/all.yml.
+# Home uses gpt-5.6 variants by task complexity: luna for simple work,
+# terra as the daily driver, and sol for complex planning/review.
 pi_agent_subagent_overrides_local:
   context-builder:
-    model: "openai-codex/gpt-5.5"
+    model: "openai-codex/gpt-5.6-luna"
   delegate:
-    model: "openai-codex/gpt-5.5"
+    model: "openai-codex/gpt-5.6-terra"
   env-scout:
-    model: "openai-codex/gpt-5.5"
+    model: "openai-codex/gpt-5.6-luna"
   gh-researcher:
-    model: "openai-codex/gpt-5.5"
+    model: "openai-codex/gpt-5.6-terra"
   linear-researcher:
-    model: "openai-codex/gpt-5.5"
+    model: "openai-codex/gpt-5.6-terra"
   oracle:
-    model: "openai-codex/gpt-5.5"
+    model: "openai-codex/gpt-5.6-sol"
     thinking: "xhigh"
   planner:
-    model: "openai-codex/gpt-5.5"
+    model: "openai-codex/gpt-5.6-sol"
   researcher:
-    model: "openai-codex/gpt-5.5"
+    model: "openai-codex/gpt-5.6-terra"
   reviewer:
-    model: "openai-codex/gpt-5.5"
+    model: "openai-codex/gpt-5.6-sol"
     thinking: "xhigh"
   scout:
-    model: "openai-codex/gpt-5.5"
+    model: "openai-codex/gpt-5.6-luna"
     thinking: "medium"
   worker:
-    model: "openai-codex/gpt-5.5"
+    model: "openai-codex/gpt-5.6-terra"
 
 pi_agent_settings_overrides_local:
   enabledModels:
-    - "openai-codex/gpt-5.5"
+    - "openai-codex/gpt-5.6-luna"
+    - "openai-codex/gpt-5.6-terra"
+    - "openai-codex/gpt-5.6-sol"
 
 pi_plannotator_planning_model:
   provider: "openai-codex"
-  id: "gpt-5.5"
+  id: "gpt-5.6-sol"
 pi_plannotator_executing_model:
   provider: "openai-codex"
-  id: "gpt-5.5"
+  id: "gpt-5.6-terra"
 pi_plannotator_reviewing_model:
   provider: "openai-codex"
-  id: "gpt-5.5"
+  id: "gpt-5.6-sol"
