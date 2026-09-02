@@ -63,7 +63,7 @@ homebrew_casks:
   - zed
   - wezterm
 
-config_files_base:
+config_files:
   - name: "Wez terminal config"
     src: "./templates/wezterm.lua.j2"
     dest: "~/.config/wezterm/wezterm.lua"
@@ -172,6 +172,9 @@ config_files_base:
   - name: "Pi agent: env-scout"
     src: "./templates/pi/agents/env-scout.agent.md"
     dest: "~/.pi/agent/agents/env-scout.agent.md"
+  - name: "Pi skill: coderabbit"
+    src: "./templates/pi/skills/coderabbit/SKILL.md"
+    dest: "~/.pi/agent/skills/coderabbit/SKILL.md"
   - name: "Pi skill: herdr"
     src: "./templates/pi/skills/herdr/SKILL.md"
     dest: "~/.pi/agent/skills/herdr/SKILL.md"
@@ -205,13 +208,6 @@ config_files_base:
   - name: "Television cable: text"
     src: "./templates/television/cable/text.toml"
     dest: "~/.config/television/cable/text.toml"
-
-# Host-specific configuration files are appended without duplicating the shared list.
-config_files: >-
-  {{
-    config_files_base
-    + hostvars[inventory_hostname].get('config_files_local', [])
-  }}
 
 pi_agent_settings_path: "~/.pi/agent/settings.json"
 pi_agent_mcp_servers_base:

@@ -4,58 +4,8 @@ ansible_group: staff
 ansible_python_interpreter: /usr/local/bin/python3.14
 firefox_profile_dir: /Users/miju/Library/Application Support/Firefox/Profiles/pex9ak71.default-release
 
-config_files_local:
-  - name: "Pi skill: antigravity-review"
-    src: "./templates/pi/skills/antigravity-review/SKILL.md"
-    dest: "~/.pi/agent/skills/antigravity-review/SKILL.md"
-
-# Permit Antigravity plan-mode reviews to inspect repository history and files
-# without granting write, network, or broad shell access.
-antigravity_permissions_allow:
-  - "command(ansible-doc)"
-  - "command(ansible-galaxy)"
-  - "command(find)"
-  - "command(gh pr diff)"
-  - "command(gh pr view)"
-  - "command(git branch)"
-  - "command(git diff)"
-  - "command(git log)"
-  - "command(git merge-base)"
-  - "command(git remote)"
-  - "command(git rev-parse)"
-  - "command(git show)"
-  - "command(git status)"
-  - "command(git symbolic-ref)"
-  - "command(head)"
-  - "command(jq)"
-  - "command(ls)"
-  - "command(rg)"
-  - "command(sed)"
-  - "command(which)"
-
-  - "unsandboxed(ansible-doc)"
-  - "unsandboxed(ansible-galaxy)"
-  - "unsandboxed(find)"
-  - "unsandboxed(gh pr diff)"
-  - "unsandboxed(gh pr view)"
-  - "unsandboxed(git branch)"
-  - "unsandboxed(git diff)"
-  - "unsandboxed(git log)"
-  - "unsandboxed(git merge-base)"
-  - "unsandboxed(git remote)"
-  - "unsandboxed(git rev-parse)"
-  - "unsandboxed(git show)"
-  - "unsandboxed(git status)"
-  - "unsandboxed(git symbolic-ref)"
-  - "unsandboxed(head)"
-  - "unsandboxed(jq)"
-  - "unsandboxed(ls)"
-  - "unsandboxed(rg)"
-  - "unsandboxed(sed)"
-  - "unsandboxed(which)"
-
-# Home uses gpt-5.6 variants by task complexity: luna for simple work,
-# terra as the daily driver, and sol for complex planning/review.
+# Every agent runs on an OpenAI Codex GPT-5.6 variant on this host; luna
+# handles simple work, terra is the daily driver, and sol handles complex work.
 pi_agent_subagent_overrides_local:
   context-builder:
     model: "openai-codex/gpt-5.6-luna"
