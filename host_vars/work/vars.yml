@@ -4,6 +4,11 @@ ansible_group: staff
 ansible_python_interpreter: /opt/homebrew/bin/python3
 firefox_profile_dir: /Users/ivan-shnurchenko/Library/Application Support/Firefox/Profiles/vfxfh9r4.default-release
 
+config_files_local:
+  - name: "Pi skill: coderabbit"
+    src: "./templates/pi/skills/coderabbit/SKILL.md"
+    dest: "~/.pi/agent/skills/coderabbit/SKILL.md"
+
 pi_plannotator_planning_model:
   provider: "anthropic"
   id: "claude-opus-5"

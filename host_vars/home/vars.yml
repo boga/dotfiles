@@ -4,6 +4,11 @@ ansible_group: staff
 ansible_python_interpreter: /usr/local/bin/python3.14
 firefox_profile_dir: /Users/miju/Library/Application Support/Firefox/Profiles/pex9ak71.default-release
 
+config_files_local:
+  - name: "Pi skill: antigravity-review"
+    src: "./templates/pi/skills/antigravity-review/SKILL.md"
+    dest: "~/.pi/agent/skills/antigravity-review/SKILL.md"
+
 # Home uses gpt-5.6 variants by task complexity: luna for simple work,
 # terra as the daily driver, and sol for complex planning/review.
 pi_agent_subagent_overrides_local:
