@@ -17,7 +17,7 @@
   loop_control:
     label: "{{ item.name | default(item.dest) }} parent directory: {{ item.dest | dirname }}"
 
-- name: Copy config files
+- name: Render config files
   ansible.builtin.template:
     src: "{{ item.src }}"
     dest: "{{ item.dest }}"
@@ -25,5 +25,18 @@
     owner: "{{ item.owner | default(config_files_owner) }}"
     group: "{{ item.group | default(config_files_group) }}"
   loop: "{{ config_files_items }}"
+  when: item.render | default(true) | bool
+  loop_control:
+    label: "{{ item.name | default(item.dest) }}: {{ item.src }} -> {{ item.dest }}"
+
+- name: Copy raw config files
+  ansible.builtin.copy:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+    mode: "{{ item.permissions | default(config_files_permissions) }}"
+    owner: "{{ item.owner | default(config_files_owner) }}"
+    group: "{{ item.group | default(config_files_group) }}"
+  loop: "{{ config_files_items }}"
+  when: not (item.render | default(true) | bool)
   loop_control:
     label: "{{ item.name | default(item.dest) }}: {{ item.src }} -> {{ item.dest }}"

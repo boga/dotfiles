@@ -130,6 +130,10 @@ config_files:
   - name: "Pi skill: gcp-gcloud"
     src: "./templates/pi/skills/gcp-gcloud/SKILL.md"
     dest: "~/.pi/agent/skills/gcp-gcloud/SKILL.md"
+  - name: "Pi skill: kubernetes-skill"
+    src: "./templates/pi/skills/kubernetes-skill/"
+    dest: "~/.pi/agent/skills/kubernetes-skill/"
+    render: false
   - name: "Pi global AGENTS.md"
     src: "./templates/pi/AGENTS.md"
     dest: "~/.pi/agent/AGENTS.md"
