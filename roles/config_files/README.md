@@ -6,11 +6,18 @@ Copies a list of rendered or raw configuration files and directories to their de
 
 | Name                       | Description                                                                                               | Default        |
 |----------------------------|-----------------------------------------------------------------------------------------------------------|----------------|
-| `config_files_items`       | Config definitions with `name`, `src`, `dest`, and optional `permissions`, `owner`, `group`, `render`.    | `[]`           |
+| `config_files_items`       | Config definitions with `name`, `src`, `dest`, and optional item attributes.                              | `[]`           |
 | `config_files_permissions` | Default file permissions.                                                                                 | `0600`         |
 | `config_files_owner`       | Default file owner.                                                                                       | `ansible_user` |
 | `config_files_group`       | Default file group.                                                                                       | `ansible_group` |
-| `render`                   | Per-item flag. Set `false` to copy content without Jinja rendering.                                      | `true`         |
+
+## Config Item Attributes
+
+Set these values on an entry in `config_files_items`.
+
+| Attribute  | Description                                           | Default |
+|------------|-------------------------------------------------------|---------|
+| `render`   | Set `false` to copy content without Jinja rendering.  | `true`  |
 
 ## Example
 
