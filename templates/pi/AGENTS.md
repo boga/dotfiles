@@ -95,7 +95,9 @@ context-mode MCP tools available. Rules protect context window from flooding. On
 
 ### Think in Code — MANDATORY
 
-Analyze/compare/count/filter/parse/search/transform data: **write code** via `ctx_execute(language, code)`, `console.log()` only the answer. Do NOT read raw data into context. PROGRAM the analysis, not COMPUTE it. Pure JavaScript — Node.js built-ins only (`child_process`, `fs`, `path`). `try/catch`, handle `null`/`undefined`. One script replaces ten tool calls.
+Use JavaScript or Python only to analyze, compare, count, filter, parse, search, transform, or aggregate data. Run processing through `ctx_execute(language, code)` and print only the derived answer. Do NOT read raw data into context. PROGRAM the analysis, not COMPUTE it. `try/catch`, handle `null`/`undefined`.
+
+**MUST NOT** wrap an ordinary shell command in JavaScript or Python without processing its result. Do NOT use `child_process`, `subprocess`, `os.system`, or similar APIs merely to invoke a command; choose the shell context-mode tool below instead.
 
 ### BLOCKED — do NOT use
 
@@ -113,9 +115,15 @@ Use: `ctx_fetch_and_index(url, source)` then `ctx_search(queries)`
 
 ### REDIRECTED — use sandbox
 
-#### bash (>20 lines output)
-`bash` ONLY for: `cd`, `git`, `ls`, `mkdir`, `mv`, `npm install`, `pip install`, `rm`.
-Otherwise: `ctx_batch_execute(commands, queries)` or `ctx_execute(language: "shell", code: "...")`
+#### Read-only shell commands
+
+- Run one read-only command with `ctx_execute(language: "shell", code: "...")`.
+- Run multiple independent read-only gathering or validation commands with `ctx_batch_execute(commands, queries)`; include all questions in `queries`.
+- Use JavaScript or Python only when the command output needs actual processing.
+
+#### Direct shell exceptions
+
+Use direct `bash` only for necessary state changes or commands that cannot run through context-mode: `cd`, `git`, `ls`, `mkdir`, `mv`, `npm install`, `pip install`, and `rm`. Do NOT use direct `bash` for read-only gathering or validation.
 
 #### read (for analysis)
 Reading to **edit** → `read` correct. Reading to **analyze/explore/summarize** → `ctx_execute_file(path, language, code)`.
