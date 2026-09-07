@@ -8,13 +8,15 @@ Implement "$@" by following the decision tree below. Execute each step using the
 ## Step 0 — Establish chainDir
 
 - **Prior `/plan` ran in this session** — reuse its `chainDir`. All research and plan artifacts are already there.
-- **No prior plan** — compute a new one:
+- **No prior plan** — compute and create a repository-local directory:
 
 ```bash
-echo "$HOME/.pi/agent/sessions/--$(pwd | sed 's|^/||' | tr '/' '-')--/chain-runs/<slug>"
+chainDir="$(pwd)/tmp/agents_chain/<slug>"
+mkdir -p "$chainDir"
+printf '%s\n' "$chainDir"
 ```
 
-Replace `<slug>` with a short kebab-case label for the task. Use this same `chainDir` on **every** subagent call below.
+Replace `<slug>` with a short kebab-case label for the task. Use this same absolute `chainDir` on **every** subagent call below. The `<slug>` prevents concurrent workflows from overwriting each other's artifacts.
 
 ## Step 1 — Determine execution mode
 
@@ -51,7 +53,8 @@ Check session state for a prior plan chain run:
 {
   "agent": "context-builder",
   "task": "Analyze the codebase for: $@",
-  "chainDir": "<chainDir from Step 0>"
+  "chainDir": "<chainDir from Step 0>",
+  "output": "<chainDir from Step 0>/context.md"
 }
 ```
 
@@ -71,6 +74,7 @@ Outputs: `context.md`, `meta-prompt.md` in `{chain_dir}`.
 Worker reads: `context.md`, `meta-prompt.md` (or `plan.md` if from a prior plan chain).
 Output: `progress.md` in `chainDir`.
 
+{% if inventory_hostname == 'work' %}
 ## Step 3.5 — CodeRabbit review
 
 *Skip in review-only and background modes (Step 1 gates those paths).*
@@ -78,12 +82,31 @@ Output: `progress.md` in `chainDir`.
 ```json
 {
   "agent": "delegate",
-  "task": "Detect the repo default branch: run `git symbolic-ref refs/remotes/origin/HEAD | sed 's|.*/||'`. Then run `coderabbit review --plain --base <detected-branch> > <chainDir>/review-coderabbit.md 2>&1`. If coderabbit is not found or exits non-zero, write `WARNING: CodeRabbit review skipped — coderabbit not available or failed.` to `<chainDir>/review-coderabbit.md` and exit 0.",
-  "chainDir": "<chainDir from Step 0>"
+  "task": "Detect the repo default branch: run `git symbolic-ref refs/remotes/origin/HEAD | sed 's|.*/||'`. Then run `coderabbit review --base <detected-branch> > <chainDir>/review-coderabbit.md 2>&1`. If coderabbit is not found or exits non-zero, write `WARNING: CodeRabbit review skipped — coderabbit not available or failed.` to `<chainDir>/review-coderabbit.md` and exit 0.",
+  "chainDir": "<chainDir from Step 0>",
+  "output": "<chainDir from Step 0>/review-coderabbit.md"
 }
 ```
 
 Output: `review-coderabbit.md` in `chainDir` (always written — warning line on failure).
+{% else %}
+## Step 3.5 — Code-quality review
+
+*Skip in review-only and background modes (Step 1 gates those paths).*
+
+Run the `reviewer` agent configured with `openai-codex/gpt-5.6-sol` at `high` thinking. Do not invoke CodeRabbit on home hosts.
+
+```json
+{
+  "agent": "reviewer",
+  "task": "Review the implementation for code quality, maintainability, and simplicity. Check context.md, meta-prompt.md, and plan.md when available. Do not edit files. Report: Correct → Blocker → Note.",
+  "chainDir": "<chainDir from Step 0>",
+  "output": "<chainDir from Step 0>/review-code-quality.md"
+}
+```
+
+Output: `review-code-quality.md` in `chainDir`.
+{% endif %}
 
 ## Step 4 — Parallel review
 
@@ -94,17 +117,20 @@ Run three reviewers in parallel. Each must **not** edit files — report finding
   "tasks": [
     {
       "agent": "reviewer",
-      "task": "If `review-coderabbit.md` exists in chainDir, CodeRabbit (CR) has already reviewed code-quality issues there — do not re-flag CR's code-quality findings. Assess intent and requirements alignment independently, including intent-level issues even if CR flagged a symptom, since CR cannot read plan.md or meta-prompt.md. Review the implementation for CORRECTNESS and FEASIBILITY. Are the changes sound and logically complete? Do they match the requirements? Any missing steps or broken assumptions? Check against meta-prompt.md constraints and plan.md (if available). Do not edit files. Report: Correct → Blocker → Note.",
+      "task": "If `review-coderabbit.md` or `review-code-quality.md` exists in chainDir, a prior code-quality review has already covered those findings — do not re-flag them. Assess intent and requirements alignment independently, including intent-level issues even if the prior review flagged a symptom. Review the implementation for CORRECTNESS and FEASIBILITY. Are the changes sound and logically complete? Do they match the requirements? Any missing steps or broken assumptions? Check against meta-prompt.md constraints and plan.md (if available). Do not edit files. Report: Correct → Blocker → Note.",
+      "chainDir": "<chainDir from Step 0>",
       "output": "<chainDir from Step 0>/review-correctness.md"
     },
     {
       "agent": "reviewer",
-      "task": "If `review-coderabbit.md` exists in chainDir, CodeRabbit (CR) has already reviewed code-quality issues there — do not re-flag CR's code-quality findings. Review the implementation for TEST COVERAGE and EDGE CASES. Are there gaps in validation or untested paths? Are edge cases handled? Is error handling adequate? Check against meta-prompt.md constraints and plan.md (if available). Do not edit files. Report: Correct → Blocker → Note.",
+      "task": "If `review-coderabbit.md` or `review-code-quality.md` exists in chainDir, a prior code-quality review has already covered those findings — do not re-flag them. Review the implementation for TEST COVERAGE and EDGE CASES. Are there gaps in validation or untested paths? Are edge cases handled? Is error handling adequate? Check against meta-prompt.md constraints and plan.md (if available). Do not edit files. Report: Correct → Blocker → Note.",
+      "chainDir": "<chainDir from Step 0>",
       "output": "<chainDir from Step 0>/review-tests.md"
     },
     {
       "agent": "reviewer",
-      "task": "If `review-coderabbit.md` exists in chainDir, CodeRabbit (CR) has already reviewed code-quality issues there — do not re-flag CR's code-quality findings. Review the implementation for CLEANUP and SIMPLICITY. Is there unnecessary complexity? Dead code, poor naming, or redundant logic? Simpler alternatives? Check against meta-prompt.md constraints and plan.md (if available). Do not edit files. Report: Correct → Blocker → Note.",
+      "task": "If `review-coderabbit.md` or `review-code-quality.md` exists in chainDir, a prior code-quality review has already covered those findings — do not re-flag them. Review the implementation for CLEANUP and SIMPLICITY. Is there unnecessary complexity? Dead code, poor naming, or redundant logic? Simpler alternatives? Check against meta-prompt.md constraints and plan.md (if available). Do not edit files. Report: Correct → Blocker → Note.",
+      "chainDir": "<chainDir from Step 0>",
       "output": "<chainDir from Step 0>/review-cleanup.md"
     }
   ],
@@ -113,7 +139,7 @@ Run three reviewers in parallel. Each must **not** edit files — report finding
 }
 ```
 
-Each reviewer reads: `progress.md`, `context.md`, `meta-prompt.md`, `plan.md` (if available), `review-coderabbit.md` (if available) from `chainDir`.
+Each reviewer reads: `progress.md`, `context.md`, `meta-prompt.md`, `plan.md` (if available), and `review-coderabbit.md` or `review-code-quality.md` (if available) from `chainDir`.
 
 ## Step 5 — Apply fixes and present findings
 
@@ -131,14 +157,15 @@ After reviewers complete:
 {
   "agent": "worker",
   "task": "Apply the reviewer fixes. Skip suggestions that conflict with meta-prompt constraints or expand scope. Report what was applied vs skipped with rationale.",
-  "chainDir": "<chainDir from Step 0>"
+  "chainDir": "<chainDir from Step 0>",
+  "output": "<chainDir from Step 0>/progress.md"
 }
 ```
 
 Then present:
    - Summary of what worker implemented and what fixes were applied.
    - Key findings per reviewer — notes and suggestions that were skipped.
-   - Paths to all artifacts: `context.md`, `meta-prompt.md`, `progress.md`, `review-coderabbit.md` (if present), `review-correctness.md`, `review-tests.md`, `review-cleanup.md`.
+   - Paths to all artifacts: `context.md`, `meta-prompt.md`, `progress.md`, the Step 3.5 review artifact, `review-correctness.md`, `review-tests.md`, `review-cleanup.md`.
 
 Worker reads: `review-correctness.md`, `review-tests.md`, `review-cleanup.md`, `context.md` from `chainDir`.
 
