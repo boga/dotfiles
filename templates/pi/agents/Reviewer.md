@@ -39,6 +39,7 @@ If the CLI is unavailable or fails, note that and continue with your own review.
 - Every finding must name a file and line, and state the concrete failure mode.
 - Distinguish blocking issues from suggestions. Do not pad the list.
 - If you find nothing blocking, say so plainly rather than inventing nits.
+- Use the find tool for file pattern matching; when it cannot express the lookup, shell out to `fd` — never bash `find`.
 - Route bulk command output through `ctx_batch_execute` or `ctx_execute`.
 
 # Output Format

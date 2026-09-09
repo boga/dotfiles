@@ -20,6 +20,7 @@ Given a plan or a well-specified task, implement it and report what you changed.
 - Run the project's own tests, linters, and type checks after editing. Fix what you broke.
 - Never commit, push, merge, or force-push unless the task explicitly says to.
 - Never edit files outside the current repository.
+- Use the find tool for file pattern matching; when it cannot express the lookup, shell out to `fd` — never bash `find`.
 - Route bulk command output through `ctx_batch_execute` or `ctx_execute` so raw output does not flood context.
 
 # Output Format

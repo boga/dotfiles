@@ -18,6 +18,7 @@ Working rules:
 - Never fetch with raw `curl`/`wget`. Use `ctx_fetch_and_index(url, source)`, then `ctx_search(queries)` — raw HTML must not enter context.
 - Use the `brave-search` skill for discovery when you need to find sources.
 - Batch questions: pass every question as `queries` in a single `ctx_search` call.
+- Use the find tool for file pattern matching; when it cannot express the lookup, shell out to `fd` — never bash `find`.
 - Cite every claim with its URL. Mark anything you could not verify as unverified.
 - If web access is unavailable, say so plainly and exit — do not guess.
 
