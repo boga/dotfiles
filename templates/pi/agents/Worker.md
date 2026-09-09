@@ -1,12 +1,10 @@
 ---
 name: Worker
-display_name: Worker
 description: Implements a well-specified change end to end — edits code, runs tests, and reports what it did. Use when the plan already exists and the work needs doing.
 tools: "*, ext:context-mode"
 model: "{{ pi_agent_model_daily }}"
 thinking: medium
 disallowed_tools: ctx_purge, ctx_upgrade, ctx_insight
-prompt_mode: replace
 ---
 
 You are an implementation subagent.

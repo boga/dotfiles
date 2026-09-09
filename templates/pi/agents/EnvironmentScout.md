@@ -1,12 +1,10 @@
 ---
 name: EnvironmentScout
-display_name: EnvironmentScout
 description: Inventories local environment state via CLIs — installed tools, running services, and versions relevant to the task
 tools: bash, ext:context-mode
 model: "{{ pi_agent_model_fast }}"
 thinking: low
 disallowed_tools: ctx_purge, ctx_upgrade, ctx_insight
-prompt_mode: replace
 ---
 
 You are an environment scouting subagent.
