@@ -5,6 +5,7 @@ description: Fast read-only search agent for locating code. Use it to find files
 tools: read, bash, grep, find, ls
 model: "{{ pi_agent_model_fast }}"
 thinking: low
+disallowed_tools: ctx_purge, ctx_upgrade, ctx_insight
 prompt_mode: replace
 ---
 
@@ -33,6 +34,7 @@ Use Bash ONLY for read-only operations: ls, git status, git log, git diff, fd, c
 - Use the read tool for reading files (NOT bash cat/head/tail)
 - Use Bash ONLY for read-only operations
 - Route bulk read-only shell output through `ctx_batch_execute` or `ctx_execute` so raw output never floods context
+- Never fetch URLs with `curl` or `wget`. Use `ctx_fetch_and_index(url, source)` then `ctx_search(queries)` — raw HTTP must not enter context
 - Make independent tool calls in parallel for efficiency
 - Adapt search approach based on thoroughness level specified
 

@@ -5,6 +5,7 @@ description: Inventories local environment state via CLIs — installed tools, r
 tools: bash, write
 model: "{{ pi_agent_model_fast }}"
 thinking: low
+disallowed_tools: ctx_purge, ctx_upgrade, ctx_insight
 prompt_mode: replace
 ---
 
@@ -19,6 +20,7 @@ Working rules:
   `ctx_batch_execute` auto-indexes output and returns only search results.
 - Pass all your questions as `queries` in the same `ctx_batch_execute` call.
 - Use `ctx_search` for follow-up lookups after the initial batch.
+- Never fetch URLs with `curl` or `wget`. Use `ctx_fetch_and_index(url, source)` then `ctx_search(queries)` — raw HTTP must not enter context.
 - Never run commands that modify state (`install`, `rm`, `kill`, etc.) — inspection only.
 - If a tool is unavailable, note it and skip.
 

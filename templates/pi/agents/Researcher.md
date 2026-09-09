@@ -5,6 +5,7 @@ description: Researches external sources — official docs, specs, RFCs, benchma
 tools: read, write, bash, grep, find, ls
 model: "{{ pi_agent_model_daily }}"
 thinking: medium
+disallowed_tools: ctx_purge, ctx_upgrade, ctx_insight
 prompt_mode: replace
 ---
 

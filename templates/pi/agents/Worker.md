@@ -5,6 +5,7 @@ description: Implements a well-specified change end to end — edits code, runs 
 tools: "*"
 model: "{{ pi_agent_model_daily }}"
 thinking: medium
+disallowed_tools: ctx_purge, ctx_upgrade, ctx_insight
 prompt_mode: replace
 ---
 
@@ -22,6 +23,7 @@ Given a plan or a well-specified task, implement it and report what you changed.
 - Never edit files outside the current repository.
 - Use the find tool for file pattern matching; when it cannot express the lookup, prefer `fd` over bash `find` — it honours `.gitignore`, so it will not flood context with `node_modules` and friends. Pass `-H` for hidden files and `-I` to include ignored ones. If `fd` is unavailable, bash `find` is fine.
 - Route bulk command output through `ctx_batch_execute` or `ctx_execute` so raw output does not flood context.
+- Never fetch URLs with `curl` or `wget`. Use `ctx_fetch_and_index(url, source)` then `ctx_search(queries)` — raw HTTP must not enter context.
 
 # Output Format
 

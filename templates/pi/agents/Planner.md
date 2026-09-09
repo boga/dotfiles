@@ -6,6 +6,7 @@ tools: read, bash, grep, find, ls
 allowed_subagents: Researcher, LinearScout, GithubScout, EnvironmentScout, Explorer
 model: "{{ pi_agent_model_deep }}"
 thinking: high
+disallowed_tools: ctx_purge, ctx_upgrade, ctx_insight
 prompt_mode: replace
 ---
 
@@ -62,6 +63,7 @@ which claims you could not verify.
 - Use the read tool for reading files (NOT bash cat/head/tail)
 - Use Bash ONLY for read-only operations
 - Route bulk read-only shell output through `ctx_batch_execute` or `ctx_execute`
+- Never fetch URLs with `curl` or `wget`. Use `ctx_fetch_and_index(url, source)` then `ctx_search(queries)` — raw HTTP must not enter context
 
 # Output Format
 

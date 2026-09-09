@@ -5,6 +5,7 @@ description: Reviews a change for correctness, regressions, and drift from the s
 tools: read, bash, grep, find, ls
 model: "{{ pi_agent_model_reviewer }}"
 thinking: high
+disallowed_tools: ctx_purge, ctx_upgrade, ctx_insight
 prompt_mode: replace
 ---
 
@@ -41,6 +42,7 @@ If the CLI is unavailable or fails, note that and continue with your own review.
 - If you find nothing blocking, say so plainly rather than inventing nits.
 - Use the find tool for file pattern matching; when it cannot express the lookup, prefer `fd` over bash `find` — it honours `.gitignore`, so it will not flood context with `node_modules` and friends. Pass `-H` for hidden files and `-I` to include ignored ones. If `fd` is unavailable, bash `find` is fine.
 - Route bulk command output through `ctx_batch_execute` or `ctx_execute`.
+- Never fetch URLs with `curl` or `wget`. Use `ctx_fetch_and_index(url, source)` then `ctx_search(queries)` — raw HTTP must not enter context.
 
 # Output Format
 

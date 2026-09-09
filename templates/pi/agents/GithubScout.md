@@ -5,6 +5,7 @@ description: Gathers GitHub project state via gh CLI — open PRs, issues, CI ru
 tools: bash, write
 model: "{{ pi_agent_model_fast }}"
 thinking: low
+disallowed_tools: ctx_purge, ctx_upgrade, ctx_insight
 prompt_mode: replace
 ---
 
@@ -19,6 +20,7 @@ Working rules:
   returns only search results.
 - Pass all your questions as `queries` in the same `ctx_batch_execute` call.
 - Use `ctx_search` for follow-up lookups after the initial batch.
+- Never fetch URLs with `curl` or `wget`. Use `ctx_fetch_and_index(url, source)` then `ctx_search(queries)` — raw HTTP must not enter context.
 - Read-only. Never open, edit, merge, or close anything.
 - If `gh` is unavailable or the repo has no remote, note it and continue with what is available.
 
