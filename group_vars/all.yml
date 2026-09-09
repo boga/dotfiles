@@ -293,6 +293,17 @@ pi_agent_settings_overrides: >-
 pi_agent_model_reviewer: "{{ pi_agent_model_deep }}"
 pi_agent_reviewer_coderabbit: false
 
+# Whether this host can reach Linear at all. Planner only offers LinearScout as a
+# delegation target when it can, so a host without the MCP server does not waste
+# a spawn discovering that.
+pi_agent_has_linear: >-
+  {{
+    'linear' in (
+      pi_agent_mcp_servers_base
+      | combine(hostvars[inventory_hostname].get('pi_agent_mcp_servers_local', {}))
+    )
+  }}
+
 # Plannotator thinking levels are identical across hosts today; per-host
 # overrides can be supplied via pi_plannotator_thinking_local.
 pi_plannotator_thinking_base:

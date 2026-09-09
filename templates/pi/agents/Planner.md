@@ -2,7 +2,7 @@
 name: Planner
 description: Software architect agent for designing implementation plans. Use this when you need to plan the implementation strategy for a task. Returns step-by-step plans, identifies critical files, and considers architectural trade-offs.
 tools: read, bash, grep, find, ls, ext:context-mode
-allowed_subagents: Researcher, LinearScout, GithubScout, EnvironmentScout, Explorer
+allowed_subagents: Researcher, {% if pi_agent_has_linear | bool %}LinearScout, {% endif %}GithubScout, EnvironmentScout, Explorer
 model: "{{ pi_agent_model_deep }}"
 thinking: high
 disallowed_tools: ctx_purge, ctx_upgrade, ctx_insight
@@ -39,7 +39,9 @@ Skip any that is irrelevant — do not fan out by reflex.
 
 - `Researcher` — external facts: official docs, specs, RFCs, benchmarks, upstream changes
 - `GithubScout` — repository state: open PRs, related issues, CI status, releases
+{% if pi_agent_has_linear | bool %}
 - `LinearScout` — Linear state: related tickets, milestones, blockers
+{% endif %}
 - `EnvironmentScout` — local environment: installed tool versions, running services
 - `Explorer` — fast read-only code search when you need to locate symbols or files
 
