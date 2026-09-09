@@ -6,22 +6,28 @@ caught by hand:
 1. A `config_files` entry pointing at a `src:` that no longer exists (or that
    git does not track), which fails the play on the target host rather than in
    review.
-2. An agent `.md` whose frontmatter is not valid YAML. Pi skips such a file with
-   a warning, so the agent silently does not exist — an unquoted description
-   containing ": " did exactly that.
+2. An agent `.md` whose frontmatter is not valid YAML. With
+   `strictAgentFiles: true` in `templates/pi/subagents.json` this is no longer a
+   skipped agent with a warning — the fork rethrows and the whole extension load
+   aborts at startup. An unquoted description containing ": " shipped once.
+
+PyYAML is a hard requirement rather than a skip: a suite that reports green
+while silently not checking the thing it exists to check is worse than one that
+fails to run. Use the Ansible interpreter, which already has it:
+
+    ansible-playbook --version        # shows the python it uses
+    <that python> -m unittest discover -s tests
 """
 
 from __future__ import annotations
 
+import json
 import re
 import subprocess
 import unittest
 from pathlib import Path
 
-try:
-    import yaml
-except ImportError:  # pyyaml is not guaranteed outside the Ansible venv
-    yaml = None
+import yaml  # hard dependency, on purpose — see the module docstring
 
 REPOSITORY_ROOT = Path(__file__).resolve().parents[1]
 GROUP_VARS = REPOSITORY_ROOT / "group_vars" / "all.yml"
@@ -103,7 +109,6 @@ class AgentTemplateTests(unittest.TestCase):
     def test_agents_exist(self) -> None:
         self.assertTrue(self.agent_files, "no agent templates found")
 
-    @unittest.skipIf(yaml is None, "pyyaml not installed")
     def test_frontmatter_parses(self) -> None:
         for path in self.agent_files:
             with self.subTest(agent=path.name):
@@ -135,6 +140,45 @@ class AgentTemplateTests(unittest.TestCase):
                     (AGENTS_DIR / name).exists(),
                     f"{name} shadows a built-in that disableDefaultAgents already removes",
                 )
+
+
+class SubagentsConfigTests(unittest.TestCase):
+    """`subagents.json` carries the keys the role README calls load-bearing."""
+
+    @classmethod
+    def setUpClass(cls) -> None:
+        cls.raw = SUBAGENTS_JSON.read_text(encoding="utf-8")
+
+    def test_is_valid_json(self) -> None:
+        try:
+            self.config = json.loads(self.raw)
+        except json.JSONDecodeError as err:  # pragma: no cover - failure path
+            self.fail(f"subagents.json is not valid JSON: {err}")
+
+    def test_dispatch_fails_closed(self) -> None:
+        config = json.loads(self.raw)
+        self.assertEqual(
+            "none",
+            config.get("fallbackSubagent"),
+            "without fallbackSubagent: none an unresolvable subagent_type is "
+            "silently substituted instead of refused",
+        )
+        self.assertIs(
+            True,
+            config.get("disableDefaultAgents"),
+            "the built-ins carry no disallowed_tools and inherit every extension; "
+            "leaving them registered bypasses the managed agents",
+        )
+        self.assertIs(
+            True,
+            config.get("strictAgentFiles"),
+            "an unparseable agent file should abort startup by name, not vanish",
+        )
+
+    def test_is_deployed(self) -> None:
+        relative = SUBAGENTS_JSON.relative_to(REPOSITORY_ROOT).as_posix()
+        group_vars = GROUP_VARS.read_text(encoding="utf-8")
+        self.assertIn(relative, group_vars, f"{relative} has no config_files entry")
 
 
 if __name__ == "__main__":
