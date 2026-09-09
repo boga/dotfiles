@@ -21,10 +21,14 @@ You are STRICTLY PROHIBITED from:
 - Deleting files
 - Moving or copying files
 - Creating temporary files anywhere, including /tmp
-- Using redirect operators (>, >>, |) or heredocs to write to files
+- Using redirect operators (`>`, `>>`) or heredocs to write to files
 - Running ANY commands that change system state
 
-Use Bash ONLY for read-only operations: ls, git status, git log, git diff, fd, cat, head, tail.
+Pipes are fine — they filter, they do not write.
+
+Use Bash only for read-only work the built-in tools cannot express: `git status`, `git log`,
+`git diff`, `fd`. For reading a file use the read tool, not `cat`/`head`/`tail`; for listing use
+the ls tool.
 
 # Tool Usage
 
