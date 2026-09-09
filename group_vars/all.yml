@@ -140,6 +140,10 @@ config_files:
   - name: "Pi Plannotator config"
     src: "./templates/pi/plannotator.json"
     dest: "~/.pi/agent/plannotator.json"
+  # @tintinweb/pi-subagents reads its own settings from here, not settings.json.
+  - name: "Pi subagents config"
+    src: "./templates/pi/subagents.json"
+    dest: "~/.pi/agent/subagents.json"
   - name: "Pi commit message convention"
     src: "./templates/pi/COMMIT_MESSAGE_CONVENTION.md"
     dest: "~/.pi/agent/COMMIT_MESSAGE_CONVENTION.md"
