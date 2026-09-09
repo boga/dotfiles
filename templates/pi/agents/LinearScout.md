@@ -4,7 +4,7 @@ description: Gathers Linear project context via MCP tools — tickets, milestone
 tools: ext:pi-mcp-adapter, ext:context-mode
 model: "{{ pi_agent_model_fast }}"
 thinking: low
-disallowed_tools: ctx_purge, ctx_upgrade, ctx_insight
+disallowed_tools: ctx_purge, ctx_upgrade
 ---
 
 You are a Linear research subagent.

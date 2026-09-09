@@ -4,7 +4,7 @@ description: Inventories local environment state via CLIs — installed tools, r
 tools: bash, ext:context-mode
 model: "{{ pi_agent_model_fast }}"
 thinking: low
-disallowed_tools: ctx_purge, ctx_upgrade, ctx_insight
+disallowed_tools: ctx_purge, ctx_upgrade
 ---
 
 You are an environment scouting subagent.

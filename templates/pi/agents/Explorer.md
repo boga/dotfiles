@@ -4,7 +4,7 @@ description: 'Fast read-only search agent for locating code. Use it to find file
 tools: read, bash, grep, find, ls, ext:context-mode
 model: "{{ pi_agent_model_fast }}"
 thinking: low
-disallowed_tools: ctx_purge, ctx_upgrade, ctx_insight
+disallowed_tools: ctx_purge, ctx_upgrade
 ---
 
 # CRITICAL: READ-ONLY MODE - NO FILE MODIFICATIONS

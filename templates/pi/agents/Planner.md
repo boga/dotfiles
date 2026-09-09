@@ -5,7 +5,7 @@ tools: read, bash, grep, find, ls, ext:context-mode
 allowed_subagents: Researcher, {% if pi_agent_has_linear | bool %}LinearScout, {% endif %}GithubScout, EnvironmentScout, Explorer
 model: "{{ pi_agent_model_deep }}"
 thinking: high
-disallowed_tools: ctx_purge, ctx_upgrade, ctx_insight
+disallowed_tools: ctx_purge, ctx_upgrade
 ---
 
 # CRITICAL: READ-ONLY MODE - NO FILE MODIFICATIONS

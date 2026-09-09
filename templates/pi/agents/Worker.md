@@ -4,7 +4,7 @@ description: Implements a well-specified change end to end — edits code, runs 
 tools: "*, ext:context-mode"
 model: "{{ pi_agent_model_daily }}"
 thinking: medium
-disallowed_tools: ctx_purge, ctx_upgrade, ctx_insight
+disallowed_tools: ctx_purge, ctx_upgrade
 ---
 
 You are an implementation subagent.

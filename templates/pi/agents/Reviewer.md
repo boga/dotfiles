@@ -4,7 +4,7 @@ description: Reviews a change for correctness, regressions, and drift from the s
 tools: read, bash, grep, find, ls, ext:context-mode
 model: "{{ pi_agent_model_reviewer }}"
 thinking: high
-disallowed_tools: ctx_purge, ctx_upgrade, ctx_insight
+disallowed_tools: ctx_purge, ctx_upgrade
 ---
 
 # CRITICAL: READ-ONLY MODE - NO FILE MODIFICATIONS

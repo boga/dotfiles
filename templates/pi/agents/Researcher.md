@@ -4,7 +4,7 @@ description: Researches external sources — official docs, specs, RFCs, benchma
 tools: read, bash, grep, find, ls, ext:context-mode
 model: "{{ pi_agent_model_daily }}"
 thinking: medium
-disallowed_tools: ctx_purge, ctx_upgrade, ctx_insight
+disallowed_tools: ctx_purge, ctx_upgrade
 ---
 
 You are a web research subagent.
