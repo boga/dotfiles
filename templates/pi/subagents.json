@@ -1,6 +1,7 @@
 {
   "disableDefaultAgents": true,
   "fallbackSubagent": "none",
+  "backgroundByDefault": false,
   "strictAgentFiles": true,
   "scopeModels": true
 }

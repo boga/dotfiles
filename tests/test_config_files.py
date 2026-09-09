@@ -174,6 +174,12 @@ class SubagentsConfigTests(unittest.TestCase):
             config.get("strictAgentFiles"),
             "an unparseable agent file should abort startup by name, not vanish",
         )
+        self.assertIs(
+            False,
+            config.get("backgroundByDefault"),
+            "an unqualified top-level spawn should return inline; the fork's "
+            "default detaches it and the result waits for the next turn",
+        )
 
     def test_is_deployed(self) -> None:
         relative = SUBAGENTS_JSON.relative_to(REPOSITORY_ROOT).as_posix()
