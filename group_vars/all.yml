@@ -160,7 +160,7 @@ config_files:
     src: "./templates/pi/prompts/draft-pr.md"
     dest: "~/.pi/agent/prompts/draft-pr.md"
   # The three built-in agents are suppressed wholesale by disableDefaultAgents
-  # in templates/pi/subagents.json; the ten below are the entire roster.
+  # in templates/pi/subagents.json; the eight below are the entire roster.
   - name: "Pi agent: Explorer"
     src: "./templates/pi/agents/Explorer.md"
     dest: "~/.pi/agent/agents/Explorer.md"

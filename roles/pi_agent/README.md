@@ -57,12 +57,20 @@ Two keys work as a pair to keep the tool grants in `templates/pi/agents/` meanin
 
 - `disableDefaultAgents: true` unregisters the fork's three built-ins (`general-purpose`, `Explore`,
   `Plan`). They carry no `disallowed_tools` and inherit every extension, so leaving `general-purpose`
-  spawnable would hand any caller the full tool set — `ctx_purge` included — straight past the ten
-  managed definitions.
+  spawnable would hand any `Agent` caller the full tool set — `ctx_purge` included — straight past
+  the eight managed definitions. Note the limit: this covers dispatch through the `Agent` tool, which
+  goes via the type resolver. The `/agents` create-agent wizard spawns the literal string
+  `general-purpose` and bypasses that resolver, falling through to a built-in default that still
+  carries every tool. That path stays open — it is human-initiated and turn-capped, but the setting
+  does not close it.
 - `fallbackSubagent: none` makes an unresolvable `subagent_type` fail loudly. Without it the
   substitution is silent.
+- `backgroundByDefault: false` makes a top-level spawn that does not say otherwise block and return
+  its result inline. The fork defaults this to `true`, where an unqualified spawn detaches and the
+  result only surfaces on the next turn. Nested spawns (Planner delegating to a scout) always run
+  foreground regardless.
 
-With the built-ins gone, the roster is exactly the ten files in `templates/pi/agents/`. The fork's
+With the built-ins gone, the roster is exactly the eight files in `templates/pi/agents/`. The fork's
 Agent-tool prompt still suggests `Explore` by name, so a model following that hint gets a hard error
 rather than a wrong agent — which is the intended trade.
 
