@@ -2,7 +2,7 @@
 name: Reviewer
 display_name: Reviewer
 description: Reviews a change for correctness, regressions, and drift from the stated requirements. Read-only — reports findings, never edits.
-tools: read, bash, grep, find, ls
+tools: read, bash, grep, find, ls, ext:context-mode
 model: "{{ pi_agent_model_reviewer }}"
 thinking: high
 disallowed_tools: ctx_purge, ctx_upgrade, ctx_insight

@@ -2,7 +2,7 @@
 name: Planner
 display_name: Planner
 description: Software architect agent for designing implementation plans. Use this when you need to plan the implementation strategy for a task. Returns step-by-step plans, identifies critical files, and considers architectural trade-offs.
-tools: read, bash, grep, find, ls
+tools: read, bash, grep, find, ls, ext:context-mode
 allowed_subagents: Researcher, LinearScout, GithubScout, EnvironmentScout, Explorer
 model: "{{ pi_agent_model_deep }}"
 thinking: high
