@@ -19,9 +19,7 @@ pi_plannotator_reviewing_model:
 pi_agent_model_fast: "anthropic/claude-haiku-4-5"
 pi_agent_model_daily: "anthropic/claude-sonnet-5"
 pi_agent_model_deep: "anthropic/claude-opus-5"
-# Reviewer calls CodeRabbit as a second opinion on this host; its model comes
-# from the shared default in group_vars/all.yml.
-pi_agent_reviewer_coderabbit: true
+# Reviewer's model comes from the shared default in group_vars/all.yml.
 
 # Work-only MCP servers, merged over pi_agent_mcp_servers_base in
 # group_vars/all.yml.

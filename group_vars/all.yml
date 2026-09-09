@@ -285,7 +285,6 @@ pi_agent_settings_overrides: >-
 # three tiers in its vars.yml. Reviewer defaults to the deep tier with no
 # CodeRabbit; a host overrides either in its own vars.yml.
 pi_agent_model_reviewer: "{{ pi_agent_model_deep }}"
-pi_agent_reviewer_coderabbit: false
 
 # Whether this host can reach Linear at all. Planner only offers LinearScout as a
 # delegation target when it can, so a host without the MCP server does not waste

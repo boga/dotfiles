@@ -80,10 +80,9 @@ Before every action, verify:
 
 ## CodeRabbit Policy
 
-Run `coderabbit` (CodeRabbit CLI) **only** in two situations:
-
-1. Inside the `Reviewer` agent, on hosts where CodeRabbit is enabled for it.
-2. When the user explicitly says so: "Use CodeRabbit" or "Ask CodeRabbit".
+Run `coderabbit` (CodeRabbit CLI) **only** when the user explicitly says so: "Use CodeRabbit" or
+"Ask CodeRabbit". The `Reviewer` agent does not run it — a review is minutes long and unbounded,
+and the CLI's own recipes write files that agent is forbidden to create.
 
 Never invoke `coderabbit` spontaneously during planning, exploration, or general code review.
 

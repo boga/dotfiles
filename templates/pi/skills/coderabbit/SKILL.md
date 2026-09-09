@@ -1,6 +1,6 @@
 {% raw %}---
 name: coderabbit
-description: Run a CodeRabbit CLI (`coderabbit`) code review. Use this skill only when the user explicitly says "Use CodeRabbit" or "Ask CodeRabbit", or when the Reviewer agent runs on a host with CodeRabbit enabled. Do not trigger on general review phrases.
+description: Run a CodeRabbit CLI (`coderabbit`) code review. Use this skill only when the user explicitly says "Use CodeRabbit" or "Ask CodeRabbit". Do not trigger on general review phrases, and do not use it inside the Reviewer agent.
 ---
 
 # CodeRabbit CLI
@@ -71,12 +71,9 @@ Use perl, which is always present:
 perl -e 'alarm shift; exec @ARGV' 600 coderabbit review --committed --base master
 ```
 
-Or background it and poll with a bounded number of attempts:
-
-```bash
-coderabbit review --committed --base master > /tmp/cr.txt 2>&1 &
-# ...poll /tmp/cr.txt a fixed number of times, then give up and move on
-```
+Do not redirect the run to a file and poll it. Any agent read-only enough to be reviewing code is
+forbidden from creating files, `/tmp` included, so that recipe cannot be followed — use the bounded
+`ctx_execute` form above and read the output directly.
 
 **If the review does not finish inside the bound: stop waiting, report CodeRabbit as unavailable,
 and continue with your own findings.** A missing second opinion is not a reason to produce nothing.

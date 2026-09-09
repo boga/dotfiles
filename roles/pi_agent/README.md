@@ -35,7 +35,6 @@ a failure; do not rely on it to catch a typo.
 | `pi_agent_model_daily`         | — (host must define)      | `Researcher`, `Worker`                           |
 | `pi_agent_model_deep`          | — (host must define)      | `Planner`                                        |
 | `pi_agent_model_reviewer`      | `{{ pi_agent_model_deep }}` | `Reviewer` — split out so a host can review on a cheaper tier |
-| `pi_agent_reviewer_coderabbit` | `false`                   | `Reviewer` — gates the CodeRabbit step in its prompt |
 
 The defaults for the last two live in `group_vars/all.yml`; the three tiers have no default on
 purpose, so a new host fails loudly rather than inheriting another host's provider.
@@ -45,7 +44,6 @@ purpose, so a new host fails loudly rather than inheriting another host's provid
 pi_agent_model_fast: "anthropic/claude-haiku-4-5"
 pi_agent_model_daily: "anthropic/claude-sonnet-5"
 pi_agent_model_deep: "anthropic/claude-opus-5"
-pi_agent_reviewer_coderabbit: true
 ```
 
 ## Subagents config
