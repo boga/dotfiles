@@ -14,7 +14,7 @@ Scope is selected with **flags**, not bare words. `coderabbit review uncommitted
 `error: too many arguments for 'review'`.
 
 ```bash
-# Review all tracked changes vs the base branch (default: main)
+# Review all tracked changes. --base has no default; pass it explicitly.
 coderabbit review
 
 # Review only uncommitted changes (staged + tracked edits)
