@@ -1,72 +1,100 @@
----
+{% raw %}---
 name: coderabbit
 description: Run a CodeRabbit CLI (`coderabbit`) code review. Use this skill only when the user explicitly says "Use CodeRabbit" or "Ask CodeRabbit", or when the Reviewer agent runs on a host with CodeRabbit enabled. Do not trigger on general review phrases.
 ---
 
 # CodeRabbit CLI
 
-The CodeRabbit CLI binary is `coderabbit`.
+The CodeRabbit CLI binary is `coderabbit`. Verified against **0.7.6** — check `coderabbit review --help`
+before trusting any flag below if the version differs.
 
 ## Review commands
 
-```bash
-# Review all local changes vs base branch (default: main)
-coderabbit
+Scope is selected with **flags**, not bare words. `coderabbit review uncommitted` fails with
+`error: too many arguments for 'review'`.
 
-# Review only uncommitted changes (staged + unstaged)
-coderabbit review uncommitted
+```bash
+# Review all tracked changes vs the base branch (default: main)
+coderabbit review
+
+# Review only uncommitted changes (staged + tracked edits)
+coderabbit review --uncommitted
 
 # Review only committed changes (branch commits vs base)
-coderabbit review committed
+coderabbit review --committed
 
-# Specify a non-default base branch
+# Also include files not yet added to git
+coderabbit review --include-untracked
+
+# Non-default base branch
 coderabbit review --base master
-coderabbit review --base develop
+coderabbit review --committed --base master
 
-# Combine scope and base branch
-coderabbit review uncommitted --base master
-coderabbit review committed --base develop
-```
-
-## Workflow
-
-### Review current branch before opening a PR
-
-```bash
-# 1. Confirm what will be reviewed
-git status
-git diff origin/main...HEAD --stat
-
-# 2. Run the review
-coderabbit                   # all changes vs main
-coderabbit --base master     # if default branch is master, not main
-```
-
-### Review only staged changes
-
-```bash
-git add <files>
-coderabbit review uncommitted
-```
-
-### Review committed work on the branch
-
-```bash
-coderabbit review committed --base main
+# Lighter, faster review with reduced context work
+coderabbit review --light --committed --base master
 ```
 
 ## Output modes
 
+Plain text is the **default** — there is no `--plain` flag.
+
 ```bash
-coderabbit review --plain --base main   # readable text output (default for human/LLM consumption)
-coderabbit review --agent --base main   # structured JSON output (for machine parsing)
+coderabbit review --committed --base master   # plain text (default; read this yourself)
+coderabbit review --agent --committed         # structured findings for machine parsing
 ```
 
-Prefer `--plain` when the output will be read by a person or an LLM. Use `--agent` only when a script needs to parse status or findings count.
+Use `--agent` only when something needs to parse findings; otherwise take the default.
+
+## Bounding the run — MANDATORY
+
+A review takes minutes and can exceed 30 on a large diff or on the free CLI allowance. It has no
+built-in cap, so an unbounded foreground call will hang the caller. **Never invoke it without a
+bound.**
+
+Preferred — let the sandbox enforce the cap:
+
+```javascript
+ctx_execute({
+  language: "shell",
+  timeout: 600000, // 10 min hard cap
+  code: "cd <repo> && coderabbit review --committed --base master 2>&1 | tail -80",
+})
+```
+
+`timeout` is in milliseconds. Omitting it means **no server-side timer fires** — that is the hang.
+
+If you must use plain bash, note that macOS has no `timeout` binary unless coreutils is installed.
+Use perl, which is always present:
+
+```bash
+perl -e 'alarm shift; exec @ARGV' 600 coderabbit review --committed --base master
+```
+
+Or background it and poll with a bounded number of attempts:
+
+```bash
+coderabbit review --committed --base master > /tmp/cr.txt 2>&1 &
+# ...poll /tmp/cr.txt a fixed number of times, then give up and move on
+```
+
+**If the review does not finish inside the bound: stop waiting, report CodeRabbit as unavailable,
+and continue with your own findings.** A missing second opinion is not a reason to produce nothing.
+
+## Reading the output
+
+Findings from the last local run can be re-read without paying for another review:
+
+```bash
+coderabbit review findings
+```
 
 ## Tips
 
-- Must run from inside a Git repository (`--dir` flag overrides the directory)
-- Reviews stream results to the terminal as they complete
-- Review duration: 7–30+ minutes depending on scope
-- Must use the full `coderabbit` binary name (`cr` alias is not always available)
+- Must run from inside a git repository (`--dir <path>` overrides the directory).
+- Check the account and org first with `coderabbit auth status`; a repo with no org plan falls back
+  to the free CLI allowance, which is slower.
+- Results stream to the terminal as they complete, so a partial capture is still useful.
+- Use the full `coderabbit` binary name — the `cr` alias is not always available.
+- Treat its findings as one more reviewer: confirm each against the code and drop what you cannot
+  reproduce.
+{% endraw %}

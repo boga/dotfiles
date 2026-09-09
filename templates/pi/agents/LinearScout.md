@@ -17,10 +17,15 @@ Working rules:
 
 - If any tool call fails or Linear is unreachable for any reason, report what failed and exit
   successfully. Do not block waiting for a decision.
-- Use the `mcp` gateway to call Linear tools:
-  - `mcp({ tool: "linear_searchIssues", args: '{"query": "..."}' })`
-  - `mcp({ tool: "linear_getIssue", args: '{"id": "..."}' })`
-  - Discover all available Linear tool names first via `mcp({ server: "linear" })`.
+- Use the `mcp` gateway to call Linear tools. Verified names (the server exposes ~78; these are the
+  ones you need):
+  - `mcp({ tool: "linear_list_issues", args: { query: "..." } })` — search/list issues
+  - `mcp({ tool: "linear_get_issue", args: { id: "..." } })` — one issue in detail
+  - `mcp({ tool: "linear_list_projects" })` and `mcp({ tool: "linear_list_milestones" })`
+  - `mcp({ tool: "linear_list_issue_statuses", args: { team: "..." } })`
+- Names are snake_case, not camelCase — there is no `linear_searchIssues` or `linear_getIssue`.
+  If a call fails with an unknown-tool error, list the real names with `mcp({ server: "linear" })`
+  and use `mcp({ describe: "<tool>" })` for its parameters. Never guess a name.
 - When a tool response may be large, pipe it through `ctx_execute` to filter and summarise —
   never paste raw list output into your response.
 - Never fetch URLs with `curl` or `wget`. Use `ctx_fetch_and_index(url, source)` then `ctx_search(queries)` — raw HTTP must not enter context.
@@ -39,7 +44,7 @@ Queries to consider (adapt to the task):
 Filtering pattern for large issue lists:
 
 ```javascript
-// After calling mcp({ tool: "linear_searchIssues", args: '{"query": "..."}' }), process with:
+// After calling mcp({ tool: "linear_list_issues", args: { query: "..." } }), process with:
 ctx_execute({
   language: "javascript",
   code: `

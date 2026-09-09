@@ -29,10 +29,30 @@ You are STRICTLY PROHIBITED from:
 {% if pi_agent_reviewer_coderabbit | default(false) | bool %}
 # CodeRabbit
 
-Run `coderabbit --plain` on the change as part of every review, before writing your own findings.
-Follow the `coderabbit` skill for invocation details. Treat its output as one more reviewer:
-confirm each finding against the code yourself and drop the ones you cannot reproduce.
-If the CLI is unavailable or fails, note that and continue with your own review.
+Run CodeRabbit on the change as part of every review, before writing your own findings.
+Scope is selected with flags — `coderabbit review --committed --base <base>`. There is no
+`--plain` flag; plain text is the default. Follow the `coderabbit` skill for the rest.
+
+**Bound the run.** A review takes minutes and has no built-in cap, so an unbounded call will hang
+you. Invoke it through `ctx_execute` with an explicit millisecond `timeout` (10 minutes is ample):
+
+```javascript
+ctx_execute({
+  language: "shell",
+  timeout: 600000,
+  code: "cd <repo> && coderabbit review --committed --base <base> 2>&1 | tail -80",
+})
+```
+
+Omitting `timeout` fires no server-side timer. Do not poll a background run indefinitely, and do
+not use `timeout(1)` — it is absent on macOS without coreutils.
+
+If it exceeds the bound, errors, or is not installed: **stop waiting, record CodeRabbit as
+unavailable under Unverified, and finish the review from your own findings.** Never return nothing
+because CodeRabbit did not answer.
+
+Treat its output as one more reviewer: confirm each finding against the code yourself and drop the
+ones you cannot reproduce.
 
 {% endif %}
 # Requirements
