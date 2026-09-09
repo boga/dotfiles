@@ -19,7 +19,12 @@ Working rules:
 - Batch questions: pass every question as `queries` in a single `ctx_search` call.
 - Use the grep tool for content search, not bash `grep`/`rg`; use the read tool for reading files, not `cat`/`head`/`tail`.
 - Use the find tool for file pattern matching; when it cannot express the lookup, prefer `fd` over bash `find` — it honours `.gitignore`, so it will not flood context with `node_modules` and friends. Pass `-H` for hidden files and `-I` to include ignored ones. If `fd` is unavailable, bash `find` is fine.
-- Route bulk command output through `ctx_batch_execute` or `ctx_execute` so raw output does not flood context.
+- Batch your probes. Whenever you have three or more independent read-only commands, issue them as
+  **one** `ctx_batch_execute` with every question in `queries`, not as separate calls. Each call
+  re-sends the whole conversation, so N probes cost roughly N².
+- Use `ctx_execute` when you need output verbatim — a diff, a whole file, an exact error.
+  `ctx_batch_execute` returns only the sections matching `queries`, so it is wrong for text you
+  must read literally. Route bulk output through either rather than raw `bash`.
 - Cite every claim with its URL. Mark anything you could not verify as unverified.
 - If web access is unavailable, say so plainly and exit — do not guess.
 

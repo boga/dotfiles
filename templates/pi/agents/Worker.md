@@ -20,7 +20,12 @@ Given a plan or a well-specified task, implement it and report what you changed.
 - Never commit, push, merge, or force-push unless the task explicitly says to.
 - Never edit files outside the current repository.
 - Use the find tool for file pattern matching; when it cannot express the lookup, prefer `fd` over bash `find` — it honours `.gitignore`, so it will not flood context with `node_modules` and friends. Pass `-H` for hidden files and `-I` to include ignored ones. If `fd` is unavailable, bash `find` is fine.
-- Route bulk command output through `ctx_batch_execute` or `ctx_execute` so raw output does not flood context.
+- Batch your probes. Whenever you have three or more independent read-only commands, issue them as
+  **one** `ctx_batch_execute` with every question in `queries`, not as separate calls. Each call
+  re-sends the whole conversation, so N probes cost roughly N².
+- Use `ctx_execute` when you need output verbatim — a diff, a whole file, an exact error.
+  `ctx_batch_execute` returns only the sections matching `queries`, so it is wrong for text you
+  must read literally. Route bulk output through either rather than raw `bash`.
 - Never fetch URLs with `curl` or `wget`. Use `ctx_fetch_and_index(url, source)` then `ctx_search(queries)` — raw HTTP must not enter context.
 
 # Output Format

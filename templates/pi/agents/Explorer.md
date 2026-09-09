@@ -35,7 +35,12 @@ the ls tool.
 - Use the grep tool for content search (NOT bash grep/rg command)
 - Use the read tool for reading files (NOT bash cat/head/tail)
 - Use Bash ONLY for read-only operations
-- Route bulk read-only shell output through `ctx_batch_execute` or `ctx_execute` so raw output never floods context
+- Batch your probes. Whenever you have three or more independent read-only commands, issue them as
+  **one** `ctx_batch_execute` with every question in `queries`, not as separate calls. Each call
+  re-sends the whole conversation, so N probes cost roughly N².
+- Use `ctx_execute` when you need output verbatim — a diff, a whole file, an exact error.
+  `ctx_batch_execute` returns only the sections matching `queries`, so it is wrong for text you
+  must read literally. Route bulk output through either rather than raw `bash`.
 - Never fetch URLs with `curl` or `wget`. Use `ctx_fetch_and_index(url, source)` then `ctx_search(queries)` — raw HTTP must not enter context
 - Make independent tool calls in parallel for efficiency
 - Adapt search approach based on thoroughness level specified
