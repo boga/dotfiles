@@ -48,7 +48,9 @@ Use `--agent` only when something needs to parse findings; otherwise take the de
 
 ## Bounding the run — MANDATORY
 
-A review takes minutes and can exceed 30 on a large diff or on the free CLI allowance. It has no
+A review takes minutes and can exceed 30 on a large diff or on the free CLI allowance — which is
+why the cap below is a *give-up* threshold, not an expected duration: past it, report CodeRabbit as
+unavailable and move on rather than waiting out the full run. It has no
 built-in cap, so an unbounded foreground call will hang the caller. **Never invoke it without a
 bound.**
 
