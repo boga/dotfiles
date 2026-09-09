@@ -23,9 +23,11 @@ Pi itself is installed via mise — the version is declared in `templates/mise.t
 thinking level live in its own `.md` frontmatter. Those files are Jinja templates deployed by the
 `cp` role from `templates/pi/agents/`, so they read the variables below.
 
-Each host defines three tiers in its `host_vars/<host>/vars.yml`. Every model named must also
-appear in that host's `pi_agent_settings_overrides_local.enabledModels`, or `scopeModels` in
-`templates/pi/subagents.json` will reject the spawn.
+Each host defines three tiers in its `host_vars/<host>/vars.yml`. Every model named should also
+appear in that host's `pi_agent_settings_overrides_local.enabledModels`. Note that `scopeModels`
+only *warns* for a model pinned in agent frontmatter — it runs the model anyway, and hard-errors
+only for a model supplied by the caller. So a tier missing from `enabledModels` shows a toast, not
+a failure; do not rely on it to catch a typo.
 
 | Variable                       | Default                   | Used by                                          |
 |--------------------------------|---------------------------|--------------------------------------------------|
@@ -49,9 +51,20 @@ pi_agent_reviewer_coderabbit: true
 ## Subagents config
 
 Fork-level behaviour is **not** part of `settings.json` — it lives in `~/.pi/agent/subagents.json`,
-deployed from `templates/pi/subagents.json` by the `cp` role. `fallbackSubagent: none` is the
-load-bearing key: without it an unresolvable `subagent_type` silently runs `general-purpose` with
-the full tool set instead of failing.
+deployed from `templates/pi/subagents.json` by the `cp` role.
+
+Two keys work as a pair to keep the tool grants in `templates/pi/agents/` meaningful:
+
+- `disableDefaultAgents: true` unregisters the fork's three built-ins (`general-purpose`, `Explore`,
+  `Plan`). They carry no `disallowed_tools` and inherit every extension, so leaving `general-purpose`
+  spawnable would hand any caller the full tool set — `ctx_purge` included — straight past the ten
+  managed definitions.
+- `fallbackSubagent: none` makes an unresolvable `subagent_type` fail loudly. Without it the
+  substitution is silent.
+
+With the built-ins gone, the roster is exactly the ten files in `templates/pi/agents/`. The fork's
+Agent-tool prompt still suggests `Explore` by name, so a model following that hint gets a hard error
+rather than a wrong agent — which is the intended trade.
 
 ## Usage
 

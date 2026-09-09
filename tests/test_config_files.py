@@ -26,6 +26,7 @@ except ImportError:  # pyyaml is not guaranteed outside the Ansible venv
 REPOSITORY_ROOT = Path(__file__).resolve().parents[1]
 GROUP_VARS = REPOSITORY_ROOT / "group_vars" / "all.yml"
 AGENTS_DIR = REPOSITORY_ROOT / "templates" / "pi" / "agents"
+SUBAGENTS_JSON = REPOSITORY_ROOT / "templates" / "pi" / "subagents.json"
 
 # `src: "./templates/..."`, as written in the config_files list.
 SRC_PATTERN = re.compile(r'^\s*src:\s*"(?P<path>[^"]+)"', re.MULTILINE)
@@ -126,13 +127,14 @@ class AgentTemplateTests(unittest.TestCase):
                     f"{relative} has no config_files entry, so it is never deployed",
                 )
 
-    def test_disabled_stubs_are_disabled(self) -> None:
-        """Explore.md / Plan.md exist only to shadow the fork's built-ins."""
-        for name in ("Explore.md", "Plan.md"):
-            path = AGENTS_DIR / name
+    def test_no_builtin_shadow_stubs(self) -> None:
+        """subagents.json suppresses the built-ins, so shadow stubs are dead weight."""
+        for name in ("Explore.md", "Plan.md", "general-purpose.md"):
             with self.subTest(agent=name):
-                self.assertTrue(path.exists(), f"{name} stub is missing")
-                self.assertIn("enabled: false", frontmatter(path.read_text("utf-8")))
+                self.assertFalse(
+                    (AGENTS_DIR / name).exists(),
+                    f"{name} shadows a built-in that disableDefaultAgents already removes",
+                )
 
 
 if __name__ == "__main__":

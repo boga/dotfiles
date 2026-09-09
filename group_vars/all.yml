@@ -159,14 +159,8 @@ config_files:
   - name: "Pi prompt: draft-pr"
     src: "./templates/pi/prompts/draft-pr.md"
     dest: "~/.pi/agent/prompts/draft-pr.md"
-  # Stubs that disable the two built-in agents shipped by pi-subagents;
-  # Explorer and Planner below replace them.
-  - name: "Pi agent: Explore (disabled)"
-    src: "./templates/pi/agents/Explore.md"
-    dest: "~/.pi/agent/agents/Explore.md"
-  - name: "Pi agent: Plan (disabled)"
-    src: "./templates/pi/agents/Plan.md"
-    dest: "~/.pi/agent/agents/Plan.md"
+  # The three built-in agents are suppressed wholesale by disableDefaultAgents
+  # in templates/pi/subagents.json; the ten below are the entire roster.
   - name: "Pi agent: Explorer"
     src: "./templates/pi/agents/Explorer.md"
     dest: "~/.pi/agent/agents/Explorer.md"

@@ -2,8 +2,6 @@
 !templates/mise.toml
 # AGENTS.md is gitignored globally; un-ignore it for this repo
 !templates/pi/AGENTS.md
-# PLAN.md is gitignored globally; un-ignore the Pi agent stub of that name
-!templates/pi/agents/Plan.md
 .ansible
 CLAUDE.local.md
 .pi
