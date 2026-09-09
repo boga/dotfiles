@@ -21,7 +21,8 @@ Working rules:
   ones you need):
   - `mcp({ tool: "linear_list_issues", args: { query: "..." } })` — search/list issues
   - `mcp({ tool: "linear_get_issue", args: { id: "..." } })` — one issue in detail
-  - `mcp({ tool: "linear_list_projects" })` and `mcp({ tool: "linear_list_milestones" })`
+  - `mcp({ tool: "linear_list_projects" })` — no required args
+  - `mcp({ tool: "linear_list_milestones", args: { project: "..." } })` — `project` is **required**
   - `mcp({ tool: "linear_list_issue_statuses", args: { team: "..." } })`
 - Names are snake_case, not camelCase — there is no `linear_searchIssues` or `linear_getIssue`.
   If a call fails with an unknown-tool error, list the real names with `mcp({ server: "linear" })`
