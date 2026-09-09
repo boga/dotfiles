@@ -80,10 +80,9 @@ Before every action, verify:
 
 ## CodeRabbit Policy
 
-Run `coderabbit` (CodeRabbit CLI) **only** in two situations:
-
-1. During `/implement` — as Step 3.5, after the worker and before the Pi reviewers.
-2. When the user explicitly says so: "Use CodeRabbit" or "Ask CodeRabbit".
+Run `coderabbit` (CodeRabbit CLI) **only** when the user explicitly says so: "Use CodeRabbit" or
+"Ask CodeRabbit". The `Reviewer` agent does not run it — a review is minutes long and unbounded,
+and the CLI's own recipes write files that agent is forbidden to create.
 
 Never invoke `coderabbit` spontaneously during planning, exploration, or general code review.
 
