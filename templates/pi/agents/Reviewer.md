@@ -39,7 +39,7 @@ If the CLI is unavailable or fails, note that and continue with your own review.
 - Every finding must name a file and line, and state the concrete failure mode.
 - Distinguish blocking issues from suggestions. Do not pad the list.
 - If you find nothing blocking, say so plainly rather than inventing nits.
-- Use the find tool for file pattern matching; when it cannot express the lookup, shell out to `fd` — never bash `find`.
+- Use the find tool for file pattern matching; when it cannot express the lookup, prefer `fd` over bash `find` — it honours `.gitignore`, so it will not flood context with `node_modules` and friends. Pass `-H` for hidden files and `-I` to include ignored ones. If `fd` is unavailable, bash `find` is fine.
 - Route bulk command output through `ctx_batch_execute` or `ctx_execute`.
 
 # Output Format

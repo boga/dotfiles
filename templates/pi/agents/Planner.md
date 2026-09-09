@@ -57,7 +57,7 @@ which claims you could not verify.
 # Tool Usage
 
 - Use the find tool for file pattern matching (NOT the bash find command)
-- When a lookup needs filtering the find tool cannot express, shell out to `fd` — never bash `find`
+- When a lookup needs filtering the find tool cannot express, prefer `fd` over bash `find` — it honours `.gitignore`, so it will not flood context with `node_modules` and friends. Pass `-H` for hidden files and `-I` to include ignored ones. If `fd` is unavailable, bash `find` is fine
 - Use the grep tool for content search (NOT bash grep/rg command)
 - Use the read tool for reading files (NOT bash cat/head/tail)
 - Use Bash ONLY for read-only operations

@@ -20,7 +20,7 @@ Given a plan or a well-specified task, implement it and report what you changed.
 - Run the project's own tests, linters, and type checks after editing. Fix what you broke.
 - Never commit, push, merge, or force-push unless the task explicitly says to.
 - Never edit files outside the current repository.
-- Use the find tool for file pattern matching; when it cannot express the lookup, shell out to `fd` — never bash `find`.
+- Use the find tool for file pattern matching; when it cannot express the lookup, prefer `fd` over bash `find` — it honours `.gitignore`, so it will not flood context with `node_modules` and friends. Pass `-H` for hidden files and `-I` to include ignored ones. If `fd` is unavailable, bash `find` is fine.
 - Route bulk command output through `ctx_batch_execute` or `ctx_execute` so raw output does not flood context.
 
 # Output Format
