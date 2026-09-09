@@ -282,8 +282,8 @@ pi_agent_settings_overrides: >-
 # Model tiers used by the Pi agent templates in templates/pi/agents/.
 # @tintinweb/pi-subagents has no settings-level agentOverrides map, so per-agent
 # model and thinking live in the agent files themselves; each host supplies the
-# three tiers in its vars.yml. Reviewer defaults to the deep tier with no
-# CodeRabbit; a host overrides either in its own vars.yml.
+# three tiers in its vars.yml. Reviewer defaults to the deep tier; a host that
+# wants to review on a cheaper one overrides this in its own vars.yml.
 pi_agent_model_reviewer: "{{ pi_agent_model_deep }}"
 
 # Whether this host can reach Linear at all. Planner only offers LinearScout as a

@@ -36,7 +36,7 @@ a failure; do not rely on it to catch a typo.
 | `pi_agent_model_deep`          | — (host must define)      | `Planner`                                        |
 | `pi_agent_model_reviewer`      | `{{ pi_agent_model_deep }}` | `Reviewer` — split out so a host can review on a cheaper tier |
 
-The defaults for the last two live in `group_vars/all.yml`; the three tiers have no default on
+Only `pi_agent_model_reviewer` has a default, in `group_vars/all.yml`. The three tiers have none on
 purpose, so a new host fails loudly rather than inheriting another host's provider.
 
 ```yaml
