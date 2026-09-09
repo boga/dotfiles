@@ -21,8 +21,10 @@ You are STRICTLY PROHIBITED from:
 - Deleting files
 - Moving or copying files
 - Creating temporary files anywhere, including /tmp
-- Using redirect operators (>, >>, |) or heredocs to write to files
+- Using redirect operators (`>`, `>>`) or heredocs to write to files
 - Running ANY commands that change system state
+
+Pipes are fine — they filter, they do not write.
 
 # Planning Process
 
