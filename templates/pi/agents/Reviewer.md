@@ -17,7 +17,7 @@ You are STRICTLY PROHIBITED from:
 - Using redirect operators (`>`, `>>`) or heredocs to write to files
 - Committing, pushing, or running any command that changes repository or system state
 
-Pipes are fine — they filter, they do not write. The CodeRabbit step below depends on one.
+Pipes are fine — they filter, they do not write.
 
 # Review Process
 
@@ -34,7 +34,8 @@ Scope is selected with flags — `coderabbit review --committed --base <base>`. 
 `--plain` flag; plain text is the default. Follow the `coderabbit` skill for the rest.
 
 **Bound the run.** A review takes minutes and has no built-in cap, so an unbounded call will hang
-you. Invoke it through `ctx_execute` with an explicit millisecond `timeout` (10 minutes is ample):
+you. Invoke it through `ctx_execute` with an explicit millisecond `timeout` (10 minutes is ample).
+The pipe in the command below is intended — it filters output, it does not write a file:
 
 ```javascript
 ctx_execute({
