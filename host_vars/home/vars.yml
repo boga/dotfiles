@@ -6,33 +6,13 @@ firefox_profile_dir: /Users/miju/Library/Application Support/Firefox/Profiles/pe
 
 # Every agent runs on an OpenAI Codex GPT-5.6 variant on this host; luna
 # handles simple work, terra is the daily driver, and sol handles complex work.
-pi_agent_subagent_overrides_local:
-  context-builder:
-    model: "openai-codex/gpt-5.6-luna"
-  delegate:
-    model: "openai-codex/gpt-5.6-terra"
-  env-scout:
-    model: "openai-codex/gpt-5.6-luna"
-  gh-researcher:
-    model: "openai-codex/gpt-5.6-terra"
-  linear-researcher:
-    model: "openai-codex/gpt-5.6-terra"
-  oracle:
-    model: "openai-codex/gpt-5.6-sol"
-    thinking: "xhigh"
-  planner:
-    model: "openai-codex/gpt-5.6-sol"
-    thinking: "high"
-  researcher:
-    model: "openai-codex/gpt-5.6-terra"
-  reviewer:
-    model: "openai-codex/gpt-5.6-sol"
-    thinking: "high"
-  scout:
-    model: "openai-codex/gpt-5.6-luna"
-    thinking: "medium"
-  worker:
-    model: "openai-codex/gpt-5.6-terra"
+# These tiers are consumed by templates/pi/agents/*.md.
+pi_agent_model_fast: "openai-codex/gpt-5.6-luna"
+pi_agent_model_daily: "openai-codex/gpt-5.6-terra"
+pi_agent_model_deep: "openai-codex/gpt-5.6-sol"
+# Reviewer runs on the fast tier here; no CodeRabbit on this host.
+pi_agent_model_reviewer: "{{ pi_agent_model_fast }}"
+pi_agent_reviewer_coderabbit: false
 
 pi_agent_settings_overrides_local:
   enabledModels:

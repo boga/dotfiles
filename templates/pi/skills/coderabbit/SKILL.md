@@ -1,6 +1,6 @@
 ---
 name: coderabbit
-description: Run a CodeRabbit CLI (`coderabbit`) code review. Use this skill only when the user explicitly says "Use CodeRabbit", "Ask CodeRabbit", or during /implement (Step 3.5). Do not trigger on general review phrases.
+description: Run a CodeRabbit CLI (`coderabbit`) code review. Use this skill only when the user explicitly says "Use CodeRabbit" or "Ask CodeRabbit", or when the Reviewer agent runs on a host with CodeRabbit enabled. Do not trigger on general review phrases.
 ---
 
 # CodeRabbit CLI

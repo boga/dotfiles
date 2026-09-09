@@ -146,18 +146,6 @@ config_files:
   - name: "Pi markdown styleguide"
     src: "./templates/pi/STYLEGUIDE_MARKDOWN.md"
     dest: "~/.pi/agent/STYLEGUIDE_MARKDOWN.md"
-  - name: "Pi chain: plan"
-    src: "./templates/pi/chains/plan.chain.md"
-    dest: "~/.pi/agent/chains/plan.chain.md"
-  - name: "Pi prompt: plan"
-    src: "./templates/pi/prompts/plan.md"
-    dest: "~/.pi/agent/prompts/plan.md"
-  - name: "Pi chain: implement"
-    src: "./templates/pi/chains/implement.chain.md"
-    dest: "~/.pi/agent/chains/implement.chain.md"
-  - name: "Pi prompt: implement"
-    src: "./templates/pi/prompts/implement.md"
-    dest: "~/.pi/agent/prompts/implement.md"
   - name: "Pi prompt: tell"
     src: "./templates/pi/prompts/tell.md"
     dest: "~/.pi/agent/prompts/tell.md"
@@ -167,15 +155,38 @@ config_files:
   - name: "Pi prompt: draft-pr"
     src: "./templates/pi/prompts/draft-pr.md"
     dest: "~/.pi/agent/prompts/draft-pr.md"
-  - name: "Pi agent: gh-researcher"
-    src: "./templates/pi/agents/gh-researcher.agent.md"
-    dest: "~/.pi/agent/agents/gh-researcher.agent.md"
-  - name: "Pi agent: linear-researcher"
-    src: "./templates/pi/agents/linear-researcher.agent.md"
-    dest: "~/.pi/agent/agents/linear-researcher.agent.md"
-  - name: "Pi agent: env-scout"
-    src: "./templates/pi/agents/env-scout.agent.md"
-    dest: "~/.pi/agent/agents/env-scout.agent.md"
+  # Stubs that disable the two built-in agents shipped by pi-subagents;
+  # Explorer and Planner below replace them.
+  - name: "Pi agent: Explore (disabled)"
+    src: "./templates/pi/agents/Explore.md"
+    dest: "~/.pi/agent/agents/Explore.md"
+  - name: "Pi agent: Plan (disabled)"
+    src: "./templates/pi/agents/Plan.md"
+    dest: "~/.pi/agent/agents/Plan.md"
+  - name: "Pi agent: Explorer"
+    src: "./templates/pi/agents/Explorer.md"
+    dest: "~/.pi/agent/agents/Explorer.md"
+  - name: "Pi agent: Planner"
+    src: "./templates/pi/agents/Planner.md"
+    dest: "~/.pi/agent/agents/Planner.md"
+  - name: "Pi agent: Researcher"
+    src: "./templates/pi/agents/Researcher.md"
+    dest: "~/.pi/agent/agents/Researcher.md"
+  - name: "Pi agent: GithubScout"
+    src: "./templates/pi/agents/GithubScout.md"
+    dest: "~/.pi/agent/agents/GithubScout.md"
+  - name: "Pi agent: LinearScout"
+    src: "./templates/pi/agents/LinearScout.md"
+    dest: "~/.pi/agent/agents/LinearScout.md"
+  - name: "Pi agent: EnvironmentScout"
+    src: "./templates/pi/agents/EnvironmentScout.md"
+    dest: "~/.pi/agent/agents/EnvironmentScout.md"
+  - name: "Pi agent: Reviewer"
+    src: "./templates/pi/agents/Reviewer.md"
+    dest: "~/.pi/agent/agents/Reviewer.md"
+  - name: "Pi agent: Worker"
+    src: "./templates/pi/agents/Worker.md"
+    dest: "~/.pi/agent/agents/Worker.md"
   - name: "Pi skill: coderabbit"
     src: "./templates/pi/skills/coderabbit/SKILL.md"
     dest: "~/.pi/agent/skills/coderabbit/SKILL.md"
@@ -252,7 +263,7 @@ pi_agent_settings_packages:
   - "npm:context-mode"
   - "npm:pi-mcp-adapter"
   - "npm:pi-mono-ask-user-question"
-  - "npm:pi-subagents"
+  - "npm:@tintinweb/pi-subagents"
 
 # Settings overrides shared across hosts; per-host deltas (e.g. enabledModels)
 # come from pi_agent_settings_overrides_local in host_vars/<host>/vars.yml.
@@ -270,36 +281,12 @@ pi_agent_settings_overrides: >-
     | to_json
   }}
 
-# Per-agent thinking levels shared across hosts today; a host can override via
-# pi_agent_subagent_overrides_local (agentOverrides map) in its vars.yml.
-pi_agent_subagent_overrides_base:
-  context-builder:
-    thinking: "low"
-  delegate:
-    thinking: "low"
-  env-scout:
-    thinking: "low"
-  gh-researcher:
-    thinking: "low"
-  linear-researcher:
-    thinking: "low"
-  planner:
-    thinking: "xhigh"
-  researcher:
-    thinking: "medium"
-  worker:
-    thinking: "medium"
-
-pi_agent_subagent_overrides:
-  subagents:
-    agentOverrides: >-
-      {{
-        pi_agent_subagent_overrides_base
-        | combine(
-            hostvars[inventory_hostname].get('pi_agent_subagent_overrides_local', {}),
-            recursive=True
-          )
-      }}
+# Model tiers used by the Pi agent templates in templates/pi/agents/.
+# @tintinweb/pi-subagents has no settings-level agentOverrides map, so per-agent
+# model and thinking live in the agent files themselves; each host supplies the
+# three tiers plus the reviewer's model and CodeRabbit flag in its vars.yml.
+pi_agent_model_reviewer: "{{ pi_agent_model_deep }}"
+pi_agent_reviewer_coderabbit: false
 
 # Plannotator thinking levels are identical across hosts today; per-host
 # overrides can be supplied via pi_plannotator_thinking_local.

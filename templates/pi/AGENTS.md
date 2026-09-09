@@ -82,7 +82,7 @@ Before every action, verify:
 
 Run `coderabbit` (CodeRabbit CLI) **only** in two situations:
 
-1. During `/implement` — as Step 3.5, after the worker and before the Pi reviewers.
+1. Inside the `Reviewer` agent, on hosts where CodeRabbit is enabled for it.
 2. When the user explicitly says so: "Use CodeRabbit" or "Ask CodeRabbit".
 
 Never invoke `coderabbit` spontaneously during planning, exploration, or general code review.
