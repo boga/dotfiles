@@ -19,7 +19,9 @@ pi_plannotator_reviewing_model:
 pi_agent_model_fast: "anthropic/claude-haiku-4-5"
 pi_agent_model_daily: "anthropic/claude-sonnet-5"
 pi_agent_model_deep: "anthropic/claude-opus-5"
-# Reviewer's model comes from the shared default in group_vars/all.yml.
+# Reviewer overrides the shared default (group_vars/all.yml) to use an
+# OpenAI Codex model instead of the deep tier's Claude Opus.
+pi_agent_model_reviewer: "openai-codex/gpt-5.6-sol"
 
 # Work-only MCP servers, merged over pi_agent_mcp_servers_base in
 # group_vars/all.yml.
@@ -52,9 +54,12 @@ pi_agent_mcp_servers_local:
 
 pi_agent_settings_overrides_local:
   enabledModels:
-    - "anthropic/claude-sonnet-5"
     - "anthropic/claude-haiku-4-5"
+    - "anthropic/claude-sonnet-5"
     - "anthropic/claude-opus-5"
+    - "openai-codex/gpt-5.6-luna"
+    - "openai-codex/gpt-5.6-terra"
+    - "openai-codex/gpt-5.6-sol"
 
 # Work-specific packages, appended to the global pi_agent_settings_packages list
 pi_agent_settings_extra_packages: []
