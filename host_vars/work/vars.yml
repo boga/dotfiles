@@ -60,6 +60,7 @@ pi_agent_settings_overrides_local:
     - "openai-codex/gpt-5.6-luna"
     - "openai-codex/gpt-5.6-terra"
     - "openai-codex/gpt-5.6-sol"
+    - "openai-codex/gpt-6-astra"
 
 # Work-specific packages, appended to the global pi_agent_settings_packages list
 pi_agent_settings_extra_packages: []
