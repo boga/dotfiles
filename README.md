@@ -50,9 +50,9 @@ ansible-playbook site.yml --limit work
 The main playbook performs these steps:
 
 1. Install Homebrew taps from `homebrew_taps`.
-2. Update Homebrew and upgrade installed formulae.
-3. Install formulae from `homebrew_packages`.
-4. Install casks from `homebrew_casks`.
+2. Update Homebrew (refresh tap/formula metadata only — no machine-wide upgrade).
+3. Install and keep current the formulae in `homebrew_packages` (only those, not anything else installed on the machine).
+4. Install and keep current the casks in `homebrew_casks` (only those; self-updating casks are left to their own updater, per Homebrew's own outdated-check logic). On first install, if a cask's target app path is already occupied (e.g. a manually installed app), the task fails loudly instead of silently adopting or overwriting it.
 5. Copy templated config files listed in `config_files`.
 6. Configure global Git user name, email, and excludes file.
 7. Configure macOS defaults, restarting affected apps only when a preference changes.

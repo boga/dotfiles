@@ -13,7 +13,6 @@
     - name: Update Homebrew
       community.general.homebrew:
         update_homebrew: true
-        upgrade_all: true
 
     - name: Install packages
       community.general.homebrew:
