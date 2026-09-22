@@ -37,7 +37,7 @@ ansible-playbook site.yml --limit work
 - `inventory.yml` defines the `home` and `work` localhost targets.
 - `ansible.cfg` sets `inventory`, `roles_path`, and `vault_password_file`.
 - `group_vars/all.yml` defines shared Homebrew packages, casks, config file mappings, Git variables, and Pi agent packages.
-- `host_vars/<host>/vars.yml` defines host-specific non-secret values such as `ansible_user`, `ansible_group`, Python interpreter, and Firefox profile path.
+- `host_vars/<host>/vars.yml` defines host-specific non-secret values such as `ansible_user`, `ansible_group`, and Python interpreter.
 - `host_vars/<host>/vault.yml` stores vaulted host secrets such as Git name and email.
 - `roles/config_files/` templates files from `templates/` into the home directory.
 - `roles/git/` configures global Git identity and excludes.

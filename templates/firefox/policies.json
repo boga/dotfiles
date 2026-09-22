@@ -1,0 +1,11 @@
+{
+  "policies": {
+    "Preferences": {
+      "browser.uidensity": {
+        "Value": 1,
+        "Type": "number",
+        "Status": "user"
+      }
+    }
+  }
+}

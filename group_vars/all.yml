@@ -99,9 +99,13 @@ config_files:
   - name: "Codex rules: NPM"
     src: "./templates/codex/rules/npm.rules"
     dest: "~/.codex/rules/npm.rules"
-  - name: "Firefox user.js"
-    src: "./templates/firefox/user.js"
-    dest: "{{ firefox_profile_dir }}/user.js"
+  # Enterprise policy inside the app bundle, not a per-profile user.js: the
+  # profile path under ~/Library/Application Support is TCC-protected and keyed
+  # by a random profile hash, so templating into it breaks on fresh profiles.
+  - name: "Firefox policies.json"
+    src: "./templates/firefox/policies.json"
+    dest: "/Applications/Firefox.app/Contents/Resources/distribution/policies.json"
+    permissions: "0644"
   - name: "Starship config"
     src: "./templates/starship.toml"
     dest: "~/.config/starship.toml"
