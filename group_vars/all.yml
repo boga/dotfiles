@@ -31,7 +31,6 @@ homebrew_packages:
   - lazygit
   - micro
   - mise
-  - MonitorControl
   - ncdu
   - pwgen
   - ripgrep
@@ -63,6 +62,8 @@ homebrew_casks:
   - zed
   - wezterm
 
+# Config files rendered on every host. Host-only entries go in
+# host_vars/<host>/vars.yml as config_files_host; site.yml concatenates both.
 config_files:
   - name: "Wez terminal config"
     src: "./templates/wezterm.lua.j2"
@@ -100,9 +101,6 @@ config_files:
   - name: "Codex rules: NPM"
     src: "./templates/codex/rules/npm.rules"
     dest: "~/.codex/rules/npm.rules"
-  - name: "Firefox user.js"
-    src: "./templates/firefox/user.js"
-    dest: "{{ firefox_profile_dir }}/user.js"
   - name: "Starship config"
     src: "./templates/starship.toml"
     dest: "~/.config/starship.toml"
@@ -137,6 +135,11 @@ config_files:
   - name: "Pi global AGENTS.md"
     src: "./templates/pi/AGENTS.md"
     dest: "~/.pi/agent/AGENTS.md"
+  # render: false — TypeScript source must not be processed by Jinja.
+  - name: "Pi extension: ask via ask_user_question"
+    src: "./templates/pi/extensions/ask-via-tool.ts"
+    dest: "~/.pi/agent/extensions/ask-via-tool.ts"
+    render: false
   - name: "Pi Plannotator config"
     src: "./templates/pi/plannotator.json"
     dest: "~/.pi/agent/plannotator.json"

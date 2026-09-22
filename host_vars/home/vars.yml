@@ -4,6 +4,15 @@ ansible_group: staff
 ansible_python_interpreter: /usr/local/bin/python3.14
 firefox_profile_dir: /Users/miju/Library/Application Support/Firefox/Profiles/pex9ak71.default-release
 
+# Host-only config files, appended to the shared config_files list by site.yml.
+# Firefox is managed here but not on work: writing into the profile directory
+# under ~/Library/Application Support needs Full Disk Access, which the work
+# laptop's MDM does not grant to the process running Ansible.
+config_files_host:
+  - name: "Firefox user.js"
+    src: "./templates/firefox/user.js"
+    dest: "{{ firefox_profile_dir }}/user.js"
+
 # Every agent runs on an OpenAI Codex GPT-5.6 variant on this host; luna
 # handles simple work, terra is the daily driver, and sol handles complex work.
 # These tiers are consumed by templates/pi/agents/*.md.
