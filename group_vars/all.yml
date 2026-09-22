@@ -135,6 +135,11 @@ config_files:
   - name: "Pi global AGENTS.md"
     src: "./templates/pi/AGENTS.md"
     dest: "~/.pi/agent/AGENTS.md"
+  # render: false — TypeScript source must not be processed by Jinja.
+  - name: "Pi extension: ask via ask_user_question"
+    src: "./templates/pi/extensions/ask-via-tool.ts"
+    dest: "~/.pi/agent/extensions/ask-via-tool.ts"
+    render: false
   - name: "Pi Plannotator config"
     src: "./templates/pi/plannotator.json"
     dest: "~/.pi/agent/plannotator.json"
