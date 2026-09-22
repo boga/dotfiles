@@ -28,7 +28,7 @@
       ansible.builtin.include_role:
         name: config_files
       vars:
-        config_files_items: "{{ config_files }}"
+        config_files_items: "{{ config_files + (config_files_host | default([])) }}"
 
     - name: "Configure Git"
       ansible.builtin.include_role:
