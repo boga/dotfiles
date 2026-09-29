@@ -42,7 +42,7 @@ ansible-playbook site.yml --limit work
 - `roles/config_files/` templates files from `templates/` into the home directory.
 - `roles/git/` configures global Git identity and excludes.
 - `roles/osx_settings/` sets macOS system preferences via `community.general.osx_defaults`, without `become`.
-- `roles/pi_agent/` merges Pi `settings.json` and `mcp.json` without replacing unrelated existing keys.
+- `roles/pi_agent/` merges Pi `settings.json` and `mcp-adapter.json` without replacing unrelated existing keys.
 - `templates/` contains managed dotfiles, editor settings, agent skills, and Codex rules.
 
 ## What the playbook manages
