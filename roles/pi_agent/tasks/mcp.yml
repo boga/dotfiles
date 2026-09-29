@@ -1,10 +1,10 @@
 ---
-- name: "Stat Pi agent mcp.json"
+- name: "Stat Pi MCP adapter config"
   ansible.builtin.stat:
     path: "{{ pi_agent_mcp_path }}"
   register: pi_mcp_stat
 
-- name: "Read existing Pi agent mcp.json"
+- name: "Read existing Pi MCP adapter config"
   ansible.builtin.slurp:
     src: "{{ pi_agent_mcp_path }}"
   register: pi_mcp_file
