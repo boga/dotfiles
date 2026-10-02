@@ -229,9 +229,6 @@ pi_agent_settings_path: "~/.pi/agent/settings.json"
 pi_agent_mcp_servers_base:
   # `description` lists the server in Pi's system prompt and ranks its tools in
   # tool search. Default exposure is `codemode` (tools found via searchTools()).
-  context-mode:
-    command: "context-mode"
-    description: "Sandboxed code execution, file analysis and a searchable knowledge base that keep large output out of context"
   context7:
     type: "streamable-http"
     url: "https://mcp.context7.com/mcp"
