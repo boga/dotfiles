@@ -7,5 +7,6 @@ pi_agent_settings_overrides: |-
   {
   }
 
-pi_agent_mcp_path: "{{ pi_agent_dir }}/mcp-adapter.json"
+# Pi 1.0 reads MCP servers natively from this file (user-level mcp.json).
+pi_agent_mcp_path: "{{ pi_agent_dir }}/mcp.json"
 pi_agent_mcp_servers: {}

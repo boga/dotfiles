@@ -1,7 +1,7 @@
 ---
 name: LinearScout
 description: Gathers Linear project context via MCP tools — tickets, milestones, project state, and blockers
-tools: ext:pi-mcp-adapter, ext:context-mode
+tools: ext:builtin:mcp, ext:builtin:tool-search, ext:context-mode
 model: "{{ pi_agent_model_fast }}"
 thinking: low
 disallowed_tools: ctx_purge, ctx_upgrade
@@ -15,16 +15,11 @@ Working rules:
 
 - If any tool call fails or Linear is unreachable for any reason, report what failed and exit
   successfully. Do not block waiting for a decision.
-- Use the `mcp` gateway to call Linear tools. Verified names (the server exposes ~78; these are the
-  ones you need):
-  - `mcp({ tool: "linear_list_issues", args: { query: "..." } })` — search/list issues
-  - `mcp({ tool: "linear_get_issue", args: { id: "..." } })` — one issue in detail
-  - `mcp({ tool: "linear_list_projects" })` — no required args
-  - `mcp({ tool: "linear_list_milestones", args: { project: "..." } })` — `project` is **required**
-  - `mcp({ tool: "linear_list_issue_statuses", args: { team: "..." } })`
-- Names are snake_case, not camelCase — there is no `linear_searchIssues` or `linear_getIssue`.
-  If a call fails with an unknown-tool error, list the real names with `mcp({ server: "linear" })`
-  and use `mcp({ describe: "<tool>" })` for its parameters. Never guess a name.
+- Linear tools are deferred. Call `tool_search` (for example "linear list issues") to load them,
+  then call the loaded `mcp__linear__*` tools directly. Never guess a tool name — use only the
+  names `tool_search` returns, and read each tool's parameters from its declaration.
+- Useful lookups: list/search issues, get one issue, list projects, list milestones (the project
+  is **required**), list issue statuses (the team is required).
 - When a tool response may be large, pipe it through `ctx_execute` to filter and summarise —
   never paste raw list output into your response.
 - Never fetch URLs with `curl` or `wget`. Use `ctx_fetch_and_index(url, source)` then `ctx_search(queries)` — raw HTTP must not enter context.
@@ -43,7 +38,7 @@ Queries to consider (adapt to the task):
 Filtering pattern for large issue lists:
 
 ```javascript
-// After calling mcp({ tool: "linear_list_issues", args: { query: "..." } }), process with:
+// After calling the loaded Linear list-issues tool, process the result with:
 ctx_execute({
   language: "javascript",
   code: `
