@@ -227,22 +227,27 @@ config_files:
 
 pi_agent_settings_path: "~/.pi/agent/settings.json"
 pi_agent_mcp_servers_base:
+  # `description` lists the server in Pi's system prompt and ranks its tools in
+  # tool search. Default exposure is `codemode` (tools found via searchTools()).
   context-mode:
     command: "context-mode"
+    description: "Sandboxed code execution, file analysis and a searchable knowledge base that keep large output out of context"
   context7:
     type: "streamable-http"
     url: "https://mcp.context7.com/mcp"
+    description: "Up-to-date library and framework documentation and code examples"
   intellij-idea:
     type: "streamable-http"
     url: "http://127.0.0.1:64342/stream"
+    description: "IntelliJ IDEA IDE: project search, symbol navigation, inspections and refactorings"
     # IntelliJ IDEA's built-in MCP server (streamable-http) on localhost. The
     # IJ_MCP_SERVER_PROJECT_PATH header tells the IDE which open project to
-    # target. Pi's MCP adapter interpolates ${VAR} from the environment at
-    # connection time (there is no literal per-call substitution), so ${PWD}
+    # target. Pi interpolates ${VAR} in `headers` and `env` from the environment
+    # at connection time (there is no literal per-call substitution), so ${PWD}
     # resolves to the directory Pi was launched in — i.e. the worktree that
     # IDEA is opened on. Custom headers also disable OAuth auto-detection, so
     # no `auth` is needed for this local endpoint. If you switch the project
-    # mid-session, run `/mcp reconnect intellij-idea` to re-resolve the header
+    # mid-session, reconnect the server from `/mcp` to re-resolve the header
     # from the new $PWD.
     headers:
       IJ_MCP_SERVER_PROJECT_PATH: "${PWD}"
@@ -262,7 +267,6 @@ pi_agent_settings_packages:
   - "git:github.com/boga/pi-local-claude-loader"
   - "npm:@plannotator/pi-extension"
   - "npm:context-mode"
-  - "npm:pi-mcp-adapter"
   - "npm:pi-fzf-files"
   - "npm:pi-mono-ask-user-question"
   - "npm:@tintinweb/pi-subagents"

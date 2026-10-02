@@ -25,31 +25,34 @@ pi_agent_model_reviewer: "openai-codex/gpt-5.6-sol"
 # Work-only MCP servers, merged over pi_agent_mcp_servers_base in
 # group_vars/all.yml.
 pi_agent_mcp_servers_local:
+  # OAuth servers need no credentials here. Sign in once with
+  # `pi mcp login <name>` (or `/mcp` in Pi); tokens live in ~/.pi/agent/mcp-auth.json.
   notion:
     type: "streamable-http"
     url: "https://mcp.notion.com/mcp"
+    description: "Notion workspace: search, read and edit pages and databases"
   new-relic:
     type: "http"
     url: "https://mcp.eu.newrelic.com/mcp/"
     headers:
       Api-Key: "${NEW_RELIC_MCP_API_KEY}"
       include-tags: "discovery,data-access,alerting,incident-response,performance-analytics,advanced-analysis"
+    description: "New Relic observability: NRQL queries, alerts, incidents and entity discovery"
   linear:
     type: "streamable-http"
     url: "https://mcp.linear.app/mcp"
-    # OAuth 2.1 with dynamic client registration. The adapter auto-discovers
-    # the authorization server from the endpoint's WWW-Authenticate /
-    # protected-resource metadata, so no static secret is stored.
-    # Run `/mcp-auth linear` in Pi to complete the browser auth flow.
-    auth: "oauth"
+    description: "Linear issues, projects, milestones and workflow states"
+    # OAuth 2.1 with dynamic client registration, discovered from the endpoint,
+    # so no static secret is stored. Run `pi mcp login linear` once.
+    # `deferred` keeps the ~78 tools out of the prompt until `tool_search` loads
+    # a match; LinearScout reaches them this way.
+    exposure: "deferred"
   n8n:
     type: "http"
     url: "https://dev-n8n-server.api-swap-os.com/mcp-server/http"
-    # OAuth 2.1 with dynamic client registration. The adapter auto-discovers
-    # the authorization server from the endpoint's WWW-Authenticate /
-    # protected-resource metadata, so no static secret is stored.
-    # Run `/mcp-auth n8n` in Pi to complete the browser auth flow.
-    auth: "oauth"
+    description: "n8n workflow automation server: list, inspect and run workflows"
+    # OAuth 2.1 with dynamic client registration, discovered from the endpoint.
+    # Run `pi mcp login n8n` once.
 
 pi_agent_settings_overrides_local:
   enabledModels:

@@ -6,6 +6,10 @@ Installs and configures the [Pi coding agent](https://www.npmjs.com/package/@ear
 
 1. **Merges desired settings** into `~/.pi/agent/settings.json` without clobbering keys the agent manages at runtime (e.g. `lastChangelogVersion`, `defaultModel`).
 
+2. **Merges MCP servers** (`pi_agent_mcp_servers`) into `~/.pi/agent/mcp.json`, the file Pi 1.0 reads natively
+   (the `pi-mcp-adapter` package and its `mcp-adapter.json` are no longer used). Entries added by
+   `pi mcp add` are preserved. OAuth servers need a one-time `pi mcp login <name>`.
+
 Pi itself is installed via mise — the version is declared in `templates/mise.toml` (deployed by the `cp` role) and mise handles the actual installation.
 
 ## Variables
@@ -15,6 +19,7 @@ Pi itself is installed via mise — the version is declared in `templates/mise.t
 | `pi_agent_settings_path`           | `~/.pi/agent/settings.json` | Path to the Pi agent settings file                                                                                                  |
 | `pi_agent_settings_overrides`      | `{}` (JSON string)          | JSON string of additional keys to enforce in `settings.json`. Intentionally a raw string to avoid YAML↔JSON type-mapping ambiguity. |
 | `pi_agent_settings_packages`       | `[]`                        | YAML list of Pi packages to enforce (group-level baseline).                                                                         |
+| `pi_agent_mcp_path`                | `~/.pi/agent/mcp.json`      | Path to the native Pi MCP config                                                                                                    |
 | `pi_agent_settings_extra_packages` | `[]`                        | Host-specific packages to append to `pi_agent_settings_packages`. Define in `host_vars` to avoid self-referencing variable errors.  |
 
 ## Subagent model tiers
