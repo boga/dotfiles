@@ -14,10 +14,18 @@
       community.general.homebrew:
         update_homebrew: true
 
+    # Install missing formulae without changing explicitly pinned versions.
     - name: Install packages
       community.general.homebrew:
         name: "{{ homebrew_packages }}"
-        state: latest
+        state: present
+
+    # Bare formula upgrades skip formulae pinned with `brew pin`.
+    - name: Upgrade unpinned formulae
+      community.general.homebrew:
+        upgrade_all: true
+        upgrade_options:
+          - formula
 
     - name: Install casks
       community.general.homebrew_cask:
