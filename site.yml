@@ -14,15 +14,29 @@
       community.general.homebrew:
         update_homebrew: true
 
+    # Install missing formulae without changing explicitly pinned versions.
     - name: Install packages
       community.general.homebrew:
         name: "{{ homebrew_packages }}"
-        state: latest
+        state: present
 
+    # Bare formula upgrades skip formulae pinned with `brew pin`.
+    - name: Upgrade unpinned formulae
+      community.general.homebrew:
+        upgrade_all: true
+        upgrade_options:
+          - formula
+
+    # Install missing casks without changing explicitly pinned versions.
     - name: Install casks
       community.general.homebrew_cask:
-        state: latest
         name: "{{ homebrew_casks }}"
+        state: present
+
+    # Bare cask upgrades skip casks pinned with `brew pin --cask`.
+    - name: Upgrade unpinned casks
+      community.general.homebrew_cask:
+        upgrade_all: true
 
     - name: "Copy configs"
       ansible.builtin.include_role:
