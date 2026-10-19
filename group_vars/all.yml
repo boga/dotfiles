@@ -57,7 +57,7 @@ homebrew_casks:
   - keepingyouawake
   - monitorcontrol
   - neovide
-  - opendisplay
+  - opendisplay # Use a spare device as a second Mac display.
   - raycast
   - thaw@beta
   - zed
