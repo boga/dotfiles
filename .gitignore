@@ -16,4 +16,4 @@ tmp
 .vscode
 __pycache__/
 *.pyc
-!mise.yaml
+!mise.toml
