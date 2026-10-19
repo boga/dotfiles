@@ -1,5 +1,7 @@
 ---
+# yamllint disable-line rule:line-length
 ansible_managed: "Ansible managed: {{ template_path }} by {{ ansible_facts['user_id'] | default(ansible_user) }} on {{ inventory_hostname }}"
+ansible_python_interpreter: "{{ ansible_playbook_python }}"
 
 git_user_email: "{{ vault_git_user_email }}"
 git_user_name: "{{ vault_git_user_name }}"
@@ -8,32 +10,32 @@ homebrew_taps: []
 
 homebrew_packages:
   - ack
-  # - act # Run your GitHub Actions locally
+  # - act  # Run your GitHub Actions locally
   - ansible
   - ansible-lint
   - bat
-  # - btop # Resource monitor. C++ version and continuation of bashtop and bpytop
-  # - dust # More intuitive version of du in rust
+  # - btop  # Resource monitor. C++ version and continuation of bashtop and bpytop
+  # - dust  # More intuitive version of du in rust
   - eza
   - fd
   - fzf
   - gh
-  - gron # Make JSON greppable!
-  # - helm # Kubernetes package manager
+  - gron  # Make JSON greppable!
+  # - helm  # Kubernetes package manager
   - htop
   - jq
   - k9s
-  # - kind # Run local Kubernetes cluster in Docker
-  # - kubectx # Tool that can switch between kubectl contexts easily and create aliases
-  # - lazygit # Simple terminal UI for git commands
-  # - micro # Modern and intuitive terminal-based text editor
+  # - kind  # Run local Kubernetes cluster in Docker
+  # - kubectx  # Tool that can switch between kubectl contexts easily and create aliases
+  # - lazygit  # Simple terminal UI for git commands
+  # - micro  # Modern and intuitive terminal-based text editor
   - mise
   - ncdu
   - pwgen
   - ripgrep
   - starship
   - television
-  # - tig # Text interface for Git repositories
+  # - tig  # Text interface for Git repositories
   - watch
   - worktrunk
   - yamllint
@@ -55,7 +57,7 @@ homebrew_casks:
   - keepingyouawake
   - monitorcontrol
   - neovide
-  - opendisplay # Use a spare device as a second Mac display.
+  - opendisplay  # Use a spare device as a second Mac display.
   - raycast
   - thaw@beta
   - zed
@@ -233,6 +235,7 @@ pi_agent_mcp_servers_base:
   # tool search. Default exposure is `codemode` (tools found via searchTools()).
   context-mode:
     command: "context-mode"
+    # yamllint disable-line rule:line-length
     description: "Sandboxed code execution, file analysis and a searchable knowledge base that keep large output out of context"
   context7:
     type: "streamable-http"
