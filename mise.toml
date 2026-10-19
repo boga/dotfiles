@@ -1,5 +1,5 @@
 [tools]
 ansible = { version = "latest", pipx_args = "--include-deps", uvx = false, expose = [] }
-node = "v24.11.1"
+node = "24"
 "pipx:ansible-lint" = "latest"
 python = "3.14"
