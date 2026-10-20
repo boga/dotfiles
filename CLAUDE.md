@@ -35,3 +35,9 @@ ansible-playbook site.yml --limit work
 ## Policy
 
 **Never run `ansible-playbook` automatically.** The user always runs it manually. Only prepare or edit files — do not execute playbooks.
+
+**Never run any Ansible command** (`ansible`, `ansible-playbook`, `ansible-vault`, `ansible-inventory`, `ansible-lint`, etc.). The user does not trust the agent with secrets: these commands can decrypt vaulted files via `vault-password.sh`/1Password.
+
+- Do not decrypt, view, edit, encrypt, or re-encrypt any `vault.yml`.
+- Do not read the vault password or call `op` to fetch it.
+- When a change needs a new vaulted value, add the reference (e.g. `{{ vault_foo }}`) in plain files and tell the user the variable name to add with `ansible-vault edit` themselves.
