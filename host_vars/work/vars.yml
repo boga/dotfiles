@@ -52,6 +52,15 @@ pi_agent_mcp_servers_local:
     description: "n8n workflow automation server: list, inspect and run workflows"
     # OAuth 2.1 with dynamic client registration, discovered from the endpoint.
     # Run `pi mcp login n8n` once.
+  slack:
+    type: "streamable-http"
+    url: "https://mcp.slack.com/mcp"
+    description: "Slack workspace"
+    # Slack needs a pre-registered OAuth client; the id is vaulted in
+    # host_vars/work/vault.yml. Run `pi mcp login slack` once.
+    oauth:
+      clientId: "{{ vault_slack_mcp_client_id }}"
+      callbackPort: 3118
 
 pi_agent_settings_overrides_local:
   enabledModels:
