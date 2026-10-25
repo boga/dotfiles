@@ -1,12 +1,12 @@
 ---
 ansible_user: miju
 ansible_group: staff
-# Every agent runs on an OpenAI Codex GPT-5.6 variant on this host; luna
-# handles simple work, terra is the daily driver, and sol handles complex work.
-# These tiers are consumed by templates/pi/agents/*.md.
-pi_agent_model_fast: "openai-codex/gpt-5.6-luna"
-pi_agent_model_daily: "openai-codex/gpt-5.6-terra"
-pi_agent_model_deep: "openai-codex/gpt-5.6-sol"
+# Every agent runs on an OpenAI GPT-5.6 variant on this host; luna handles
+# simple work, terra is the daily driver, and sol handles complex work. These
+# tiers are consumed by templates/pi/agents/*.md.
+pi_agent_model_fast: "openai/gpt-5.6-luna"
+pi_agent_model_daily: "openai/gpt-5.6-terra"
+pi_agent_model_deep: "openai/gpt-5.6-sol"
 
 pi_agent_settings_overrides_local:
   enabledModels:
@@ -15,11 +15,11 @@ pi_agent_settings_overrides_local:
     - "openai/gpt-5.6-sol"
 
 pi_plannotator_planning_model:
-  provider: "openai-codex"
+  provider: "openai"
   id: "gpt-5.6-sol"
 pi_plannotator_executing_model:
-  provider: "openai-codex"
+  provider: "openai"
   id: "gpt-5.6-terra"
 pi_plannotator_reviewing_model:
-  provider: "openai-codex"
+  provider: "openai"
   id: "gpt-5.6-sol"
