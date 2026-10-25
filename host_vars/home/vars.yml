@@ -10,8 +10,8 @@ pi_agent_model_deep: "openai-codex/gpt-5.6-sol"
 
 pi_agent_settings_overrides_local:
   enabledModels:
-    - "openai/gpt-5.6-terra"
     - "openai/gpt-5.6-luna"
+    - "openai/gpt-5.6-terra"
     - "openai/gpt-5.6-sol"
 
 pi_plannotator_planning_model:
