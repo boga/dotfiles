@@ -38,6 +38,18 @@
       community.general.homebrew_cask:
         upgrade_all: true
 
+    - name: "Create ~/.bin directory"
+      ansible.builtin.file:
+        path: "~/.bin"
+        state: directory
+        mode: '0755'
+
+    - name: "Symlink Zed CLI"
+      ansible.builtin.file:
+        src: "/Applications/Zed.app/Contents/MacOS/cli"
+        dest: "~/.bin/zed"
+        state: link
+
     - name: "Copy configs"
       ansible.builtin.include_role:
         name: config_files
