@@ -3,21 +3,22 @@ ansible_user: ivan-shnurchenko
 ansible_group: staff
 
 pi_plannotator_planning_model:
-  provider: "openai-codex"
-  id: "gpt-5.6-sol"
+  provider: "anthropic"
+  id: "claude-opus-5-5"
 pi_plannotator_executing_model:
-  provider: "openai-codex"
-  id: "gpt-5.6-terra"
+  provider: "anthropic"
+  id: "claude-sonnet-5-5"
 pi_plannotator_reviewing_model:
-  provider: "openai-codex"
-  id: "gpt-5.6-sol"
+  provider: "anthropic"
+  id: "claude-opus-5-5"
 
 # Model tiers consumed by templates/pi/agents/*.md. Every model listed here
 # must also appear in pi_agent_settings_overrides_local.enabledModels below.
-pi_agent_model_fast: "openai-codex/gpt-5.6-luna"
-pi_agent_model_daily: "openai-codex/gpt-5.6-terra"
-pi_agent_model_deep: "openai-codex/gpt-5.6-sol"
-# Reviewer explicitly uses the deep tier.
+pi_agent_model_fast: "anthropic/claude-haiku-4-5"
+pi_agent_model_daily: "anthropic/claude-sonnet-5-5"
+pi_agent_model_deep: "anthropic/claude-opus-5-5"
+# Reviewer overrides the shared default (group_vars/all.yml) to use an
+# OpenAI Codex model instead of the deep tier's Claude Opus.
 pi_agent_model_reviewer: "openai-codex/gpt-5.6-sol"
 
 # Work-only MCP servers, merged over pi_agent_mcp_servers_base in
@@ -54,6 +55,9 @@ pi_agent_mcp_servers_local:
 
 pi_agent_settings_overrides_local:
   enabledModels:
+    - "anthropic/claude-haiku-4-5"
+    - "anthropic/claude-sonnet-5-5"
+    - "anthropic/claude-opus-5-5"
     - "openai-codex/gpt-5.6-luna"
     - "openai-codex/gpt-5.6-terra"
     - "openai-codex/gpt-5.6-sol"
