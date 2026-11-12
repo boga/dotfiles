@@ -52,8 +52,8 @@
 
     - name: "Symlink Herdr executables"
       ansible.builtin.file:
-        src: "{{ ansible_env.HOME }}/.local/bin/{{ item }}"
-        dest: "{{ ansible_env.HOME }}/.bin/{{ item }}"
+        src: "{{ ansible_facts['env']['HOME'] }}/.local/bin/{{ item }}"
+        dest: "{{ ansible_facts['env']['HOME'] }}/.bin/{{ item }}"
         state: link
       loop:
         - hc
