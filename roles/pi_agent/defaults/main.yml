@@ -5,6 +5,7 @@ pi_agent_settings_packages: []
 pi_agent_settings_extra_packages: []
 pi_agent_settings_overrides: |-
   {
+    "externalEditor": "zed --wait"
   }
 
 # Pi 1.0 reads MCP servers natively from this file (user-level mcp.json).
