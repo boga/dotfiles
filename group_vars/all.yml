@@ -277,6 +277,10 @@ pi_agent_settings_packages:
 pi_agent_settings_overrides_base:
   collapseChangelog: true
   enableInstallTelemetry: false
+  # Pin Pi's TUI Mermaid mode. streaming draws Unicode diagrams while a reply
+  # is still arriving; final waits until the message ends; off leaves the fence.
+  markdown:
+    mermaid: streaming
 
 pi_agent_settings_overrides: >-
   {{
