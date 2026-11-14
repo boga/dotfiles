@@ -50,6 +50,39 @@
         dest: "~/.bin/zed"
         state: link
 
+    - name: "Symlink Herdr executables"
+      ansible.builtin.file:
+        src: "{{ ansible_facts['env']['HOME'] }}/.local/bin/{{ item }}"
+        dest: "{{ ansible_facts['env']['HOME'] }}/.bin/{{ item }}"
+        state: link
+      loop:
+        - hc
+        - herdr-app
+        - herdr-core
+
+    - name: "Create Herdr app config directory"
+      ansible.builtin.file:
+        path: "~/.config/herdr-app"
+        state: directory
+        mode: '0700'
+
+    - name: "Check Herdr app settings"
+      ansible.builtin.stat:
+        path: "~/.config/herdr-app/settings.json"
+      register: herdr_app_settings_file
+
+    - name: "Read Herdr app settings"
+      ansible.builtin.slurp:
+        src: "~/.config/herdr-app/settings.json"
+      register: herdr_app_settings_content
+      when: herdr_app_settings_file.stat.exists
+
+    - name: "Enable Option as Alt in Herdr app"
+      ansible.builtin.copy:
+        dest: "~/.config/herdr-app/settings.json"
+        content: "{{ (herdr_app_settings_content.content | b64decode | from_json if herdr_app_settings_file.stat.exists else {}) | combine({'option_as_alt': 'on'}) | to_nice_json }}\n"
+        mode: '0600'
+
     - name: "Copy configs"
       ansible.builtin.include_role:
         name: config_files
