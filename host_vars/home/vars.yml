@@ -22,6 +22,10 @@ pi_agent_settings_overrides_local:
     - "openai-codex/gpt-6-luna"
     - "openai-codex/gpt-6.1-terra"
     - "openai-codex/gpt-6.1-sol"
+    - "xai/grok-4.3"
+    - "xai/grok-4.5"
+    - "xai/grok-4.6"
+    - "xai/grok-4.7"
 
 pi_plannotator_planning_model:
   provider: "openai-codex"
