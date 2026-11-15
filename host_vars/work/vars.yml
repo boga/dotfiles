@@ -12,8 +12,8 @@ pi_plannotator_reviewing_model:
   provider: "anthropic"
   id: "claude-opus-5-5"
 
-# Model tiers consumed by templates/pi/agents/*.md. Every model listed here
-# must also appear in pi_agent_settings_overrides_local.enabledModels below.
+# Model tiers rendered as guidance in templates/pi/AGENTS.md. Every model listed
+# here must also appear in pi_agent_settings_overrides_local.enabledModels below.
 pi_agent_model_fast: "anthropic/claude-haiku-4-5"
 pi_agent_model_daily: "anthropic/claude-sonnet-5-5"
 pi_agent_model_deep: "anthropic/claude-opus-5-5"

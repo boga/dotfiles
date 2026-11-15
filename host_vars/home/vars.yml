@@ -3,7 +3,7 @@ ansible_user: miju
 ansible_group: staff
 
 # Luna handles simple work, terra is the daily driver, and sol handles complex work.
-# These tiers are consumed by templates/pi/agents/*.md.
+# These tiers are rendered as model-selection guidance in templates/pi/AGENTS.md.
 pi_agent_model_fast: "openai-codex/gpt-6-luna"
 pi_agent_model_daily: "openai-codex/gpt-6.1-terra"
 pi_agent_model_deep: "openai-codex/gpt-6.1-sol"
