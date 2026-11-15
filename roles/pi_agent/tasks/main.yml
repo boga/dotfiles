@@ -7,6 +7,9 @@
     group: "{{ ansible_group }}"
     mode: "0755"
 
+- name: "Configure herdr-core skill"
+  ansible.builtin.import_tasks: herdr_core_skill.yml
+
 - name: "Configure Pi agent settings"
   ansible.builtin.import_tasks: settings.yml
 

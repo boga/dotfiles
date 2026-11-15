@@ -1,5 +1,18 @@
 # Global Agent Rules
 
+## Subagent Model Selection
+
+When spawning a subagent, pass the `model` argument explicitly:
+
+- `Explorer`, `GithubScout`, `LinearScout`, and `EnvironmentScout`: `{{ pi_agent_model_fast }}`.
+- `Researcher` and `Worker`: `{{ pi_agent_model_daily }}`.
+- `Planner`: `{{ pi_agent_model_deep }}`.
+- `Reviewer`: `{{ pi_agent_model_reviewer }}`.
+
+When the user requests a specific model, pass that model instead of the default.
+If no model is passed, the subagent inherits the parent model. Do not claim a
+requested model was used without verifying the subagent ran successfully.
+
 ## Markdown Styleguide
 
 Before writing or editing agent-facing Markdown, read and follow `STYLEGUIDE_MARKDOWN.md`.

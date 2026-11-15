@@ -2,7 +2,6 @@
 name: LinearScout
 description: Gathers Linear project context via MCP tools — tickets, milestones, project state, and blockers
 tools: ext:builtin:mcp, ext:builtin:tool-search, ext:context-mode
-model: "{{ pi_agent_model_fast }}"
 thinking: low
 disallowed_tools: ctx_purge, ctx_upgrade
 ---

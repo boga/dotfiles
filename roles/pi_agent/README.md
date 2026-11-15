@@ -10,6 +10,9 @@ Installs and configures the [Pi coding agent](https://www.npmjs.com/package/@ear
    (the `pi-mcp-adapter` package and its `mcp-adapter.json` are no longer used). Entries added by
    `pi mcp add` are preserved. OAuth servers need a one-time `pi mcp login <name>`.
 
+3. **Deploys the native Herdr skill** by reading `hc --skill` and writing it to
+   `~/.pi/agent/skills/herdr/SKILL.md` with Pi skill metadata.
+
 Pi itself is installed via mise — the version is declared in `templates/mise.toml` (deployed by the `cp` role) and mise handles the actual installation.
 
 ## Variables
@@ -24,15 +27,14 @@ Pi itself is installed via mise — the version is declared in `templates/mise.t
 
 ## Subagent model tiers
 
-`@tintinweb/pi-subagents` has no settings-level per-agent override map: each agent's model and
-thinking level live in its own `.md` frontmatter. Those files are Jinja templates deployed by the
-`cp` role from `templates/pi/agents/`, so they read the variables below.
+`@tintinweb/pi-subagents` has no settings-level per-agent override map. Agent templates no longer pin
+models; `templates/pi/AGENTS.md` renders the host tiers as guidance for the parent agent to pass as
+the `Agent` tool's `model` argument. A caller-supplied model overrides that guidance. If the caller
+omits `model`, the subagent inherits the parent session model.
 
-Each host defines three tiers in its `host_vars/<host>/vars.yml`. Every model named should also
-appear in that host's `pi_agent_settings_overrides_local.enabledModels`. Note that `scopeModels`
-only *warns* for a model pinned in agent frontmatter — it runs the model anyway, and hard-errors
-only for a model supplied by the caller. So a tier missing from `enabledModels` shows a toast, not
-a failure; do not rely on it to catch a typo.
+Each host defines three tiers in its `host_vars/<host>/vars.yml`. Every recommended model should
+also appear in that host's `pi_agent_settings_overrides_local.enabledModels`. With `scopeModels`
+enabled, a caller-supplied model outside that list hard-fails rather than falling back.
 
 | Variable                       | Default                   | Used by                                          |
 |--------------------------------|---------------------------|--------------------------------------------------|

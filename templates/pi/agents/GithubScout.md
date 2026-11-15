@@ -2,7 +2,6 @@
 name: GithubScout
 description: Gathers GitHub project state via gh CLI — open PRs, issues, CI runs, releases, and repo metadata
 tools: bash, ext:context-mode
-model: "{{ pi_agent_model_fast }}"
 thinking: low
 disallowed_tools: ctx_purge, ctx_upgrade
 ---
