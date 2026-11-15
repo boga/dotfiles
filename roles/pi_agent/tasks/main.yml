@@ -7,47 +7,8 @@
     group: "{{ ansible_group }}"
     mode: "0755"
 
-- name: "Read installed herdr-core skill"
-  ansible.builtin.command:
-    argv:
-      - "{{ ansible_facts['env']['HOME'] }}/.bin/hc"
-      - "--skill"
-  register: pi_hc_skill
-  changed_when: false
-  check_mode: false
-
-- name: "Ensure Herdr skill directory exists"
-  ansible.builtin.file:
-    path: "{{ pi_agent_dir }}/skills/herdr"
-    state: directory
-    owner: "{{ ansible_user }}"
-    group: "{{ ansible_group }}"
-    mode: "0755"
-
-- name: "Check existing Herdr skill content"
-  ansible.builtin.stat:
-    path: "{{ pi_agent_dir }}/skills/herdr/SKILL.md"
-    checksum_algorithm: sha1
-  register: pi_herdr_skill_existing
-
-- name: "Deploy installed herdr-core skill"
-  vars:
-    pi_herdr_skill_content: |
-      ---
-      name: herdr
-      description: Manage native Herdr terminals and agents with hc; control its window with herdr-app.
-      ---
-
-      {{ pi_hc_skill.stdout }}
-  ansible.builtin.copy:
-    dest: "{{ pi_agent_dir }}/skills/herdr/SKILL.md"
-    content: "{{ pi_herdr_skill_content }}"
-    owner: "{{ ansible_user }}"
-    group: "{{ ansible_group }}"
-    mode: "0644"
-  changed_when: >-
-    (pi_herdr_skill_existing.stat.checksum | default('')) !=
-    (pi_herdr_skill_content | hash('sha1'))
+- name: "Configure herdr-core skill"
+  ansible.builtin.import_tasks: herdr_core_skill.yml
 
 - name: "Configure Pi agent settings"
   ansible.builtin.import_tasks: settings.yml
