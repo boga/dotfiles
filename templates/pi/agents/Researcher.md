@@ -2,7 +2,6 @@
 name: Researcher
 description: Researches external sources — official docs, specs, RFCs, benchmarks, and recent upstream changes. Use when a task depends on facts that do not live in this repository.
 tools: read, bash, grep, find, ls, ext:context-mode
-model: "{{ pi_agent_model_daily }}"
 thinking: medium
 disallowed_tools: ctx_purge, ctx_upgrade
 ---
