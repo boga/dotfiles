@@ -237,9 +237,8 @@ pi_agent_mcp_servers_base:
   exa:
     type: "streamable-http"
     # An explicit tools list replaces Exa's defaults, so agent_run stays off.
-    # x-api-key bills the team plan; Pi expands it at connect time. The key
-    # lives in ~/.config/mise/conf.d/exa.toml as EXA_SEARCH_API_KEY, not in
-    # this repo. A header also disables OAuth auto-detection.
+    # x-api-key bills the team plan; Pi expands it at connect time. A header
+    # also disables OAuth auto-detection.
     url: "https://mcp.exa.ai/mcp?tools=web_search_exa,web_fetch_exa"
     description: "Exa web search and page fetch"
     headers:
