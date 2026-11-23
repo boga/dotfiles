@@ -234,6 +234,15 @@ pi_agent_mcp_servers_base:
     type: "streamable-http"
     url: "https://mcp.context7.com/mcp"
     description: "Up-to-date library and framework documentation and code examples"
+  exa:
+    type: "streamable-http"
+    # An explicit tools list replaces Exa's defaults, so agent_run stays off.
+    # x-api-key bills the team plan; Pi expands it at connect time. A header
+    # also disables OAuth auto-detection.
+    url: "https://mcp.exa.ai/mcp?tools=web_search_exa,web_fetch_exa"
+    description: "Exa web search and page fetch"
+    headers:
+      x-api-key: "${EXA_SEARCH_API_KEY}"
   intellij-idea:
     type: "streamable-http"
     url: "http://127.0.0.1:64342/stream"
